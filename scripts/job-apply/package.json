@@ -1,0 +1,14 @@
+{
+  "name": "job-apply",
+  "version": "1.0.0",
+  "description": "",
+  "main": "easyapply.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}

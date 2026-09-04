@@ -10,11 +10,18 @@ This repo contains **only** the generic, reusable components from the [Hermes-Al
 |-------|-------------|
 | `batman-protocol` | Meta-protocol for capability building |
 | `graphify` | Codebase knowledge graph |
+| `job-applications` | Job application automation (LinkedIn EA, Greenhouse, ATS) |
 | `pptx-visual-verification` | Render + vision-verify PowerPoint decks |
 | `professional-slide-decks` | Premium PPTX deck authoring |
 | `public-traffic-cam-access` | CCTV safety monitoring |
 | `live-video-yolo-pipeline` | Live video + YOLO object detection |
 | `windows-autostart-ops` | Windows service management |
+
+## Scripts
+
+| Directory | Description |
+|-----------|-------------|
+| `scripts/job-apply/` | Job application automation scripts (LinkedIn Easy Apply, Greenhouse, external ATS) |
 
 ## Usage
 
@@ -29,7 +36,7 @@ cp -r skills/batman-protocol ~/.hermes/skills/
 
 ## Private Components
 
-The full Alfred setup (personal scripts, memories, job automation, etc.) lives in the private [hermes-alfred](https://github.com/g-h-0-S-t/hermes-alfred) repo — that one's just for Bruce.
+The full Alfred setup (personal scripts, memories, job automation, etc.) lives in the private [hermes-alfred](https://github.com/g-h-0-S-t/hermes-alfred) repo — that one's just for the operator.
 
 ## License
 
