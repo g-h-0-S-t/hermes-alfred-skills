@@ -67,7 +67,7 @@ if (limitModal) {
 | `daily-limit` | Modal text "You reached today's Easy Apply limit" | Daily cap hit | Dismiss + 2h backoff |
 | `session-throttle` | EA control present, modal silently won't open (no text, no error) | LinkedIn rate-limiting the apply flow | 30min-24h wait |
 | `no_ea_button` | No control matching Easy Apply/Apply in `<main>` | Genuinely non-EA job | Skip, log to skip.json |
-| `LI jobs found: 0` | Scrape returned empty | Browser died or logged out | Check `curl -s -m8 http://127.0.0.1:9222/json/version` FIRST |
+| `LI jobs found: 0` | Scrape returned empty | Browser died or logged out | Check `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` FIRST |
 
 Never assume throttle from a flat `LI jobs found: 0` — always probe the port.
 A zero-scrape with a live port and valid `li_at` cookie means the search URLs

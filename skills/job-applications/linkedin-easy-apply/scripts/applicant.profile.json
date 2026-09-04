@@ -1,16 +1,16 @@
 {
   "contact": {
-    "email": "OPERATOR_EMAIL",
-    "phoneCountry": "India (+91)",
-    "phone": "OPERATOR_PHONE_NUMBER"
+    "email": "XXXXXXX",
+    "phoneCountry": "XXXXXXX (XXXXXXX)",
+    "phone": "XXXXXXX_NUMBER"
   },
-  "resumeName": "operator_Biswas_Resume_ATS.pdf",
+  "resumeName": "operator_XXXXXXX_Resume_ATS.pdf",
   "ctc": {
-    "current": "8600000",
-    "expected": "5000000",
+    "current": "XXXXXXX",
+    "expected": "XXXXXXX",
     "noticePeriod": "0"
   },
-  "locationPref": "Bengaluru",
+  "locationPref": "XXXXXXX",
   "answers": {
     "start immediately": "Yes",
     "immediate joiner": "Yes",
@@ -33,11 +33,11 @@
     "years of experience": "14",
     "years of relevant experience": "14",
     "notice period": "0",
-    "current ctc": "8600000",
-    "expected ctc": "5000000",
-    "current/last ctc": "8600000",
-    "current annual salary": "8600000",
-    "expected annual salary": "5000000",
+    "current ctc": "XXXXXXX",
+    "expected ctc": "XXXXXXX",
+    "current/last ctc": "XXXXXXX",
+    "current annual salary": "XXXXXXX",
+    "expected annual salary": "XXXXXXX",
     "total years of experience": "14"
   },
   "llm": { "enabled": false },

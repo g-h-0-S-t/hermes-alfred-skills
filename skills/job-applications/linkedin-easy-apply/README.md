@@ -59,7 +59,7 @@ git clone <repo>
 cd linkedin-easy-apply
 npm install
 # 1) launch Chrome with remote debugging (one profile you've logged into LinkedIn)
-#    chrome.exe --remote-debugging-port=9222 --user-data-dir="C:/path/to/profile"
+#    chrome.exe --remote-debugging-port=LINKEDIN_PORT --user-data-dir="C:/path/to/profile"
 # 2) copy the profile template and fill YOUR details
 cp applicant.profile.example.json applicant.profile.json
 # 3) run

@@ -19,7 +19,7 @@ but ugly / misaligned" because the agent could only verify structurally (slide c
 count), never visually.
 
 ## The fix: render-first, verify, then assemble
-**PREFERRED: render the ACTUAL .pptx with LibreOffice** (now installed on the operator's machine —
+**PREFERRED: render the ACTUAL .pptx with LibreOffice** (now installed on the user's machine —
 see `references/libreoffice-render-pipeline.md`). It's the only way to verify a native editable
 deck for real. Pipeline: `soffice.exe --headless --convert-to pdf` → PyMuPDF (`pymupdf`)
 PDF→per-slide PNG → `vision_analyze` each. The skill's old "no renderer here" claim is STALE;
@@ -119,3 +119,18 @@ content into its actual slide masters.
   rasterizer, Pillow icon drawer, grid helper, Poppins download).
 - `scripts/render_deck_template.py` — runnable minimal example: renders N slides to PNG and
   assembles a PPTX. Copy and extend per deck.
+
+## Setup
+
+Render PPTX decks to PNG and vision-verify before shipping.
+
+**Personal data needed:** None (generic skill).
+
+**Dependencies:**
+- Python 3.11+
+- `python-pptx`
+- `Pillow`
+- `pymupdf` (for PDF→PNG conversion)
+- LibreOffice (optional, for true rendering)
+
+**Placeholders used:** None.

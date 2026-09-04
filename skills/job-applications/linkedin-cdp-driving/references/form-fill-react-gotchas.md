@@ -1,7 +1,7 @@
-# LinkedIn Easy Apply — React form-fill gotchas (verified 2026-08-16)
+# LinkedIn Easy Apply — React form-fill gotchas (verified XXXXXXX)
 
 LinkedIn's EA modal is a React SPA. These are the failure modes observed and the fixes that
-actually work. Developed against `OPERATOR_HOME/job-apply/linkedin-easy-apply.cjs`.
+actually work. Developed against `XXXXXXX/job-apply/linkedin-easy-apply.cjs`.
 
 ## 1. Text inputs reject synthetic `.value` sets
 `proto.value setter + dispatchEvent('input')` puts the value in the DOM but React's controlled
@@ -78,7 +78,7 @@ key-match fails → field skipped → form can't advance past Review.
 body `innerText` containing the email, not an input `.value`:
 ```js
 const pageText = await page.evaluate(() => document.body.innerText);
-const emailOk = /operatorbiswas@gmail\.com/i.test(pageText);
+const emailOk = /operatorXXXXXXX@gmail\.com/i.test(pageText);
 const phoneOk = (profile.phone||'').replace(/\D/g,'').length >= 8 && pageText.replace(/\D/g,'').includes((profile.phone||'').replace(/\D/g,'').slice(-8));
 ```
 

@@ -2,8 +2,8 @@
 """Form Answer Watcher: reads _form_questions.json, answers via Hermes API, writes _form_answers.json"""
 import json, os, time, sys
 
-QUESTION_FILE = 'OPERATOR_HOME/job-apply/_form_questions.json'
-ANSWER_FILE = 'OPERATOR_HOME/job-apply/_form_answers.json'
+QUESTION_FILE = 'XXXXXXX/job-apply/_form_questions.json'
+ANSWER_FILE = 'XXXXXXX/job-apply/_form_answers.json'
 
 def get_answer_from_hermes(question, profile):
     """Get answer from Hermes agent's LLM"""
@@ -14,9 +14,9 @@ def get_answer_from_hermes(question, profile):
     
     # Structured fields
     if 'current' in q and ('salary' in q or 'ctc' in q or 'compensation' in q):
-        return '86' if 'lpa' in q else '8600000'
+        return '86' if 'lpa' in q else 'XXXXXXX'
     if 'expected' in q and ('salary' in q or 'ctc' in q or 'compensation' in q):
-        return '50' if 'lpa' in q else '5000000'
+        return '50' if 'lpa' in q else 'XXXXXXX'
     if 'total' in q and ('experience' in q or 'exp' in q):
         return '14'
     if 'notice period' in q:
@@ -32,7 +32,7 @@ def get_answer_from_hermes(question, profile):
     
     # Location
     if 'location' in q or 'city' in q or 'where' in q:
-        return 'Bengaluru, Karnataka, India'
+        return 'XXXXXXX, Karnataka, XXXXXXX'
     
     # Yes/No questions
     if q.startswith('are you') or q.startswith('do you') or q.startswith('can you'):
@@ -41,9 +41,9 @@ def get_answer_from_hermes(question, profile):
         if 'authorize' in q or 'legally' in q or 'right to work' in q:
             return 'Yes'
         if 'relocate' in q and ('to' in q or 'willing' in q):
-            if 'bengaluru' in q or 'bangalore' in q:
+            if 'XXXXXXX' in q or 'XXXXXXXX' in q:
                 return 'Yes'
-            return 'Yes'  # Open to relocate within India
+            return 'Yes'  # Open to relocate within XXXXXXX
     
     # Employer
     if 'employer' in q or 'company' in q or 'current role' in q:
@@ -105,11 +105,11 @@ def get_answer_from_hermes(question, profile):
     
     # LinkedIn
     if 'linkedin' in q:
-        return 'https://linkedin.com/in/operatorbiswas'
+        return 'https://linkedin.com/in/operatorXXXXXXX'
     
     # Website
     if 'website' in q or 'url' in q:
-        return 'https://operatorbiswas.twinesite.com'
+        return 'https://operatorXXXXXXX.portfolio.example.com.com'
     
     # Consent/agreement
     if 'consent' in q or 'agree' in q or 'terms' in q or 'privacy' in q:

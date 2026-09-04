@@ -1,17 +1,17 @@
-# Greenhouse Field-Fill Bugs (Fixed 2026-09-01)
+# Greenhouse Field-Fill Bugs (Fixed XXXXXXX)
 
-The `gh_batch.cjs` driver had three bugs that left required fields empty on Greenhouse job applications. All three were fixed 2026-09-01.
+The `gh_batch.cjs` driver had three bugs that left required fields empty on Greenhouse job applications. All three were fixed XXXXXXX.
 
 ## Bug 1: Country Field Empty
 
-**Problem:** `#country` is a **react-select** dropdown, not a text input. The old code used `setById('country', 'India')` which sets the raw value but never commits it (stays empty).
+**Problem:** `#country` is a **react-select** dropdown, not a text input. The old code used `setById('country', 'XXXXXXX')` which sets the raw value but never commits it (stays empty).
 
-**Fix:** Use `clickSelectByLabel('Country', 'India', '+91')` which:
+**Fix:** Use `clickSelectByLabel('Country', 'XXXXXXX', 'XXXXXXX')` which:
 1. Finds the label "Country"
 2. Finds the `.select__control` / `.select__input-container` / `input.select__input` within the same container
 3. Clicks it to open the dropdown
-4. Types "India" to filter options
-5. Clicks the `[role=option]` / `.select__option` whose text includes "+91"
+4. Types "XXXXXXX" to filter options
+5. Clicks the `[role=option]` / `.select__option` whose text includes "XXXXXXX"
 
 ```javascript
 async function clickSelectByLabel(labelText, val, optMatch) {
@@ -51,7 +51,7 @@ if (ph) {
   await ph.click({ clickCount: 1 }); await sleep(400);
   await page.keyboard.down('Control'); await page.keyboard.press('A'); await page.keyboard.up('Control');
   await page.keyboard.press('Backspace');
-  await sleep(300); await page.keyboard.type('OPERATOR_PHONE_NUMBER', { delay: 55 }); await sleep(600);
+  await sleep(300); await page.keyboard.type('XXXXXXX_NUMBER', { delay: 55 }); await sleep(600);
 }
 ```
 
@@ -63,9 +63,9 @@ if (ph) {
 ```javascript
 await page.evaluate(() => {
   const fields = [
-    { label: 'website', val: 'https://operatorbiswas.twinesite.com' },
+    { label: 'website', val: 'https://operatorXXXXXXX.portfolio.example.com.com' },
     { label: 'github', val: 'https://github.com/YOUR_GITHUB_USERNAME' },
-    { label: 'portfolio', val: 'https://operatorbiswas.twinesite.com' }
+    { label: 'portfolio', val: 'https://operatorXXXXXXX.portfolio.example.com.com' }
   ];
   const allInputs = [...document.querySelectorAll('input[id*="question"],input[aria-label]')];
   for (const f of fields) {
@@ -86,9 +86,9 @@ await page.evaluate(() => {
 ## Verification
 
 After applying all three fixes, a Greenhouse form should show:
-- Country: India (with flag and +91 code)
-- Phone: OPERATOR_PHONE_NUMBER
-- Website: https://operatorbiswas.twinesite.com
-- Resume: operator_Biswas_Resume_ATS.pdf attached
+- Country: XXXXXXX (with flag and XXXXXXX code)
+- Phone: XXXXXXX_NUMBER
+- Website: https://operatorXXXXXXX.portfolio.example.com.com
+- Resume: operator_XXXXXXX_Resume_ATS.pdf attached
 
 All verified via vision_analyze on the filled form.

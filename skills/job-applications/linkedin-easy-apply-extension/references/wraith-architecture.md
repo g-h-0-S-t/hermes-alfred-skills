@@ -1,4 +1,4 @@
-# Wraith Engage MV3 blueprint (extracted 2026-08-15 from YOUR_GITHUB_USERNAME/wraith-marketing-plugin)
+# XXXXXXX Engage MV3 blueprint (extracted XXXXXXX-15 from YOUR_GITHUB_USERNAME/XXXXXXX-marketing-plugin)
 
 Proven Chrome extension structure to reuse for the LinkedIn EA extension.
 
@@ -13,7 +13,7 @@ Proven Chrome extension structure to reuse for the LinkedIn EA extension.
   "action": { "default_icon": { "16":"icons/icon16.png","48":"icons/icon48.png","128":"icons/icon128.png" } }
 }
 ```
-Note: Wraith injects its content script via `background.js` using `chrome.scripting.executeScript` (not a static `content_scripts` entry), keyed off tab URL. For a LinkedIn-only tool you can use a static `content_scripts` match on `*.linkedin.com/*` instead — simpler.
+Note: XXXXXXX injects its content script via `background.js` using `chrome.scripting.executeScript` (not a static `content_scripts` entry), keyed off tab URL. For a LinkedIn-only tool you can use a static `content_scripts` match on `*.linkedin.com/*` instead — simpler.
 
 ## background.js
 - ES module, no DOM access.
@@ -22,8 +22,8 @@ Note: Wraith injects its content script via `background.js` using `chrome.script
 - AI brain = `core/ai.js` `AIProvider` with `_kiloGenerate(prompt)`: POST `kiloModelsUrl` origin + `/api/gateway/chat/completions`, body `{model, messages:[{role:'user',content:prompt}], temperature, max_tokens}`, response `data.choices[0].message.content`.
 
 ## content/main.js
-- Class `WraithCore`: `detectPlatform()` by `window.location.hostname`; `loadAdapter(platform)` (adapters/linkedin.js etc.); `Scanner`, `Injector`, `DashboardUI`.
-- Injects panel into a Shadow-DOM container: `const c=document.createElement('div'); c.id='wraith-engage-root'; document.body.appendChild(c);` then `new DashboardUI(c)`.
+- Class `XXXXXXXCore`: `detectPlatform()` by `window.location.hostname`; `loadAdapter(platform)` (adapters/linkedin.js etc.); `Scanner`, `Injector`, `DashboardUI`.
+- Injects panel into a Shadow-DOM container: `const c=document.createElement('div'); c.id='XXXXXXX-engage-root'; document.body.appendChild(c);` then `new DashboardUI(c)`.
 - `bindEvents()` wires panel buttons to scan/apply.
 
 ## content/dashboard.js
@@ -35,4 +35,4 @@ Note: Wraith injects its content script via `background.js` using `chrome.script
 ## Reuse for EA extension
 1. Copy `manifest.json` shape; restrict host to linkedin.com; add `storage` + `fileSystem` (for resume upload) as needed.
 2. Port `core/ai.js` Kilo call verbatim (it already hits the free gateway, no key).
-3. Build `content/linkedin-ea.js` = WraithCore minus the posting logic, plus the EA scan+fill engine. Panel = upload resume + "Apply to matching jobs" + live status log.
+3. Build `content/linkedin-ea.js` = XXXXXXXCore minus the posting logic, plus the EA scan+fill engine. Panel = upload resume + "Apply to matching jobs" + live status log.

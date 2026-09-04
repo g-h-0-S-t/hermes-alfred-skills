@@ -2,7 +2,7 @@
 name: job-apply-autopilot
 description: "Self-driving job-apply loop with reCAPTCHA retry."
 version: 1.0.0
-author: Alfred (Hermes curator)
+author: Hermes Agent (Hermes curator)
 license: MIT
 platforms: [windows]
 metadata:
@@ -21,40 +21,40 @@ involvement"). This skill governs the *orchestration* layer: how to run the
 `external-ats-apply` and `linkedin-easy-apply` drivers continuously, retry past
 soft walls, and survive crashes — without per-step user involvement.
 
-## Architecture (verified working 2026-08-20)
-A single self-driving Python daemon `OPERATOR_HOME/job-apply/autoapply_loop.py`
+## Architecture (verified working XXXXXXX-20)
+A single self-driving Python daemon `XXXXXXX/job-apply/autoapply_loop.py`
 runs an infinite cycle:
 1. **Greenhouse batch** — rotate a URL pool through `gh_batch.cjs` (8 jobs/cycle).
 2. **LinkedIn EA** — scrape 4 search URLs for fresh `jobs/view/<id>` IDs, then
    `apply_one.cjs` each (3x retry on context-race).
 3. **Record** every confirmed submission to `applied.json`.
 4. **120s cooldown** between cycles (ban-safe; never pound).
-A **watchdog cron** (`355e44e24008`, every 30 min) checks if the loop + both Chrome
-instances (9222 LinkedIn, 9223 Greenhouse) are alive and relaunches any that died.
+A **watchdog cron** (`CRONID_XXXXXXXXXXXX`, every 30 min) checks if the loop + both Chrome
+instances (LINKEDIN_PORT LinkedIn, ATS_PORT Greenhouse) are alive and relaunches any that died.
 There is ALSO a **persistent supervisor** — a background bash session whose child is
 the `python autoapply_loop.py` process. The supervisor relaunches the loop *immediately*
 when it dies (faster than the 30-min cron). **Consequence: there are effectively TWO ways
 the loop gets (re)started — the supervisor bash session AND your own `terminal(background)`
-launch. If both are alive you get TWO loops colliding on port 9222, which manifests as
+launch. If both are alive you get TWO loops colliding on port LINKEDIN_PORT, which manifests as
 LinkedIn EA getting STUCK at step 3/4.** Rely on the single-instance guard (below) and do
 NOT launch your own copy while the supervisor's is alive.
-NOTE: there are TWO copies of the script — `OPERATOR_HOME/job-apply/autoapply_loop.py`
+NOTE: there are TWO copies of the script — `XXXXXXX/job-apply/autoapply_loop.py`
 (the one actually run) and `.../skills/job-applications/job-apply-autopilot/scripts/autoapply_loop.py`
 (a reference snapshot). They use different `BASE` dirs, so their `_loop.lock` files do NOT
 coordinate — **never run both copies at once.**
 
 ### Launch commands (Windows)
-- Loop: `cd OPERATOR_HOME/job-apply && python autoapply_loop.py` (background,
+- Loop: `cd XXXXXXX/job-apply && python autoapply_loop.py` (background,
   no notify — it runs forever).
-- 9222 Chrome: `chrome.exe --remote-debugging-port=9222
-  --user-data-dir=OPERATOR_HOME/chrome-cdp-profile --hide-crash-restore-bubble
+- LINKEDIN_PORT Chrome: `chrome.exe --remote-debugging-port=LINKEDIN_PORT
+  --user-data-dir=XXXXXXX/chrome-profile --hide-crash-restore-bubble
   --disable-backgrounding-occluded-windows --disable-renderer-backgrounding
   --disable-background-timer-throttling`
-- 9223 Chrome (Greenhouse anti-detect):
-  `chrome.exe --remote-debugging-port=9223
-  --user-data-dir=OPERATOR_HOME/greenhouse-chrome
+- ATS_PORT Chrome (Greenhouse anti-detect):
+  `chrome.exe --remote-debugging-port=ATS_PORT
+  --user-data-dir=XXXXXXX/greenhouse-chrome
   --disable-blink-features=AutomationControlled --no-first-run`
-- Health probe: `curl -s -m8 http://127.0.0.1:9222/json/version` (and :9223).
+- Health probe: `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` (and :ATS_PORT).
 
 ## CRITICAL LESSONS (learned the hard way this session)
 
@@ -83,15 +83,15 @@ The single-tab `withPage` + `apply_one` sometimes hits this when the page
 navigates during an `evaluate`. It aborts that apply. FIX: retry the job up to 3x
 with a 10s sleep between attempts. The loop does this automatically.
 
-### 4. Do NOT mass-close tabs on the 9222 LinkedIn Chrome.
+### 4. Do NOT mass-close tabs on the LINKEDIN_PORT LinkedIn Chrome.
 Closing 20+ tabs in a tight `/json/close` loop CRASHED the browser (connection
-refused). The 9222 session is fragile under tab operations. Drive ONE tab at a
-time; if you must reduce tabs, close a FEW with delays. Relaunching 9222 loses
+refused). The LINKEDIN_PORT session is fragile under tab operations. Drive ONE tab at a
+time; if you must reduce tabs, close a FEW with delays. Relaunching LINKEDIN_PORT loses
 the LinkedIn login (operator re-auths).
 
 ### 5. Ground truth = Gmail, not DOM/vision guesses.
 Verify submissions via the Gmail API
-(`OPERATOR_HOME/AppData/Local/hermes/google_token.json`), not by reading the
+(`XXXXXXX/AppData/Local/hermes/google_token.json`), not by reading the
 post-submit DOM. Greenhouse sends "Security code for your application to <Company>"
 on success — that email IS the confirmation. Token-length 0 on a submit attempt =
 it dropped (no email will arrive).
@@ -107,7 +107,7 @@ automation/opt-out literal strings. **Symptom "STUCK on step 3/4" on EA = almost
 iframe toggle, not the throttle.** (Throttle shows as the modal never opening at all.)
 
 ### 7. Profile-relevance filter — applied=0 with `relevant+fresh: 0` is EXPECTED, not a bug.
-The loop now filters each scraped LinkedIn EA job against operator's profile: SKIP
+The loop now filters each scraped LinkedIn EA job against user's profile: SKIP
 C++/Java/.NET/C#/Unity/Backend-heavy/non-frontend roles; APPLY only frontend/JS/React/Vue/
 Angular/Typecript/Node/Web. When the current search pool returns only off-target roles
 (or already-applied ones), every cycle reports `relevant+fresh: 0 of N` and applies nothing.
@@ -117,9 +117,9 @@ just no matching roles). To get submissions moving, WIDEN the search pool (more 
 locations / "remote"), not by removing the filter.
 
 ### 8. SINGLE-INSTANCE GUARD (how the loop de-collides — and how to restart it safely).
-Two `autoapply_loop.py` instances on one machine BOTH drive port 9222 and corrupt each
+Two `autoapply_loop.py` instances on one machine BOTH drive port LINKEDIN_PORT and corrupt each
 other's EA sessions (the classic "STUCK 3/4" that is actually a race, not the toggle bug).
-The loop self-guards with an **atomic `O_EXCL` lock file** at `OPERATOR_HOME/job-apply/_loop.lock`:
+The loop self-guards with an **atomic `O_EXCL` lock file** at `XXXXXXX/job-apply/_loop.lock`:
 the FIRST instance creates it (OS-level atomic — no TOCTOU); any other instance finds it,
 reads the owner pid, and `sys.exit(0)` if the owner is alive. The `FileExistsError` branch
 inserts a `time.sleep(0.6)` RE-VERIFY before trusting an empty lock (closes the microsecond
@@ -137,7 +137,7 @@ or `Stop-Process` the duplicate and trust the survivor.
 - To verify the sole loop: enumerate python procs whose cmdline contains `autoapply_loop`
   (or `run_loop` / `autoapp` / `job-apply-autopilot`); expect exactly ONE; cross-check
   `_loop.lock` content == that pid.
-- After a gateway restart / system reboot: Chrome 9222/9223 die and the loop dies. Relaunch
+- After a gateway restart / system reboot: Chrome LINKEDIN_PORT/ATS_PORT die and the loop dies. Relaunch
   both Chrome instances (launch commands above) THEN the loop. The loop self-exits if another
   is already alive, so relaunching is idempotent once the supervisor is the only launcher.
 
@@ -158,13 +158,36 @@ operator: "keep applying", "continue autonomously", "without my involvement",
 "figure out a way to achieve the task". Launch the loop + watchdog and step back.
 
 ## Operational quick-reference
-- **Watchdog cron id:** `355e44e24008` (every 30 min; relaunch loop + Chrome 9222/9223 if dead).
+- **Watchdog cron id:** `CRONID_XXXXXXXXXXXX` (every 30 min; relaunch loop + Chrome LINKEDIN_PORT/ATS_PORT if dead).
   Pause it ONLY when manually debugging the loop (a paused watchdog + a dead loop = no self-heal);
   re-enable after. Its process-check looks for `python autoapply_loop.py` in the cmdline, so
   launch the loop as `python autoapply_loop.py` (not `run_loop.py`) if you want the watchdog to see it.
 - **Health probe script:** `scripts/loop_health_check.py` — run `python
-  OPERATOR_HOME/AppData/Local/hermes/skills/job-applications/job-apply-autopilot/scripts/loop_health_check.py`
+  XXXXXXX/AppData/Local/hermes/skills/job-applications/job-apply-autopilot/scripts/loop_health_check.py`
   to confirm exactly ONE loop + both Chrome ports + applied count. Re-run this before declaring the
   pipeline healthy after any restart.
 - **Kill-the-supervisor recipe** (when a duplicate loop spawned): in PowerShell,
   `Get-CimInstance Win32_Process -Filter "Name='python.exe'" | Where-Object {$_.CommandLine -like '*autoapply_loop*' -or $_.CommandLine -like '*run_loop*' -or $_.CommandLine -like '*job-apply-autopilot*'} | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }` then also kill the parent `bash.exe -lic "set +m; c ..."` supervisor, remove `_loop.lock`, then start ONE loop.
+
+## Setup
+
+Autonomous, crash-resilient job-application pipeline.
+
+**Personal data needed:**
+- `XXXXXXX` — your home directory
+- `XXXXXXX` — your full name
+- `XXXXXXX` — your email
+- `XXXXXXX` — your phone number
+- `XXXXXXX` — path to your resume PDF
+- `LINKEDIN_PORT` — Chrome debug port for LinkedIn (default: LINKEDIN_PORT)
+- `ATS_PORT` — Chrome debug port for ATS (default: ATS_PORT)
+- `CHROME_PROFILE` — Chrome user data directory name
+
+**Dependencies:**
+- Python 3.11+
+- Node.js
+- Two Chrome instances (one for LinkedIn, one for ATS)
+- Logged-in LinkedIn session
+- Gmail API token (for confirmation emails)
+
+**Placeholders used:** All OPERATOR_* placeholders, LINKEDIN_PORT, ATS_PORT, CHROME_PROFILE, CRON_ID

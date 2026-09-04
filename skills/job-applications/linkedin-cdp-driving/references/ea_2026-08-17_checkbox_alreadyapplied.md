@@ -1,4 +1,4 @@
-# EA checkbox auto-check + already-applied detection (2026-08-17)
+# EA checkbox auto-check + already-applied detection (XXXXXXX)
 
 Two distinct blockers hit this session on the CDP `apply_one.cjs` driver, both now fixed and verified by vision.
 
@@ -60,5 +60,5 @@ if(!eaEl){
 
 **Rule:** before concluding "no EA button = broken", vision-check the detail page for an already-applied status. A removed EA button is frequently "already submitted," not a code bug.
 
-## Relevance note (per operator's JS/frontend focus)
+## Relevance note (per user's JS/frontend focus)
 The embedded-C role 4454213178 (777 Trinity) was collected by the keyword search but is NOT a JS/frontend match → belongs in `skipped`, not `failed`. The RELEVANT/IRRELEVANT filter in run_recursive.cjs handles this; legacy failed-list entries from before the filter existed should be re-triaged (already-applied → applied, off-profile → skipped).

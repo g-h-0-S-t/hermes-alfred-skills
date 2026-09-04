@@ -1,4 +1,4 @@
-# LinkedIn Easy Apply — supply reality & safety gate (2026-08-15)
+# LinkedIn Easy Apply — supply reality & safety gate (XXXXXXX-15)
 
 ## Safety-reminder gate
 Clicking "Easy Apply" opens a "Job search safety reminder" scam-prevention modal
@@ -25,15 +25,15 @@ A card showing an EA button can show "No longer accepting applications" minutes 
 (EA button gone). Re-verify the EA button is present immediately before applying; treat a
 missing EA button as "closed", not a code bug.
 
-## Supply reality (Bengaluru + EA + last 5h)
-Often EMPTY. Recent Software-Engineer+Bengaluru feeds are ~all remote/off-LinkedIn spam.
+## Supply reality (XXXXXXX + EA + last 5h)
+Often EMPTY. Recent Software-Engineer+XXXXXXX feeds are ~all remote/off-LinkedIn spam.
 Do NOT spam low-fit posts to hit a quota. Skip anything scoring <60% vs the profile
 (14y full-stack/IAM/AI engineer; see linkedin-easy-apply skill for the hard facts).
 
-### Conclusive evidence (2026-08-15, multiple live queries)
+### Conclusive evidence (XXXXXXX-15, multiple live queries)
 The intersection is not just "often empty" — when the feed is in this state it is
-**structurally zero**. Verified across every query shape (no-keyword Bengaluru; "Full Stack"
-+ Bengaluru; "Software Engineer" + pan-India; several other keywords), each a single light
+**structurally zero**. Verified across every query shape (no-keyword XXXXXXX; "Full Stack"
++ XXXXXXX; "Software Engineer" + pan-XXXXXXX; several other keywords), each a single light
 pass:
 - **Every Software Engineer / Full Stack / Frontend / Developer card = `easy:false`**
   (external/remote "Hire Feed" / company-ATS apply — NOT Easy Apply, cannot be submitted by
@@ -48,7 +48,7 @@ empty intersection (multi-pass probes also freeze the browser). The correct move
   (B) if operator insists on 5 NOW, offer A=attempt the `easy:false` external-ATS roles (higher
       hang/field-block risk, one fresh browser per role), B=lower the bar (off-profile EA —
       advise against), or C=keep strict relevance and wait for the cron. Default recommendation
-      is C. Reported honestly with the evidence; never spam irrelevant jobs under operator's name.
+      is C. Reported honestly with the evidence; never spam irrelevant jobs under user's name.
 
 ## Relevance score (compact)
 title must match eng keywords; deny non-eng domains (nurse/teacher/accountant/tax/sales/...);

@@ -1,9 +1,9 @@
-# LinkedIn EA modal detection — the "wrong div[role=dialog]" bug (2026-08-17)
+# LinkedIn EA modal detection — the "wrong div[role=dialog]" bug (XXXXXXX)
 
 ## Symptom observed
 Jobs reported as `empty_modal` / `no-continue-submit` and skipped as "LinkedIn glitched."
 On vision inspection the modal was ALWAYS fully rendered. Example: TCS job 4448212791 showed
-step 1/4 contact-info (pre-filled), 2/4 resume already selected (operator_Biswas_Resume_ATS.pdf,
+step 1/4 contact-info (pre-filled), 2/4 resume already selected (operator_XXXXXXX_Resume_ATS.pdf,
 green check), 3/4 with empty required fields (TOTAL EXP? / NOTICE PERIOD / CURRENT CTC?).
 
 ## Root cause
@@ -40,7 +40,7 @@ page inputs and the VISIBLE form was in a different dialog subtree.
 - "Comfortable with the budget of RupeeX LPA?" -> Yes.
 - "Do you have 6+ professional software development experience + hands-on daily?" -> Yes.
 
-## Cleanup rule (operator, HARD)
+## Cleanup rule (user, HARD)
 After each job completes, delete `shot_*.png` + debug cruft. Keep only apply_one.cjs,
 run_recursive.cjs, cdp_helper.cjs, applied.json. Never leave diagnostic PNGs — they mislead
 the next session and waste disk.

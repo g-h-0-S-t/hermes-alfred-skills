@@ -700,3 +700,16 @@ When the user asks to install the post-commit auto-rebuild hook or wire graphify
 - Always show token cost in the report.
 - Never hide cohesion scores behind symbols - show the raw number.
 - Never run HTML viz on a graph with more than 5,000 nodes without warning the user.
+
+## Setup
+
+This skill builds a knowledge graph of a codebase. It requires:
+
+**Personal data needed:**
+- `XXXXXXX` — your home directory (where the `.graphify_root` marker is stored)
+
+**Dependencies:**
+- Python 3.11+
+- `pygount` for LOC counting (auto-installed)
+
+**Placeholders used:** `XXXXXXX`

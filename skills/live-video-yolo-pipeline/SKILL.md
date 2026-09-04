@@ -2,14 +2,14 @@
 name: live-video-yolo-pipeline
 description: Build a working in-browser live-video + YOLO viewer.
 version: 1
-author: Alfred
+author: Hermes Agent
 license: MIT
 metadata:
-  tags: [yolo, live-video, cctv, mjpeg, opencv, websocket, browser-detection, same-origin, inovix, computer-vision]
+  tags: [yolo, live-video, cctv, mjpeg, opencv, websocket, browser-detection, same-origin, XXXXXXX, computer-vision]
   related_skills: [public-safety-cv, batman-protocol, ai-integration-skills]
 ---
 
-# Live Video + YOLO Pipeline (verified working, 2026-08-17)
+# Live Video + YOLO Pipeline (verified working, XXXXXXX)
 
 How to get a browser viewer that plays LIVE video and draws YOLO bounding boxes on it — the part
 that usually fails (HLS stalls, cross-origin canvas taint, YouTube can't be unwrapped for pixels).
@@ -22,16 +22,16 @@ The working pattern below was proven end-to-end: live source -> MJPEG restream -
 - **Fragmented MP4 over HTTP (`ffmpeg -listen 1`)**: movflags syntax errors; Chrome rejects. Dead end.
 - **crossOrigin='anonymous' on <img> + canvas.toDataURL**: taints the canvas -> SecurityError. Dead end.
 - **Custom JS multipart-MJPEG parser**: fragile, frames don't paint. Dead end.
-- **Public traffic cams (Kolkata/India)**: no open RTSP/HLS published; only still-image refreshers or
+- **Public traffic cams (XXXXXXX/XXXXXXX)**: no open RTSP/HLS published; only still-image refreshers or
   YouTube-Live wrappers. You cannot "get the cam's direct stream" if it isn't published.
 
 ## THE WORKING PATTERN (verified)
 1. **Restream the source as MJPEG, same origin as the viewer.**
    - Python `http.server.BaseHTTPRequestHandler` on ONE port. Routes:
      - `/viewer` -> serves the HTML/JS viewer.
-     - `/stream` -> `Content-Type: multipart/x-mixed-replace; boundary=alfred`, then loop:
+     - `/stream` -> `Content-Type: multipart/x-mixed-replace; boundary=Hermes Agent`, then loop:
        `cv2.VideoCapture(SRC)` -> resize to 640w -> `cv2.imencode('.jpg', q=70)` -> body
-       `"--alfred\r\nContent-Type: image/jpeg\r\nContent-Length: N\r\n\r\n<bytes>\r\n"`.
+       `"--Hermes Agent\r\nContent-Type: image/jpeg\r\nContent-Length: N\r\n\r\n<bytes>\r\n"`.
    - SAME ORIGIN (both on, say, 127.0.0.1:8091) is the critical rule: the viewer's canvas is then
      NOT tainted, so `canvas.toDataURL()` works for detection. Separate ports = CORS = pixel-read blocked.
 2. **Viewer plays MJPEG natively via `<img src="/stream">`** (no JS parser needed).
@@ -44,7 +44,7 @@ The working pattern below was proven end-to-end: live source -> MJPEG restream -
 6. **Dark/light toggle** + tile.onclick -> fullscreen with the same live YOLO.
 
 ## Reference implementation
-the operator's repo `your-github-username/Inovix--AI-Projects` is the full reference: React/Vite dashboard, Node Express
+the user's repo `your-github-username/XXXXXXX--AI-Projects` is the full reference: React/Vite dashboard, Node Express
 rules engine, Python FastAPI YOLOv11+BotSORT WebSocket engine (`onvif.js` discovers RTSP/ONVIF cams).
 Reuse its `server.py` + `useDetection.js` loop. Change its default port 8000 (often taken / Windows
 WinError 10013) to 8011 and update the WS URL.
@@ -66,3 +66,17 @@ objects -> no boxes show; that is CORRECT, not a bug. Point at a stream with peo
 - For authorized cams: feed `rtsp://...` (or ONVIF-discovered URL) straight into `cv2.VideoCapture(SRC)`.
 - This is the detection half. Authorship/authorization of the camera source is a separate gate (see
   `public-safety-cv` / `batman-protocol` for that framing).
+
+## Setup
+
+Browser-based live video + YOLO object detection.
+
+**Personal data needed:** None (generic skill).
+
+**Dependencies:**
+- Python 3.11+
+- `opencv-python`
+- `ultralytics` (YOLO)
+- Browser with webcam access
+
+**Placeholders used:** None.

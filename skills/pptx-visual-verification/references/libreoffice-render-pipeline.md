@@ -1,6 +1,6 @@
-# LibreOffice render pipeline (VERIFIED working 2026-08-15)
+# LibreOffice render pipeline (VERIFIED working XXXXXXX-15)
 
-This environment DOES have a real PPTX renderer now: the operator installed LibreOffice. The old
+This environment DOES have a real PPTX renderer now: the user installed LibreOffice. The old
 "no renderer, use Pillow PNG-first" claim is STALE. Use LibreOffice for true pixel rendering —
 it is the only way to verify a *native editable* python-pptx deck (Pillow previews can't show
 the actual file).
@@ -45,7 +45,7 @@ for i,pg in enumerate(doc,1): pg.get_pixmap(dpi=110).save(f'slide_png/slide{i:02
 Then `vision_analyze` each PNG. This is the real visual check — far better than a Pillow proxy.
 
 ## Notes / traps
-- A running LibreOffice GUI window breaks headless conversion. Ask the operator to close it, or ensure
+- A running LibreOffice GUI window breaks headless conversion. Ask the user to close it, or ensure
   no `soffice` process is in `tasklist` before converting.
 - `soffice.exe --version` can exit 0 with no stdout — don't use it as a health check.
 - Always use a fresh `-env:UserInstallation` profile dir per run to avoid stale-lock surprises.

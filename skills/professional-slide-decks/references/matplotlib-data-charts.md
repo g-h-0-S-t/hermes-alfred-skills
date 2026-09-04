@@ -38,8 +38,8 @@ bars=ax.barh(labels[::-1],vals[::-1],color=cols[::-1],height=0.6)
 for b,v in zip(bars,vals[::-1]):
     ax.text(v+1,b.get_y()+b.get_height()/2,f"{v}%",va="center",
             fontsize=11,fontweight="bold")
-style_ax(ax); ax.set_xlim(0,100); ax.set_xlabel("% (NFHS-5, West Bengal)")
-ax.set_title("West Bengal indicators",fontsize=15,fontweight="bold",
+style_ax(ax); ax.set_xlim(0,100); ax.set_xlabel("% (NFHS-5, XXXXXXX)")
+ax.set_title("XXXXXXX indicators",fontsize=15,fontweight="bold",
              color=NAVY,loc="left",pad=10)
 save(fig,"ch_wb.png")
 ```

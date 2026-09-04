@@ -1,17 +1,17 @@
-# LinkedIn Easy Apply — Profile-Reasoning Answerer (2026-08-17)
+# LinkedIn Easy Apply — Profile-Reasoning Answerer (XXXXXXX)
 
-Validated this session: 13+ verified submissions via `OPERATOR_HOME/job-apply/apply_one.cjs`
-+ `cdp_helper.cjs` (puppeteer-core `connect` to `ws://127.0.0.1:9222`, single tab).
+Validated this session: 13+ verified submissions via `XXXXXXX/job-apply/apply_one.cjs`
++ `cdp_helper.cjs` (puppeteer-core `connect` to `ws://127.0.0.1:LINKEDIN_PORT`, single tab).
 
 ## Hard correction (operator)
-The EA answerer must REASON over operator's actual profile, not a static regex/lookup table.
+The EA answerer must REASON over user's actual profile, not a static regex/lookup table.
 A hardcoded question→answer list dies on every new phrasing and cannot know
 "B.Tech EEE = Bachelor's Degree → Yes". The script is the safe CDP "hands" (type/click);
 the "brain" is the profile + agent reasoning. LLM fallback outputs TEXT ONLY (never drives DOM).
 
 ## Architecture
 - `PROFILE` object (top of `apply_one.cjs`): name, email, phone, location, currentCTC
-  (`8600000`/LPA `86`), expectedCTC (`5000000`/LPA `50`), currentEmployer `Stealth`,
+  (`XXXXXXX`/LPA `86`), expectedCTC (`XXXXXXX`/LPA `50`), currentEmployer `Stealth`,
   github, linkedin, experienceYears `14`, `education[]` (ICSE 79.33 / ISC 72.57 / B.Tech EEE
   DGPA 7.26), `skills{}` map (skill→years), `aiTools` string, relocation/workAuth/sponsorship/
   joinImmediate.
@@ -35,11 +35,11 @@ Pitfall: a "Do you have 6+ years experience... hands-on" question is Yes/No but 
 BEFORE the `/years? .*experience/ → '14'` number rule, or it wrongly returns 14.
 
 ## answer() rule catalog (extend as new phrasings appear)
-CTC: current `8600000` (or LPA `86`), expected `5000000` (or LPA `50`). Never below 86L.
+CTC: current `XXXXXXX` (or LPA `86`), expected `XXXXXXX` (or LPA `50`). Never below 86L.
 Skills-years: match skill key in label → `PROFILE.skills[k]`.
-Experience years → `14`. Location → `Bengaluru`. LinkedIn URL → profile. AI project → github.
+Experience years → `14`. Location → `XXXXXXX`. LinkedIn URL → profile. AI project → github.
 AI tools → `PROFILE.aiTools` (Hermes, omniroute, Antigravity, Kilo Code, Cursor, Ollama/LM
-Studio — NO "Alfred"/persona). Current employer → `Stealth`. Notice period / join-days → `0`.
+Studio — NO "Hermes Agent"/persona). Current employer → `Stealth`. Notice period / join-days → `0`.
 Education: B.Tech→Bachelor's=Yes, M.Tech/MBA=No (he has none), 10th=79.33/12th=72.57,
 B.Tech CGPA `7.26`. Insurance/BFDI → No. Hands-on experience / "do you have X years" → Yes.
 Commute/consent/work-from-office/budget/background-check → Yes. Sponsorship → No.
@@ -57,10 +57,10 @@ client projects owned → `3`. Code-days last 90 → `90`. Why/about → short t
   `empty_modal`, skip (LinkedIn glitch; retries after cooldown). Never force/fabricate.
 - Throttle: ~20-30 sends/session → some modals glitch; pause, don't pound.
 
-## Chrome 9222 relaunch (Windows)
+## Chrome LINKEDIN_PORT relaunch (Windows)
 `kill -9` from bash CANNOT reach Chrome's PID. Use `taskkill /PID <pid> /F /T`
-(pid from `netstat -ano | grep :9222 | grep LISTENING`). Relaunch:
-`"C:/Program Files/Google/Chrome/Application/chrome.exe" --remote-debugging-port=9222
---user-data-dir=OPERATOR_HOME/chrome-cdp-profile --hide-crash-restore-bubble
+(pid from `netstat -ano | grep :LINKEDIN_PORT | grep LISTENING`). Relaunch:
+`"C:/Program Files/Google/Chrome/Application/chrome.exe" --remote-debugging-port=LINKEDIN_PORT
+--user-data-dir=XXXXXXX/chrome-profile --hide-crash-restore-bubble
 --disable-backgrounding-occluded-windows --disable-renderer-backgrounding
 --disable-background-timer-throttling about:blank`

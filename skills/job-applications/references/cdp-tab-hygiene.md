@@ -1,6 +1,6 @@
 # CDP tab hygiene — crash-proofing the browser-automation rail
 
-Verified 2026-08-20 during the autonomous job-apply loop (9222 LinkedIn + 9223
+Verified XXXXXXX-20 during the autonomous job-apply loop (LINKEDIN_PORT LinkedIn + ATS_PORT
 Greenhouse Chrome). This is the single most important robustness lesson for any
 long-running puppeteer-core / CDP driver that opens pages in a logged-in Chrome.
 
@@ -76,8 +76,8 @@ The Chrome binary is at `C:/Program Files/Google/Chrome/Application/chrome.exe`,
 NOT under `AppData/Local/Google/...` — a wrong path makes `chrome.exe` exit
 silently and the CDP port never comes up. Relaunch flags (keep the browser alive
 across turns):
-`chrome.exe --remote-debugging-port=9223 --user-data-dir=OPERATOR_HOME/greenhouse-chrome
+`chrome.exe --remote-debugging-port=ATS_PORT --user-data-dir=XXXXXXX/greenhouse-chrome
 --disable-blink-features=AutomationControlled --no-first-run
 --disable-backgrounding-occluded-windows --disable-renderer-backgrounding
 --disable-background-timer-throttling --hide-crash-restore-bubble --no-sandbox`
-Health probe: `curl -s -m8 http://127.0.0.1:9223/json/version` must return JSON.
+Health probe: `curl -s -m8 http://127.0.0.1:ATS_PORT/json/version` must return JSON.

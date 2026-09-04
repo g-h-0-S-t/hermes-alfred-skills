@@ -1,6 +1,6 @@
-# Deck render + visual-verify workflow (v6, the version the operator accepted)
+# Deck render + visual-verify workflow (v6, the version the user accepted)
 
-When the operator rejects generated decks for "misaligned / not professional / text wall", the fix that
+When the user rejects generated decks for "misaligned / not professional / text wall", the fix that
 actually worked was: render every slide as a PNG with Pillow, vision-check it, then embed the
 verified PNGs as full-bleed slides. This removes the invisible python-pptx drift that caused
 v1-v5 rejections. Use this when the user has already complained about alignment.
@@ -11,7 +11,7 @@ v1-v5 rejections. Use this when the user has already complained about alignment.
 - Rendering each slide yourself in Pillow gives a real image you CAN vision_analyze before
   shipping. What you verify is exactly what the user gets.
 - Trade-off: slide text becomes a picture (not editable in PowerPoint). For a polished locked
-  deliverable this is fine. If the operator needs editable text, tell him the alignment risk returns.
+  deliverable this is fine. If the user needs editable text, tell him the alignment risk returns.
 
 ## Minimal loop
 1. Pre-generate assets once: Poppins TTFs (regular/bold/semibold), 16 vector icons (Pillow disc +

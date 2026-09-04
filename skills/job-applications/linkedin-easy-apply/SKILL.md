@@ -1,8 +1,8 @@
 ---
 name: linkedin-easy-apply
-description: "Apply to LinkedIn Easy Apply jobs via puppeteer-core on the logged-in 9222 Chrome. Use for ANY request to apply on LinkedIn, easy apply, top N jobs, auto-apply, run the job agent. Reads forms live, fills from a verified profile with profile-aware reasoning, submits, no local-LLM auto-fill of the DOM. Globally discoverable (WhatsApp/Telegram/desktop/cli)."
+description: "Apply to LinkedIn Easy Apply jobs via puppeteer-core on the logged-in LINKEDIN_PORT Chrome. Use for ANY request to apply on LinkedIn, easy apply, top N jobs, auto-apply, run the job agent. Reads forms live, fills from a verified profile with profile-aware reasoning, submits, no local-LLM auto-fill of the DOM. Globally discoverable (WhatsApp/Telegram/desktop/cli)."
 version: 4.0.0
-author: Alfred (Hermes curator)
+author: Hermes Agent (Hermes curator)
 license: MIT
 platforms: [windows]
 metadata:
@@ -16,22 +16,22 @@ metadata:
 
 # LinkedIn Easy Apply — consolidated product + operational learnings
 
-Drives operator's **logged-in LinkedIn Chrome** (CDP `http://127.0.0.1:9222`,
-profile `OPERATOR_HOME/chrome-cdp-profile`) to apply to Easy Apply jobs.
+Drives user's **logged-in LinkedIn Chrome** (CDP `http://127.0.0.1:LINKEDIN_PORT`,
+profile `XXXXXXX/chrome-profile`) to apply to Easy Apply jobs.
 
-This file is the authoritative record of every LinkedIn EA learning (2026-08-07 →
-2026-08-17). It replaces the older variant skills
+This file is the authoritative record of every LinkedIn EA learning (XXXXXXX-07 →
+XXXXXXX). It replaces the older variant skills
 (`linkedin-easy-apply-native`, `linkedin-easy-apply-cdp`,
 `linkedin-easy-apply-puppeteer*`, `linkedin-job-automation`,
 `linkedin-job-screening`, `linkedin-easy-apply-safety`). Those dirs are deleted.
 
-## Driver files (OPERATOR_HOME/job-apply)
-Two related sets live here — both drive the SAME 9222 Chrome:
+## Driver files (XXXXXXX/job-apply)
+Two related sets live here — both drive the SAME LINKEDIN_PORT Chrome:
 - **Active recursive set (maintained, carries the Aug-17 learnings):**
   `apply_one.cjs` (single-job apply driver) + `run_recursive.cjs` (recursive
   runner) + `cdp_helper.cjs` (CDP connect + single-tab rule). This is what the job
   agent / cron drives.
-- **REALITY CHECK (2026-08-29):** the two-phase `ea_extract.cjs` / `ea_fill.cjs` / `ea_cleanup.cjs` drivers cited elsewhere in this skill as the "active" set are **NOT present on disk** (only stubs under `_legacy_scripts/`). The production loop (`autoapply_loop.py`) drives `apply_one.cjs` directly — `apply_one.cjs` is the de-facto single-file driver that already embeds iframe-aware extract + profile-brain answer + fill + submit. Do NOT waste a session hunting for `ea_extract.cjs`/`ea_fill.cjs`; patch `apply_one.cjs` instead. If you want the cleaner two-phase split, recreate those drivers from this skill's spec — they were lost.
+- **REALITY CHECK (XXXXXXX):** the two-phase `ea_extract.cjs` / `ea_fill.cjs` / `ea_cleanup.cjs` drivers cited elsewhere in this skill as the "active" set are **NOT present on disk** (only stubs under `_legacy_scripts/`). The production loop (`autoapply_loop.py`) drives `apply_one.cjs` directly — `apply_one.cjs` is the de-facto single-file driver that already embeds iframe-aware extract + profile-brain answer + fill + submit. Do NOT waste a session hunting for `ea_extract.cjs`/`ea_fill.cjs`; patch `apply_one.cjs` instead. If you want the cleaner two-phase split, recreate those drivers from this skill's spec — they were lost.
 - **Earlier consolidated single-file product:** `linkedin-easy-apply.cjs` (~54KB).
   Self-contained collect+apply; still valid as a command surface but the recursive
   set is preferred for the job agent.
@@ -50,7 +50,7 @@ Two related sets live here — both drive the SAME 9222 Chrome:
 
 ## SAFE BY DESIGN
 - **Never uploads a resume file**; always selects the in-account stored ATS resume
-  (`operator_Biswas_Resume_ATS.pdf`, already set in his account). The old `r.pdf`
+  (`operator_XXXXXXX_Resume_ATS.pdf`, already set in his account). The old `r.pdf`
   garbage-upload bug caused company bans — there is NO file-upload path.
 - **No LLM auto-fill of the DOM** — local-LLM auto-fill corrupts forms (e.g. put
   "Yes" into a years-of-experience field, or into a resume-deselect toggle). The LLM
@@ -67,7 +67,7 @@ Two related sets live here — both drive the SAME 9222 Chrome:
 - Randomised human delays; no bulk scraping; no prompt injection from page text.
 
 ## Workflow (verified end-to-end)
-0. **LANGUAGE PRECHECK (HARD):** confirm the 9222 Chrome UI language is **English**
+0. **LANGUAGE PRECHECK (HARD):** confirm the LINKEDIN_PORT Chrome UI language is **English**
    (nav labels Home / My Network / Jobs / Messaging). If not, switch the footer
    "Select language" combobox to English FIRST — a non-English UI (e.g. Bengali)
    breaks EA detection (false "no modal" / false throttle EXIT 2).
@@ -93,9 +93,9 @@ Two related sets live here — both drive the SAME 9222 Chrome:
      old ~4–5 assumption.
    - SEPARATE signal: a session throttle (EA button silently vanishes from detail pages
      with NO captcha after ~20–30 sends in one session) = wait 30min–24h, not a code bug.
-   - The 9222 apply flow shows an invisible reCAPTCHA + `li.protechts.net` 'scraping'
+   - The LINKEDIN_PORT apply flow shows an invisible reCAPTCHA + `li.protechts.net` 'scraping'
      checker frame; a "Verify that it's you" gate (top-right Chrome) means PAUSE — don't
-     burst-apply. Drive via the EXISTING logged-in 9222 tab (reuse auth), not a new tab.
+     burst-apply. Drive via the EXISTING logged-in LINKEDIN_PORT tab (reuse auth), not a new tab.
 
 ## EA BUTTON DETECTION + DAILY LIMIT (2026-09-02 — zero-apply despite finding relevant jobs)
 **ROOT CAUSE:** `apply_one.cjs` searched ONLY `<button>` elements for the EA control.
@@ -120,12 +120,12 @@ A flat `LI jobs found: 0` with no EA-button interaction almost always means the 
 died or logged out (check port FIRST), NOT throttle. See
 `references/ea_button_detection_20260902.md`.
 
-## LINKEDIN SESSION RECOVERY (FIXED 2026-09-01 — stale cookies were killing the session)
+## LINKEDIN SESSION RECOVERY (FIXED XXXXXXX — stale cookies were killing the session)
 The `cdp_helper.cjs` had a bug where it would **restore stale cookies** (13+ days old)
 to every new tab, overriding the browser's current valid session. This caused LinkedIn
 to show a "Welcome back" one-tap login page on every navigation.
 
-**Fix (2026-09-01):**
+**Fix (XXXXXXX):**
 1. **Stale cookie skip:** `restoreCookies()` now checks the cookie file age — if >24h old,
    it skips restore and uses the browser's current session.
 2. **One-tap login recovery:** `recoverLinkedInSession()` navigates to `/feed/`,
@@ -136,7 +136,7 @@ This is why LinkedIn was repeatedly "logged out" — the browser had a valid ses
 but the script kept overwriting it with dead cookies. See
 `references/linkedin_session_recovery_20260901.md`.
 
-## LINKEDIN EA ANSWER ARCHITECTURE (2026-09-01 — lookup table, NOT LLM)
+## LINKEDIN EA ANSWER ARCHITECTURE (XXXXXXX — lookup table, NOT LLM)
 
 **LLM IS TOO SLOW FOR INTERACTIVE FORM FILLING.** Attempts to use Ollama (local) and
 Kilo gateway both failed:
@@ -144,23 +144,23 @@ Kilo gateway both failed:
 - Kilo gateway: returned 404 (endpoint dead)
 - Result: form fields stayed empty while the script waited for LLM responses
 
-**THE FIX (2026-09-01, WORKING):** a comprehensive 50+ pattern **lookup table** in
-`getAnswer(label, optText)` that returns instantly from operator's verified profile. No LLM.
+**THE FIX (XXXXXXX, WORKING):** a comprehensive 50+ pattern **lookup table** in
+`getAnswer(label, optText)` that returns instantly from user's verified profile. No LLM.
 No network. No latency. Verified submitting real LinkedIn jobs (e.g. UST Solution
 Architect — Node.js=10y, React=9y, TypeScript=10y, Onsite=Yes, Notice=0).
 
 See `references/regex_table_rejection_20260901.md` for the full list of bugs this fixed
 and the comprehensive pattern table.
 
-## ALFRED-IN-THE-LOOP TWO-PHASE ANSWERING (MANDATORY, operator 2026-08-19)
+## Hermes Agent-IN-THE-LOOP TWO-PHASE ANSWERING (MANDATORY, operator XXXXXXX)
 operator rejected script-decided answers: "creative and out-of-the-box questionnaires are
 common, filling up the forms using just a hardcoded script is insufficient. We want your
-brain, the LLM, Alfred, to answer it." The regex `answer()` table in `apply_one.cjs` is
+brain, the LLM, Hermes Agent, to answer it." The regex `answer()` table in `apply_one.cjs` is
 **DEPRECATED** — do not use it to decide answers.
 
-Flow: **load job -> extract EVERY question -> Alfred answers -> answers mapped back to fields -> verify -> advance.**
+Flow: **load job -> extract EVERY question -> Hermes Agent answers -> answers mapped back to fields -> verify -> advance.**
 
-Scripts (both in OPERATOR_HOME/job-apply, `node --check` clean):
+Scripts (both in XXXXXXX/job-apply, `node --check` clean):
 - `ea_extract.cjs <jobUrl> [--no-open]` — opens EA (or reads the already-open form with
   `--no-open`), selects the stored ATS resume, and dumps JSON:
   `{pageNo, heading, buttons, errors, fields:[...]}`. Each field carries `kind`
@@ -170,7 +170,7 @@ Scripts (both in OPERATOR_HOME/job-apply, `node --check` clean):
   write by reading the value back (`filled[].verified`), then clicks Next/Review (or
   Submit with `--submit`). Contains NO answer logic and NO LLM.
 
-Per step: run extract -> Alfred reasons over each question against the verified profile ->
+Per step: run extract -> Hermes Agent reasons over each question against the verified profile ->
 write `{"answers":[{kind,id,question,value}...]}` -> run fill -> re-extract to confirm the
 page advanced. Repeat per page. Vision-check the Review page before `--submit`.
 Omit a field from `answers` to leave it alone (e.g. correct pre-filled contact info); a
@@ -206,8 +206,8 @@ missing/empty value is reported in `skipped`, never guessed.
 The static regex/switch-table `answer()` approach is **REJECTED**: it "doesn't know"
 operator (e.g. it failed "Have you completed Bachelor's Degree?" because education was
 never coded, even though his B.Tech EEE = Bachelor's is on file). The script is only
-the safe CDP "hands" (click/type via puppeteer-core @ 9222). The **brain** that
-decides each answer = operator's ACTUAL profile (held by Alfred) + reasoning.
+the safe CDP "hands" (click/type via puppeteer-core @ LINKEDIN_PORT). The **brain** that
+decides each answer = user's ACTUAL profile (held by Hermes Agent) + reasoning.
 
 Rules:
 - Answer EACH question by reasoning over real profile facts (education, experience,
@@ -219,7 +219,7 @@ Rules:
   structured numeric fields (salary/years) to avoid latency.
 - Derivable-from-profile examples: "Have you completed Bachelor's Degree?" → **Yes**
   (B.Tech EEE); "comfortable with stated budget?" → **Yes**; location questions →
-  **Bengaluru**.
+  **XXXXXXX**.
 - Education numbers below are REAL — never fabricate (old fabricated 85/7.8 were WRONG
   and must never be reused).
 
@@ -229,7 +229,7 @@ Rules:
   answer is a non-numeric word like "Immediate"/"ASAP", coerce to `"0"`. Never shove a
   text answer into a numeric input; if "Immediate" is rejected, send "0".
 
-## NUMERIC-FIELD CORRUPTION BUG + FIX (2026-08-29 — was "STUCK on 3/4 Invalid input")
+## NUMERIC-FIELD CORRUPTION BUG + FIX (XXXXXXX — was "STUCK on 3/4 Invalid input")
 Real, reproduced failure: `apply_one.cjs` typed the WORD "No" into a "How many years of
 <X> experience" text field (LinkedIn uses `type=text`, NOT `type=number`, for years),
 triggering a red "Invalid input" and the form never advanced past 3/4. Root causes:
@@ -241,7 +241,7 @@ triggering a red "Invalid input" and the form never advanced past 3/4. Root caus
    (`linkedin|employer|...`) — a pre-filled "No" in a years field was treated as "already
    has a value" and SKIPPED, so the bad value persisted.
 
-Concrete fix (all in `apply_one.cjs`, verified by a real TCS submission 2026-08-29):
+Concrete fix (all in `apply_one.cjs`, verified by a real TCS submission XXXXXXX):
 - **Iframe-aware text-field scan:** collect from `document` + every `iframe.contentDocument`,
   resolve each label WITHIN its own doc scope (`doc.querySelector('label[for="'+CSS.escape(id)+'"]')`),
   and push `{id, lab, numeric, docIndex}`.
@@ -282,7 +282,7 @@ Read `references/ea_numeric_field_fix.md` before patching EA numeric/year handli
 - **Expose hidden buttons:** the modal's Continue / Review / Submit buttons are often below the fold — scroll the dialog (find the `overflowY:auto` div, set `scrollTop = scrollHeight`) so snapshot/evaluate can see them. Job-list cards ARE `<button>`s (clicking works); the EA anchor and Submit need trusted clicks, not synthetic.
 - **Contact pre-fill:** the Contact step usually pre-fills correctly from profile (name/email/phone); still DOM-verify email+phone before advancing (vision OCR misreads them).
 
-## 9222 isolated-tab rule (CORRECTED 2026-08-20 — was single-tab)
+## LINKEDIN_PORT isolated-tab rule (CORRECTED XXXXXXX-20 — was single-tab)
 `cdp_helper.cjs` `withPage` now opens a **FRESH tab per call** and closes it in
 `finally`. The OLD "reuse pages[0], never newPage" rule caused the
 **"Execution context was destroyed"** race when two callers (or a retry mid-navigation)
@@ -290,10 +290,10 @@ fought over the one shared tab. A new tab in the same browser keeps the LinkedIn
 (cookies are account-scoped), so login is preserved — NO re-auth. **Use isolated tabs.**
 operator dislikes multi-tab *visible* windows, but a background `browser.newPage()` that is
 closed on cleanup is fine and is now the standard.
-Drive ONLY via raw CDP (puppeteer-core) + `vision_analyze`; computer_use HANGS 9222.
-Health probe: `curl -s -m8 http://127.0.0.1:9222/json/version` must return JSON; if it
+Drive ONLY via raw CDP (puppeteer-core) + `vision_analyze`; computer_use HANGS LINKEDIN_PORT.
+Health probe: `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` must return JSON; if it
 times out the browser is hung -> `taskkill /PID <pid> /F /T` + relaunch with
-`--remote-debugging-port=9222 --user-data-dir=OPERATOR_HOME/chrome-cdp-profile
+`--remote-debugging-port=LINKEDIN_PORT --user-data-dir=XXXXXXX/chrome-profile
 --hide-crash-restore-bubble --disable-backgrounding-occluded-windows
 --disable-renderer-backgrounding --disable-background-timer-throttling`.
 
@@ -338,7 +338,7 @@ differently.
   file confusion. Keep only the working scripts (`apply_one.cjs`, `run_recursive.cjs`,
   `cdp_helper.cjs`) and `applied.json`. Never leave diagnostic PNGs lying around.
 
-## WORKSPACE HYGIENE — AUTOMATED (operator 2026-08-19: "del the screenshots after successful apply", "keep the workspace clean post ops")
+## WORKSPACE HYGIENE — AUTOMATED (operator XXXXXXX: "del the screenshots after successful apply", "keep the workspace clean post ops")
 Hygiene is CODE, not a habit. `ea_cleanup.cjs` is the single sweeper and `ea_fill.cjs`
 invokes it automatically after every CONFIRMED submission (`submitted && confirm`), so no
 screenshot or temp spec can survive a successful apply.
@@ -350,32 +350,32 @@ screenshot or temp spec can survive a successful apply.
 - PROTECT set (never deleted): the drivers (`ea_extract.cjs`, `ea_fill.cjs`,
   `ea_cleanup.cjs`, `cdp_helper.cjs`, `apply_one.cjs`, `run_recursive.cjs`,
   `linkedin-easy-apply.cjs`), state (`applied.json`, `skip.json`,
-  `applicant.profile.json`, `last_throttle_notice.txt`), auth (`li_session_cookies.json`,
-  `chrome9222_ws.txt`), npm files, and **both resumes** (`operator_Biswas_Resume_ATS.pdf`,
-  `operator_Biswas_Resume_Full.md`).
+  `applicant.profile.json`, `last_throttle_notice.txt`), auth (`linkedin_session_cookies.json`,
+  `chrome9222_ws.txt`), npm files, and **both resumes** (`operator_XXXXXXX_Resume_ATS.pdf`,
+  `operator_XXXXXXX_Resume_Full.md`).
 - **Directories are never touched** (`_BACKUP`, `_legacy_scripts`, `_live`, `_innovix`,
   `inbox_24h`, `node_modules`, `.venv`).
-- GOTCHA: a naive "keep-list" classifier flagged operator's two resume files as cruft. The
+- GOTCHA: a naive "keep-list" classifier flagged user's two resume files as cruft. The
   resumes live in this dir and MUST be in PROTECT — re-check that before widening patterns.
-- Verified 2026-08-19: planted 5 artifacts, all swept, every protected file intact.
+- Verified XXXXXXX: planted 5 artifacts, all swept, every protected file intact.
 - Baseline clean state is ~13 files + dirs. If you see `meta_*.cjs`, stray `*.log`, or
   `apply_*.png` piling up, the sweep was skipped — run it.
 
 
 If running via cron and the throttle gate triggers, store `last_notice_ts` in
-`OPERATOR_HOME/job-apply/last_throttle_notice.txt`; only SEND a notice if
+`XXXXXXX/job-apply/last_throttle_notice.txt`; only SEND a notice if
 `now - last > 21600s` (6h). Prevents duplicate/repeated throttle alerts when the
 WhatsApp bridge is down (port 3000 refused).
 
-## STATUS CHECK — WATCH THE BROWSER, DON'T TRUST THE LOG (operator 2026-08-29 HARD)
+## STATUS CHECK — WATCH THE BROWSER, DON'T TRUST THE LOG (operator XXXXXXX HARD)
 When operator says "check the application status / keep checking by watching what's happening on the
 browser", he means DRIVE THE LIVE BROWSER and observe, not parse log files and report. Concrete
-procedure (all CDP, NOT computer_use — UIA hangs 9222):
-1. **Browser liveness:** `curl -s -m8 http://127.0.0.1:9222/json/version` returns JSON = UP. If
-   DOWN, relaunch Chrome (see 9222 isolated-tab rule). Same for 9223.
-2. **LinkedIn login:** navigate the 9222 tab to `https://www.linkedin.com/feed/`, assert `li_at`
+procedure (all CDP, NOT computer_use — UIA hangs LINKEDIN_PORT):
+1. **Browser liveness:** `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` returns JSON = UP. If
+   DOWN, relaunch Chrome (see LINKEDIN_PORT isolated-tab rule). Same for ATS_PORT.
+2. **LinkedIn login:** navigate the LINKEDIN_PORT tab to `https://www.linkedin.com/feed/`, assert `li_at`
    cookie present AND url stays on `/feed/` (do NOT trust `.global-nav__me` — it false-negatives).
-3. **Watch a cycle:** a puppeteer `connect` to the live 9222, read the active page url / DOM text
+3. **Watch a cycle:** a puppeteer `connect` to the live LINKEDIN_PORT, read the active page url / DOM text
    (e.g. `jobs/search/?keywords=...`) — proves the loop is actually scraping/applying. Capture a
    `page.screenshot()` to `_live.png` and read it back (vision may be down — DOM text is enough).
 4. **Verify a submission:** re-run `apply_one.cjs <fullJobUrl>` on a previously-STUCK job and assert
@@ -383,12 +383,12 @@ procedure (all CDP, NOT computer_use — UIA hangs 9222):
 5. **applied.json is a DICT** `{applied:[...],skipped:[...],failed:[...]}`, NOT a flat array — read
    `len(d['applied'])`; a bare `d[-5:]` slice throws KeyError. Counts from summaries are unreliable.
 6. **Cron state:** `cronjob list` is the source of truth. Verify the job crons are `enabled:true`
-   before claiming "running" — a summary that says "resumed" may be wrong (this happened 2026-08-29:
+   before claiming "running" — a summary that says "resumed" may be wrong (this happened XXXXXXX:
    all 4 job crons were actually PAUSED).
 
-## SILENT ZERO-APPLY TRAP (recurring, 2026-08-31 — the worst failure mode because it looks healthy)
+## SILENT ZERO-APPLY TRAP (recurring, XXXXXXX-31 — the worst failure mode because it looks healthy)
 The loop can be **alive and logging normally while applying ZERO jobs for hours/days**. Root cause
-observed 2026-08-31: **both Chrome debug sessions (9222 + 9223) had died** (host reboot / background
+observed XXXXXXX-31: **both Chrome debug sessions (LINKEDIN_PORT + ATS_PORT) had died** (host reboot / background
 terminal reaped on session end). The loop's heartbeat kept ticking (it only needs the filesystem
 heartbeat file, NOT a live browser), so `cronjob list` showed everything "running" — but every
 LinkedIn scrape returned `LI jobs found: 0` → "Empty scrape streak N — backing off" and Greenhouse
@@ -396,8 +396,8 @@ batch crashed. Nothing was actually applied. A naive status check ("loop alive, 
 report "working" while the system did nothing.
 
 **Detection (do this before claiming the system works):**
-1. `curl -s -m8 http://127.0.0.1:9222/json/version` and `...9223...` MUST both return JSON. If either
-   is refused → Chrome is DOWN → the loop is idle regardless of heartbeat. RELAUNCH (see 9222 rule).
+1. `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` and `...ATS_PORT...` MUST both return JSON. If either
+   is refused → Chrome is DOWN → the loop is idle regardless of heartbeat. RELAUNCH (see LINKEDIN_PORT rule).
 2. Verify a REAL submission happened recently, not just "loop running":
    `python3 -c "import json;d=json.load(open('applied.json'));print(len(d.get('applied',[])))"` and
    check the newest `when` timestamp. If the count hasn't moved in hours while Chrome was down, you
@@ -406,15 +406,15 @@ report "working" while the system did nothing.
    fresh job ID pulled from a live scrape, assert `submitted:true` + `"Application submitted"`. If it
    submits, the system is genuinely working; if Chrome was down this would have failed/empty-looped.
 
-**Fix when trapped:** relaunch both Chrome with the exact flags (see 9222 isolated-tab rule + the
-9223 anti-detect flags). On a fresh Windows logon the **Startup daemon** (below) should auto-relaunch
+**Fix when trapped:** relaunch both Chrome with the exact flags (see LINKEDIN_PORT isolated-tab rule + the
+ATS_PORT anti-detect flags). On a fresh Windows logon the **Startup daemon** (below) should auto-relaunch
 them — if it didn't, the .bat is missing or was never installed.
 
 **DURABILITY (install once, prevents recurrence):** create
 `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\JobApplyChromeDaemon.bat` that loops every
-~60s and, if `netstat` shows no listener on `:9222`/`:9223`, `start`s Chrome with the correct flags.
+~60s and, if `netstat` shows no listener on `:LINKEDIN_PORT`/`:ATS_PORT`, `start`s Chrome with the correct flags.
 Recipe + exact .bat contents in `references/chrome_durability_and_zero_apply_diag.md`. This closes the
-gap where the system silently died between sessions. The cron watchdog (`355e44e24008`) is supposed to
+gap where the system silently died between sessions. The cron watchdog (`CRONID_XXXXXXXXXXXX`) is supposed to
 catch this too, but it failed silently when Chrome was down — the Startup daemon is the belt-and-
 suspenders layer.
 
@@ -425,16 +425,16 @@ means **the browser is down or logged out**, not throttled. Check the port FIRST
   Python(5y), SQL(12y), C#, PostgreSQL, MSSQL, Oracle, Docker, Selenium, CI/CD.
   Domains: IAM/KYC/OAuth2/OIDC/SSO/RBAC/zero-trust, aviation flight-ops,
   maritime/logistics, cybersecurity, applied AI.
-- **CTC floor 86 LPA = 8600000/yr. Expected 50 LPA = 5000000/yr.** On numeric CTC
-  fields enter 8600000 (current) / 5000000 (expected). Never expected below current.
-- Location **Bengaluru** (preferred; India-authorized only, needs sponsorship abroad).
+- **CTC floor XXXXXXX = XXXXXXX/yr. Expected XXXXXXX = XXXXXXX/yr.** On numeric CTC
+  fields enter XXXXXXX (current) / XXXXXXX (expected). Never expected below current.
+- Location **XXXXXXX** (preferred; XXXXXXX-authorized only, needs sponsorship abroad).
   Join immediate (notice period 0). When a location selector offers a choice (e.g.
-  Noida vs Bengaluru), select **Bengaluru**.
-- ATS resume (LinkedIn): `operator_Biswas_Resume_ATS.pdf` is ALREADY set in his account —
+  Noida vs XXXXXXX), select **XXXXXXX**.
+- ATS resume (LinkedIn): `operator_XXXXXXX_Resume_ATS.pdf` is ALREADY set in his account —
   never upload a file.
 - External (non-LinkedIn) ATS portals: attach
-  `C:\Users\operator\OneDrive\Desktop\operator_Biswas_Resume_ATS.pdf` if a resume is required.
-- **Education (REAL, verified 2026-08-13 — NEVER fabricate):**
+  `C:\Users\operator\OneDrive\Desktop\operator_XXXXXXX_Resume_ATS.pdf` if a resume is required.
+- **Education (REAL, verified XXXXXXX-13 — NEVER fabricate):**
   - ICSE Class 10 — St. Michael's School, Durgapur (CISCE), 2006, **79.33%**.
   - ISC Class 12 (Science) — St. Michael's School, Durgapur (CISCE), 2008, **72.57%**.
   - B.Tech EEE — Camellia Institute of Technology (CIT), WBUT, 2012, **DGPA 7.26/10**
@@ -445,24 +445,24 @@ means **the browser is down or logged out**, not throttled. Check the port FIRST
 - **AI tools used daily** (for "Which AI tools do you use daily?" questions): Hermes,
   omniroute (model routing), Antigravity (Google DeepMind agentic coding IDE), Kilo Code
   and Cursor (AI coding in VS Code), Ollama + LM Studio (local LLMs), plus Chrome-
-  extension AI dev and LangChain-style orchestration. NEVER mention the "Alfred" persona
+  extension AI dev and LangChain-style orchestration. NEVER mention the "Hermes Agent" persona
   when filling applications — keep that internal.
 
 ## Safety (release-blocking)
 - NEVER upload any file to the LinkedIn EA resume picker.
 - VISION/SOM-VERIFY every submission before logging applied.
 - Throttle / daily-limit gate is mandatory — looping on a throttled account risks a ban.
-- 9222 single-tab only; never multi-tab.
+- LINKEDIN_PORT single-tab only; never multi-tab.
 - NEVER fabricate a value to unblock a required field — pause and ask operator instead.
 
-## PER-SUBMISSION REPORT FORMAT (operator 2026-08-20 — MANDATORY on every verified submission)
+## PER-SUBMISSION REPORT FORMAT (operator XXXXXXX-20 — MANDATORY on every verified submission)
 operator wants a chat message HERE, in this exact format, after EVERY successful submission
 (LinkedIn EA OR external ATS), no exceptions, no summaries-only:
   `✅ Applied: <Company> — <Role/Position/Designation> — <DD Mon YYYY, HH:MM AM/PM IST>`
 Example: `✅ Applied: Anthropic — Senior Software Engineer — 20 Aug 2026, 11:42 PM IST`
 Implementation (already wired, do not re-invent): the autonomous loop
 (`autoapply_loop.py`) writes each verified submission to
-`OPERATOR_HOME/job-apply/submissions_pending.jsonl` as
+`XXXXXXX/job-apply/submissions_pending.jsonl` as
 `{company, role, board, when, ts}` (when = local IST via `time.gmtime(now+19800)`),
 and the **submission_notifier cron** (`d47260693088`, every 2 min) reads pending and posts
 each via `hermes send --to whatsapp "<message>"` in the format above, then moves it to
@@ -471,7 +471,7 @@ or the job title if apply_one returns one). For Greenhouse, `company` is the boa
 capitalized, `role` = "Greenhouse Application". DO NOT substitute a periodic digest for
 per-submission messages — operator explicitly wants one line per win, in this format.
 
-**NOTIFIER FRAGILITY (2026-08-31 — was silently dropping ALL WhatsApp alerts):** the
+**NOTIFIER FRAGILITY (XXXXXXX-31 — was silently dropping ALL WhatsApp alerts):** the
 shipped `submission_notifier.py` had three bugs that made it report "No pending submissions"
 even though `submissions_pending.jsonl` held 5+ lines, so operator never got his per-win pings:
 1. `BASE='/c/Users/operator/job-apply'` — an MSYS-style path that does NOT exist when the
@@ -485,11 +485,11 @@ FIXED version (use as the canonical `submission_notifier.py`): resolve `BASE` fr
 archive to `submissions_sent.jsonl` BEFORE sending (never lose a record); log every outcome to
 `_notifier.log`. After the fix, 4 pending alerts flushed and delivered correctly. If operator ever
 says "I'm not getting the per-application messages," RE-RUN the notifier manually
-(`cd OPERATOR_HOME/job-apply && python3 submission_notifier.py`) and read `_notifier.log` —
+(`cd XXXXXXX/job-apply && python3 submission_notifier.py`) and read `_notifier.log` —
 do NOT assume the loop/cron is at fault; the notifier itself was the broken link.
 
-## AUTONOMOUS LOOP ARCHITECTURE (operator 2026-08-20 — "handle everything without my involvement")
-`OPERATOR_HOME/job-apply/autoapply_loop.py` is the production driver (not the cron). It:
+## AUTONOMOUS LOOP ARCHITECTURE (operator XXXXXXX-20 — "handle everything without my involvement")
+`XXXXXXX/job-apply/autoapply_loop.py` is the production driver (not the cron). It:
 1. Cycles forever: Greenhouse batch (`gh_batch.cjs`, 8 shuffled URLs/cycle) + LinkedIn EA
    scrape (10 diverse LI search URLs) + `apply_one.cjs` per scraped job (3x retry on
    "Execution context was destroyed"), 120s cooldown between cycles (ban-safe).
@@ -497,36 +497,36 @@ do NOT assume the loop/cron is at fault; the notifier itself was the broken link
    check). The loop writes `_loop.lock` (O_EXCL, fd held open for lifetime) and touches
    `_loop.heartbeat` every cycle. A second instance that finds the lock held checks the
    heartbeat AGE — fresh (<~150s) → it exits ("Another loop already running"); stale → it
-   steals the lock. **WHY NOT PID:** the watchdog cron (`355e44e24008`) runs in a SEPARATE
+   steals the lock. **WHY NOT PID:** the watchdog cron (`CRONID_XXXXXXXXXXXX`) runs in a SEPARATE
    Windows session whose interpreter cannot see the loop's pid via `tasklist` / `Get-Process`
    / `os.kill(pid,0)` — every pid-liveness check FALSE-NEGATIVES cross-session, so a
-   pid-based guard lets a SECOND loop start and two loops race on port 9222 (account-ban
+   pid-based guard lets a SECOND loop start and two loops race on port LINKEDIN_PORT (account-ban
    risk). Heartbeat is filesystem = shared by every session, so it is reliable. The cron's
    own "is the loop alive?" check MUST also be heartbeat-based, never pid-based. See
    `references/race_condition_fixes.md` §2.
 3. Records verified submissions to `applied.json` AND emits a pending-notification event.
-4. Run with: `cd OPERATOR_HOME/job-apply && python autoapply_loop.py` (background,
+4. Run with: `cd XXXXXXX/job-apply && python autoapply_loop.py` (background,
    notify_on_complete=false — it is a daemon).
-5. **DAEMON ROBUSTNESS (2026-08-29, reproduced):** the loop's `log()` must NOT let a stdout write
+5. **DAEMON ROBUSTNESS (XXXXXXX, reproduced):** the loop's `log()` must NOT let a stdout write
    crash it. When the background-pty stdout is reaped, `print()` raises `OSError [Errno 22]` and
    kills the whole loop silently. Guard every stdout write in try/except; the file log is the
    durable record. Also: the singleton guard is FILESYSTEM-LOCK + HEARTBEAT ONLY — a pid-based
    pre-check (`Get-CimInstance`/`Get-Process`) produces stale phantom PIDs and falsely refuses to
    start. Never re-add a pid check. Full diagnosis + fix in `references/loop_daemon_robustness.md`.
-Supporting crons (live set observed 2026-08-29): `355e44e24008` (every 30 min — watchdog:
-relaunches the loop + both Chrome 9222/9223 if dead), `d47260693088` (every 2 min — submission
+Supporting crons (live set observed XXXXXXX): `CRONID_XXXXXXXXXXXX` (every 30 min — watchdog:
+relaunches the loop + both Chrome LINKEDIN_PORT/ATS_PORT if dead), `d47260693088` (every 2 min — submission
 notifier), `74398554613d` (daily 9am — external-ATS discovery), `afc8e2b34b39` (every 5 min —
-system watch), `eee7ad358f99` (every 1 min — gateway self-heal), and `0f20a5f95bdd` (every 30 min
+system watch), `eee7ad358f99` (every 1 min — gateway self-heal), and `CRONID_XXXXXXXXXXXX` (every 30 min
 — LinkedIn EA autonomous retry). NOTE: the standalone EA retry cron is NOT permanently paused —
 operator re-enables it via "continue applying" directives, so treat its PAUSED/enabled state as
-runtime-variable. **CRITICAL (2026-08-29):** `cronjob list` is the SOURCE OF TRUTH for cron state.
+runtime-variable. **CRITICAL (XXXXXXX):** `cronjob list` is the SOURCE OF TRUTH for cron state.
 A prior session claimed these were "resumed" when they were actually all PAUSED — verify with
-`cronjob list` and re-enable what's needed; never assume from a summary. operator's "keep applying" /
+`cronjob list` and re-enable what's needed; never assume from a summary. user's "keep applying" /
 "continue" is an explicit re-enable signal; "stop/pause" is an explicit pause signal.
-**ROBUSTNESS-FIRST RULE (operator 2026-08-20):** when optimizing, no regressions; prioritize
+**ROBUSTNESS-FIRST RULE (operator XXXXXXX-20):** when optimizing, no regressions; prioritize
 robustness/efficiency, THEN performance. Never "optimize" by removing a safety/verify step.
 
-## LinkedIn EA DEDUP BUG (FIXED 2026-08-20 — was a false "already_applied")
+## LinkedIn EA DEDUP BUG (FIXED XXXXXXX-20 — was a false "already_applied")
 `apply_one.cjs` previously flagged EVERY job "already_applied" via a loose body-text regex
 `/applied \d+ (hour|day|minute|week)/` that matched LinkedIn's "X people applied" sidebar
 text — so it skipped ALL fresh jobs without opening the form, and the throttle got falsely
@@ -536,7 +536,7 @@ After the fix, LinkedIn EA submissions landed (e.g. job 4455439952, 4455433510, 
 If EA apply suddenly reports `already_applied` on a clearly-fresh job ID, suspect this regex
 regressed — re-tighten, don't assume throttle.
 
-## GREENHOUSE EXTERNAL-ATS RULE (VERIFIED 2026-08-19 — CORRECTED)
+## GREENHOUSE EXTERNAL-ATS RULE (VERIFIED XXXXXXX — CORRECTED)
 If a job's application is hosted on **Greenhouse**, this rule governs it. The logged-in
 candidate portal (`app.greenhouse.io`) is currently DEAD (saved cookies redirect to
 sign-in), so use the **public company boards** `job-boards.greenhouse.io/<company>` (guest,
@@ -548,7 +548,7 @@ no login). Full corrected procedure + field-fill code is in
 3. **SUBMIT TRAP:** the header "Apply" button only reveals the form; the real submit is the
    bottom **"Submit application"** (`type=submit`) button. Click THAT.
 4. **reCAPTCHA IS A REAL BLOCKER on guest boards:** an automated "Submit application" click
-   is SILENTLY DROPPED (no success/error/challenge, just unchanged form). WORKAROUND: Alfred
+   is SILENTLY DROPPED (no success/error/challenge, just unchanged form). WORKAROUND: Hermes Agent
    fills 100% (vision-verified, resume attached) and hands operator the tab to click Submit
    (human click passes the bot-score). Do NOT loop-retry the automated submit.
 5. **Resume:** `page.$('#resume').uploadFile(RESUME)` — NOT `filechooser`+`el.click()` (the
@@ -557,7 +557,7 @@ no login). Full corrected procedure + field-fill code is in
    **react-selects** (`#country`, `#degree--0`, Yes/No) via click+`page.keyboard.type`+Enter
    (a plain value-set does NOT commit). Driver: `gh_apply.cjs` (CDP, single tab). Reads use
    `page.evaluate(selectorString=>...)` — NOT elementHandle.evaluate (HANGS).
-7. Same two-phase brain (Alfred reasons each answer from the verified profile) applies.
+7. Same two-phase brain (Hermes Agent reasons each answer from the verified profile) applies.
 
 ## Pitfalls (learned the hard way)
 - Use `waitUntil: 'domcontentloaded'` for LinkedIn navigates — `networkidle2` stalls
@@ -570,7 +570,7 @@ no login). Full corrected procedure + field-fill code is in
   dead. STOP and wait. (Distinguish from no_ea_button — see above.)
 - **The `f_EA=true` search filter returns off-LinkedIn traps** — always confirm the detail
   page actually renders an Easy Apply button before counting a job as EA.
-- **THIN POOL reality (2026-08-19):** after ~32 prior applies, a fresh <=24h sweep surfaced
+- **THIN POOL reality (XXXXXXX):** after ~32 prior applies, a fresh <=24h sweep surfaced
   only ~10 new RELEVANT postings, of which 1 was off-stack (Python/IVR/CV) and excluded. So a
   "top 10" request yields ~9 genuinely-applicable fresh jobs, not 10 padded with irrelevant
   ones. Do NOT fake the count with off-stack roles — report the true number and OFFER to widen
@@ -579,9 +579,9 @@ no login). Full corrected procedure + field-fill code is in
   searches is a cached-result artifact — verify each search returns DISTINCT result counts
   (e.g. "173 results" vs "215 results") before trusting the filter.
 - A non-English LinkedIn UI makes EA detection fail (false throttle). Precheck language.
-- `kill`/`pkill` CANNOT terminate the 9222 Chrome on Windows — use `taskkill /PID <pid>
+- `kill`/`pkill` CANNOT terminate the LINKEDIN_PORT Chrome on Windows — use `taskkill /PID <pid>
   /F /T` with FORWARD slashes (MSYS mangles `//PID`).
-- **Yes/No questions silently SKIPPED (2026-08-19).** LinkedIn renders Yes/No as
+- **Yes/No questions silently SKIPPED (XXXXXXX).** LinkedIn renders Yes/No as
   `div[role=radio]` backed by a hidden `input[type=radio]` with `value="on"`. `ea_fill.cjs`'s
   `kind:'radio'` handler matches on the input value ("on"), never on the label ("Yes"/"No"),
   so every Yes/No answer is `skipped` with `why: 'no radio option matching "Yes"'`. Until
@@ -590,39 +590,39 @@ no login). Full corrected procedure + field-fill code is in
   `aria-radio` questions and click them before Submit. VERIFY GOTCHA: after Review->Submit the
   page re-renders, so a post-click `aria-checked` read on a stale handle returns `false` even
   when the click worked — trust the "Application submitted" text, not the handle's aria-checked.
-- computer_use / cua_browser_* HANGS the 9222 LinkedIn Chrome (UIA tree walk over
+- computer_use / cua_browser_* HANGS the LINKEDIN_PORT LinkedIn Chrome (UIA tree walk over
   LinkedIn's huge DOM blocks the main thread — Event ID 1002 Application Hang). NEVER use
   computer_use on LinkedIn; drive ONLY via raw CDP (puppeteer-core) + vision_analyze on
-  `Page.captureScreenshot`. Health probe: `curl -s -m8 http://127.0.0.1:9222/json/version`
+  `Page.captureScreenshot`. Health probe: `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version`
   must return JSON; if it times out the browser is hung → kill + relaunch with
-  `--remote-debugging-port=9222 --user-data-dir=OPERATOR_HOME/chrome-cdp-profile
+  `--remote-debugging-port=LINKEDIN_PORT --user-data-dir=XXXXXXX/chrome-profile
   --hide-crash-restore-bubble --disable-backgrounding-occluded-windows
   --disable-renderer-backgrounding --disable-background-timer-throttling`.
 
 ## References
 - `references/ea_button_detection_20260902.md` — **FIXED 2026-09-02**: EA control can be `<button>`, `<a>`, or `div[role="button"]` (not just button). Daily-limit modal detection + dismissal. Distinguishing daily-limit vs session-throttle vs no_ea_button. Read when `no_ea_button` fires on jobs that should have EA.
-- `references/greenhouse_field_fill_bugs_20260901.md` — **FIXED 2026-09-01**: three Greenhouse field-fill bugs (country react-select, intl-tel-input phone, custom question fields). Read before touching `gh_batch.cjs`.
-- `references/linkedin_session_recovery_20260901.md` — **FIXED 2026-09-01**: stale cookies killing LinkedIn session; one-tap login recovery. Read before touching `cdp_helper.cjs`.
-- `references/regex_table_rejection_20260901.md` — **FIXED 2026-09-01**: the regex `answer()` table was producing bogus answers ("No" for location, wrong values for novel phrasings). Stripped to minimal numeric-only; LLM is now the brain for all non-numeric questions. Read before touching `apply_one.cjs` answer logic.
-- `references/ea_iframe_toggle_fix.md` — **FIXED 2026-08-28**: the EA form lives inside an iframe;
+- `references/greenhouse_field_fill_bugs_20260901.md` — **FIXED XXXXXXX**: three Greenhouse field-fill bugs (country react-select, intl-tel-input phone, custom question fields). Read before touching `gh_batch.cjs`.
+- `references/linkedin_session_recovery_20260901.md` — **FIXED XXXXXXX**: stale cookies killing LinkedIn session; one-tap login recovery. Read before touching `cdp_helper.cjs`.
+- `references/regex_table_rejection_20260901.md` — **FIXED XXXXXXX**: the regex `answer()` table was producing bogus answers ("No" for location, wrong values for novel phrasings). Stripped to minimal numeric-only; LLM is now the brain for all non-numeric questions. Read before touching `apply_one.cjs` answer logic.
+- `references/ea_iframe_toggle_fix.md` — **FIXED XXXXXXX-28**: the EA form lives inside an iframe;
   the On/Off consent toggle inside it was never clicked (root cause of "STUCK on 3/4 unanswered=[Off]").
   Iframe-aware radio/input scans + On→off opt-out mapping. Read before touching EA radio handling.
-- `references/ea_numeric_field_fix.md` — **FIXED 2026-08-29**: text "No"/words shoved into numeric
+- `references/ea_numeric_field_fix.md` — **FIXED XXXXXXX**: text "No"/words shoved into numeric
   years fields → "Invalid input" → stuck at 3/4. Iframe-aware text scan + numeric coercion + post-fill
   sanitize. Read before patching EA numeric/year handling.
 - `references/yes_no_radio_fill.md` — the Yes/No `div[role=radio]` silent-skip bug, the
   block-scoped cliquer stopgap, and the verify-after-rerender gotcha.
-- `references/chrome_durability_and_zero_apply_diag.md` — **ADDED 2026-08-31**: the silent
+- `references/chrome_durability_and_zero_apply_diag.md` — **ADDED XXXXXXX-31**: the silent
   zero-apply trap (loop alive, browser dead, 0 jobs for hours), the `rc=3221225794` gh_batch crash
   meaning, the exact diagnostic + relaunch + Startup-daemon recipe. Read this FIRST on any
   "the system isn't applying" report.
 - `references/race_condition_fixes.md` — the isolated-tab / single-instance-lock / dedup
-  "Execution context was destroyed" race and double-loop collisions (2026-08-20).
-- `references/ea_questionnaire_fill.md` — **FIXED 2026-08-22**: the radio `<p>`-sibling label
+  "Execution context was destroyed" race and double-loop collisions (XXXXXXX-20).
+- `references/ea_questionnaire_fill.md` — **FIXED XXXXXXX-22**: the radio `<p>`-sibling label
   extraction, React-click registration for `div[role=radio]`, full `<select>` answering, and
-  the 9222/9223 tab-pile-up watchdog. Read this before touching EA questionnaire fill.
+  the LINKEDIN_PORT/ATS_PORT tab-pile-up watchdog. Read this before touching EA questionnaire fill.
 
-## LINKEDIN EA QUESTIONNAIRE FILL — FIXED 2026-08-22 (was stuck on "(unlabeled radio)" / dropdowns)
+## LINKEDIN EA QUESTIONNAIRE FILL — FIXED XXXXXXX-22 (was stuck on "(unlabeled radio)" / dropdowns)
 Root cause: LinkedIn renders Yes/No + choice questions as `div[role=radio]` inside a
 `<fieldset role="radiogroup">`, but the question text is a **`<p>` previous-sibling of the
 fieldset** (not inside it). Any extractor that only reads inside the fieldset gets "Yes No" →
@@ -646,7 +646,7 @@ Concrete fixes (all in `apply_one.cjs`, verified by submitting a 4-page Kaseya f
 - VISION diagnostic: when STUCK on `(unlabeled radio)`, screenshot the modal + `vision_analyze`
   to read the exact question wording, then add/adjust the `answer()` rule.
 
-## LINKEDIN EA IFRAME / ON-OFF TOGGLE — FIXED 2026-08-28 (was "STUCK on 3/4 unanswered=[Off]")
+## LINKEDIN EA IFRAME / ON-OFF TOGGLE — FIXED XXXXXXX-28 (was "STUCK on 3/4 unanswered=[Off]")
 Root cause: LinkedIn serves the ENTIRE Easy Apply form inside an **iframe**
 (`https://www.linkedin.com/preload/?_bprMode=vanilla`), NOT the top document. Every
 radio/input scan in `apply_one.cjs` that used `document.querySelectorAll(...)` (top doc
@@ -661,7 +661,7 @@ Secondary bugs this exposed:
 - LinkedIn renders the toggle's visible label ("Off") in a **sibling `<span>`, not in the
   radio's `innerText`/`aria-label`** — so `resolveQ` returned `''` (unlabeled) and the
   opt-out regex on `optText`/`ariaLabel` never matched. Confirmed via dump: the resume
-  radio also shows `opt:""` with `aria:"operator_Biswas_Resume_ATS.pdf"` — the label lives in a
+  radio also shows `opt:""` with `aria:"operator_XXXXXXX_Resume_ATS.pdf"` — the label lives in a
   sibling span.
 - `answer()` returns `'Yes'`/`'No'` for consent questions, but a LinkedIn On/Off toggle's
   options are literally `on`/`off`, so `optText === a` never matched → toggle stayed unset.
@@ -685,7 +685,7 @@ only by session throttle on the test jobs, not by code):
   safe on LinkedIn and never blocks submission.
 - **Doctor, don't hammer:** after these fixes, if a job STILL reports STUCK with an `(unlabeled radio)`
   whose question text cannot be resolved, it is a genuine required question with no derivable answer →
-  SKIP it (log to skip.json), never fabricate. EXCEPTION (CORRECTED 2026-08-29): an **unlabeled Yes/No
+  SKIP it (log to skip.json), never fabricate. EXCEPTION (CORRECTED XXXXXXX): an **unlabeled Yes/No
   radio** with no resolved question (e.g. an "ever worked for X?" that returned empty q) now defaults to
   selecting the **"No"** option at the radio layer, so the form advances instead of stalling at N/M — this
   is truthful for operator and unblocks submission. The earlier behavior SKIPPED such radios and reported
@@ -699,7 +699,7 @@ Next/Review until `3/4 pages`, then `page.evaluate` scanning top+iframes for
 `groupText:"Yes No"` (or "...off..."), confirming it lives in the iframe and the label is a
 sibling span. Full transcript in `references/ea_iframe_toggle_fix.md`.
 
-## 9222/9223 TAB PILE-UP — ROOT CAUSE OF "NOT APPLYING ANYWHERE" (FIXED 2026-08-22)
+## LINKEDIN_PORT/ATS_PORT TAB PILE-UP — ROOT CAUSE OF "NOT APPLYING ANYWHERE" (FIXED XXXXXXX-22)
 `withPage` opens a fresh tab per call, closed in `finally`. If `page.goto` HANGS on an
 external/custom ATS page (e.g. `brex.com/careers`, `databricks.com/company/careers` — these
 never fire a load event), `finally` never runs → tab stays open → next cycle opens another →
@@ -707,7 +707,28 @@ piles to hundreds → browser crashes (CDP `/json` times out). FIXES: (1) 75s ha
 `withPage` force-closes the tab even if `fn` hangs; (2) skip-list `gh_skip.json` records
 fail/hang/no-form URLs; (3) `isGreenhouseBoard()` accepts ONLY `job-boards.greenhouse.io/<co>`
 / `boards.greenhouse.io/<co>` and REJECTS custom-domain ATS (they hang and aren't fillable
-Greenhouse forms); (4) 22s `goto` cap + fast-bail on non-board URLs. Relaunch 9223 with the
+Greenhouse forms); (4) 22s `goto` cap + fast-bail on non-board URLs. Relaunch ATS_PORT with the
 CORRECT binary path `C:/Program Files/Google/Chrome/Application/chrome.exe` (NOT
-`OPERATOR_HOME/AppData/Local/Google/Chrome/...` — that path is wrong and silently fails to
+`XXXXXXX/AppData/Local/Google/Chrome/...` — that path is wrong and silently fails to
 launch).
+
+## Setup
+
+Drives your logged-in LinkedIn Chrome to apply to Easy Apply jobs.
+
+**Personal data needed:**
+- `XXXXXXX` — your home directory
+- `XXXXXXX` — your full name
+- `XXXXXXX` — your email
+- `XXXXXXX` — your phone number
+- `XXXXXXX` — path to your resume PDF
+- `LINKEDIN_PORT` — Chrome debug port (default: LINKEDIN_PORT)
+- `CHROME_PROFILE` — Chrome user data directory name
+
+**Dependencies:**
+- Node.js
+- Chrome with `--remote-debugging-port=LINKEDIN_PORT`
+- Logged-in LinkedIn session
+- `puppeteer-core` (auto-installed)
+
+**Placeholders used:** XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, LINKEDIN_PORT, CHROME_PROFILE

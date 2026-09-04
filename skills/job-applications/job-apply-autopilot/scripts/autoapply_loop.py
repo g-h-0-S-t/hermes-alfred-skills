@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Self-driving job-apply autopilot. Run: cd OPERATOR_HOME/job-apply && python autoapply_loop.py
+"""Self-driving job-apply autopilot. Run: cd XXXXXXX/job-apply && python autoapply_loop.py
 Cycles forever: Greenhouse batch (gh_batch.cjs) + LinkedIn EA scrape/apply (apply_one.cjs),
 120s cooldown, records verified submissions to applied.json. Relaunched by watchdog cron.
 """
 import subprocess, os, json, time, re, random
 
-BASE='OPERATOR_HOME/job-apply'
+BASE='XXXXXXX/job-apply'
 ENV={k:v for k,v in os.environ.items() if k not in ('PYTHONPATH','PYTHONHOME')}
 LOG=os.path.join(BASE,'_autoapply.log')
 def log(*a):
@@ -30,12 +30,12 @@ GH_POOL=[
  'https://job-boards.greenhouse.io/databricks/jobs/8648762002',
 ]
 LI_SEARCHES=[
- 'https://www.linkedin.com/jobs/search/?keywords=javascript%20developer&location=India&f_AL=true&f_E=3%2C4%2C5%2C6&f_TPR=r86400&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=node%20js&location=India&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=react%20developer&location=India&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=full%20stack%20engineer&location=India&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=javascript%20developer&location=XXXXXXX&f_AL=true&f_E=3%2C4%2C5%2C6&f_TPR=r86400&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=node%20js&location=XXXXXXX&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=react%20developer&location=XXXXXXX&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=full%20stack%20engineer&location=XXXXXXX&f_AL=true&f_E=3%2C4%2C5%2C6&sortBy=DD',
 ]
-LI_SCRAPE_JS = r'''const { withPage } = require('OPERATOR_HOME/job-apply/cdp_helper.cjs');
+LI_SCRAPE_JS = r'''const { withPage } = require('XXXXXXX/job-apply/cdp_helper.cjs');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 (async()=>{
   await withPage(async(page)=>{

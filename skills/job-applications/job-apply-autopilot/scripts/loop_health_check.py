@@ -4,8 +4,8 @@
 Run from anywhere (no PYTHONPATH needed). Prints:
   - every python.exe whose cmdline mentions autoapply_loop / run_loop / autoapp / job-apply-autopilot
   - for each, its parent pid + parent cmdline (so you can see the supervisor bash)
-  - whether OPERATOR_HOME/job-apply/_loop.lock matches the sole live loop
-  - Chrome 9222 / 9223 health (curl http://127.0.0.1:<port>/json/version)
+  - whether XXXXXXX/job-apply/_loop.lock matches the sole live loop
+  - Chrome LINKEDIN_PORT / ATS_PORT health (curl http://127.0.0.1:<port>/json/version)
   - applied.json count
 
 Usage:  python loop_health_check.py
@@ -13,7 +13,7 @@ Exit 0 if exactly one loop is alive AND both Chrome ports respond; else 1.
 """
 import os, sys, json, subprocess, urllib.request
 
-JOBAPPLY = r"OPERATOR_HOME/job-apply"
+JOBAPPLY = r"XXXXXXX/job-apply"
 MARKERS = ("autoapply_loop", "run_loop", "autoapp", "job-apply-autopilot")
 
 def procs():
@@ -61,7 +61,7 @@ def main():
         sole = str(live[0][0])
         print(f"lock matches sole loop: {owner == sole}")
 
-    for port in (9222, 9223):
+    for port in (LINKEDIN_PORT, ATS_PORT):
         print(f"Chrome {port}: {'UP' if chrome_up(port) else 'DOWN'}")
 
     ap = os.path.join(JOBAPPLY, "applied.json")
@@ -72,7 +72,7 @@ def main():
     except Exception as e:
         print(f"applied.json: {e}")
 
-    ok = (len(live) == 1) and chrome_up(9222) and chrome_up(9223)
+    ok = (len(live) == 1) and chrome_up(LINKEDIN_PORT) and chrome_up(ATS_PORT)
     print("\nHEALTH:", "OK" if ok else "DEGRADED")
     sys.exit(0 if ok else 1)
 

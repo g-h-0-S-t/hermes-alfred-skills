@@ -1,6 +1,6 @@
 
 'use strict';
-// LinkedIn Easy Apply — SIMPLE, proven single-file driver (puppeteer-core on logged-in 9222 Chrome).
+// LinkedIn Easy Apply — SIMPLE, proven single-file driver (puppeteer-core on logged-in LINKEDIN_PORT Chrome).
 // NO local-LLM auto-fill (banned: corrupts forms). Fills ONLY from applicant.profile.json.
 // One light CDP pass per job — never a sustained scroll marathon (that freezes this machine's Chrome).
 const fs = require('fs');
@@ -34,7 +34,7 @@ function answerFor(label, profile){
 // hard deterministic fallbacks (operator facts) so common fields always resolve without LLM
 function answer(label, profile){
   const L=(label||'').toLowerCase();
-  if(/which location|current location|preferred location|location are you applying|city/i.test(L)) return profile.locationPref||'Bengaluru';
+  if(/which location|current location|preferred location|location are you applying|city/i.test(L)) return profile.locationPref||'XXXXXXX';
   if(/notice period/i.test(L)) return profile.ctc?.noticePeriod||'0';
   if(/join|joining/i.test(L)&&/day|immediate/i.test(L)) return profile.ctc?.noticePeriod||'0';
   if(/current.*(ctc|salary)|ctc.*current|current annual/i.test(L)) return ''+profile.ctc?.current;
@@ -46,7 +46,7 @@ function answer(label, profile){
   if(/authorized to work|work authorization|legally/i.test(L)) return 'Yes';
   if(/sponsorship/i.test(L)) return 'No';
   if(/commut/i.test(L)) return 'Yes';
-  if(/why (do you|are you)|tell us about|anything else|additional information/i.test(L)) return 'Experienced full-stack and applied-AI engineer (14 yrs) with strengths in identity/IAM, React/Node/TypeScript, and AI agents. Eager to contribute.';
+  if(/why (do you|are you)|tell us about|anything else|additional information/i.test(L)) return 'Experienced full-stack and applied-AI engineer (XXXXXXX) with strengths in identity/IAM, React/Node/TypeScript, and AI agents. Eager to contribute.';
   return answerFor(label, profile);
 }
 function isRelevant(title, profile){
@@ -83,7 +83,7 @@ async function findEA(page){
 // ---- LIGHT scrape: ONE query, one read, no scroll marathon (avoids freeze) ----
 async function collectJobs(browser, profile, hours, maxPerQuery){
   const page = await getPage(browser);
-  const url = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent('Software Engineer')}&location=${encodeURIComponent('Bengaluru, Karnataka, India')}&f_EA=true&sortBy=DD&f_TPR=r${hours*3600}`;
+  const url = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent('Software Engineer')}&location=${encodeURIComponent('XXXXXXX, Karnataka, XXXXXXX')}&f_EA=true&sortBy=DD&f_TPR=r${hours*3600}`;
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:30000}).catch(()=>{});
   await sleep(3500);
   const cut = Date.now()-hours*3600*1000;
@@ -159,7 +159,7 @@ async function main(){
   const args=process.argv.slice(2); const cmd=args[0];
   if(cmd==='--write-sample'){ log('use applicant.profile.json (already present)'); return; }
   const wsUrl=args.find(a=>a.startsWith('ws://'))||process.env.LI_WS;
-  if(!wsUrl) die('Pass ws:// CDP url or set LI_WS. Get from http://127.0.0.1:9222/json/version');
+  if(!wsUrl) die('Pass ws:// CDP url or set LI_WS. Get from http://127.0.0.1:LINKEDIN_PORT/json/version');
   const profile=loadProfile()||null; if(!profile) die('No applicant.profile.json');
   const getOpt=(n,d)=>{ const i=args.indexOf(n); return i>=0?args[i+1]:d; };
   const hours=parseInt(getOpt('--hours','24'),10), max=parseInt(getOpt('--max','6'),10), limit=parseInt(getOpt('--limit','10'),10);

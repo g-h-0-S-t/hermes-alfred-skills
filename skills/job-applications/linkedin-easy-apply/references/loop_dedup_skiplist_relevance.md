@@ -1,4 +1,4 @@
-# Autonomous Loop: Dedup + Skip-List + Profile-Relevance Gate (FIXED 2026-08-22)
+# Autonomous Loop: Dedup + Skip-List + Profile-Relevance Gate (FIXED XXXXXXX-22)
 
 ## Symptom operator reported
 - "It just re-opens the same set of jobs and fails."
@@ -24,8 +24,8 @@ Off-target roles (C++ / Java-Spring / Pune-onsite) were applied alongside releva
    - operator LOVES frontend + JavaScript — this is the priority filter; do NOT apply to generic
      "software engineer" roles that are actually backend/Java/C++.
 4. **Tightened `LI_SEARCHES`** to 10 frontend/JS-specific queries (frontend/react/javascript/typescript/
-   vue/angular/node/ui/Bengaluru variants, `f_TPR=r86400`), removed broad "senior software engineer"/
-   "full stack"/"software engineer Bengaluru" that pulled C++/backend noise.
+   vue/angular/node/ui/XXXXXXX variants, `f_TPR=r86400`), removed broad "senior software engineer"/
+   "full stack"/"software engineer XXXXXXX" that pulled C++/backend noise.
 5. **`li_scrape()` returns `[(id, title), ...]`** (not just IDs) so the relevance filter scores titles
    without an extra network call. `LI_SCRAPE_JS` grabs `a[href*="/jobs/view/"]` innerText as title.
 

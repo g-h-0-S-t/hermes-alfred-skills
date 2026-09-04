@@ -1,20 +1,20 @@
-# Chrome Durability + Silent Zero-Apply Diagnostic (2026-08-31)
+# Chrome Durability + Silent Zero-Apply Diagnostic (XXXXXXX-31)
 
 ## The recurring trap
 The job-apply loop (`autoapply_loop.py`) keeps a filesystem heartbeat fresh every 30s
 **even when the browser is dead**. So `cronjob list` shows "running" while the loop applies
-NOTHING for hours/days — because both Chrome debug sessions (9222 LinkedIn, 9223 Greenhouse)
+NOTHING for hours/days — because both Chrome debug sessions (LINKEDIN_PORT LinkedIn, ATS_PORT Greenhouse)
 died (host reboot / background terminal reaped on session end). The only symptom in the log is
 `LI jobs found: 0` → "Empty scrape streak N — backing off" and `GH batch rc=3221225794`.
 
-`rc=3221225794` (0xC0000409, STATUS_STACK_BUFFER_OVERRUN) on `gh_batch.cjs` = the 9223 Chrome
+`rc=3221225794` (0xC0000409, STATUS_STACK_BUFFER_OVERRUN) on `gh_batch.cjs` = the ATS_PORT Chrome
 node child crashed mid-fill — almost always because the browser was already degraded/dead.
 
 ## Diagnostic recipe (run in order; answers in seconds)
 ```bash
 # 1. Are the browsers actually listening? (the real liveness test)
-curl -s -m8 http://127.0.0.1:9222/json/version >/dev/null && echo "9222 UP" || echo "9222 DOWN"
-curl -s -m8 http://127.0.0.1:9223/json/version >/dev/null && echo "9223 UP" || echo "9223 DOWN"
+curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version >/dev/null && echo "LINKEDIN_PORT UP" || echo "LINKEDIN_PORT DOWN"
+curl -s -m8 http://127.0.0.1:ATS_PORT/json/version >/dev/null && echo "ATS_PORT UP" || echo "ATS_PORT DOWN"
 
 # 2. Loop heartbeat (filesystem — true liveness, NOT browser-dependent)
 python3 -c "import os,time;print(f'loop heartbeat {time.time()-os.path.getmtime('_loop.heartbeat'):.0f}s ago')"
@@ -34,8 +34,8 @@ Chrome (recipe below) and re-run step 4 to confirm.
 ```bash
 # LinkedIn (logged-in session, keep user-data-dir so login persists)
 "C:/Program Files/Google/Chrome/Application/chrome.exe" \
-  --remote-debugging-port=9222 \
-  --user-data-dir=OPERATOR_HOME/chrome-cdp-profile \
+  --remote-debugging-port=LINKEDIN_PORT \
+  --user-data-dir=XXXXXXX/chrome-profile \
   --hide-crash-restore-bubble \
   --disable-backgrounding-occluded-windows \
   --disable-renderer-backgrounding \
@@ -43,8 +43,8 @@ Chrome (recipe below) and re-run step 4 to confirm.
 
 # Greenhouse / external-ATS (anti-detect, guest boards need no login)
 "C:/Program Files/Google/Chrome/Application/chrome.exe" \
-  --remote-debugging-port=9223 \
-  --user-data-dir=OPERATOR_HOME/greenhouse-chrome \
+  --remote-debugging-port=ATS_PORT \
+  --user-data-dir=XXXXXXX/greenhouse-chrome \
   --disable-blink-features=AutomationControlled \
   --no-first-run \
   --disable-backgrounding-occluded-windows \
@@ -65,15 +65,15 @@ loop is never left idle silently.
 ```bat
 @echo off
 set CHROME="C:\Program Files\Google\Chrome\Application\chrome.exe"
-set LIPROFILE=C:\Users\operator\chrome-cdp-profile
+set LIPROFILE=C:\Users\operator\chrome-profile
 set GHPROFILE=C:\Users\operator\greenhouse-chrome
 :loop
-  netstat -ano | findstr ":9222" >nul || start "" %CHROME% --remote-debugging-port=9222 --user-data-dir=%LIPROFILE% --hide-crash-restore-bubble --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling
-  netstat -ano | findstr ":9223" >nul || start "" %CHROME% --remote-debugging-port=9223 --user-data-dir=%GHPROFILE% --disable-blink-features=AutomationControlled --no-first-run --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling
+  netstat -ano | findstr ":LINKEDIN_PORT" >nul || start "" %CHROME% --remote-debugging-port=LINKEDIN_PORT --user-data-dir=%LIPROFILE% --hide-crash-restore-bubble --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling
+  netstat -ano | findstr ":ATS_PORT" >nul || start "" %CHROME% --remote-debugging-port=ATS_PORT --user-data-dir=%GHPROFILE% --disable-blink-features=AutomationControlled --no-first-run --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling
   timeout /t 60 /nobreak >nul
 goto loop
 ```
-If the cron watchdog (`355e44e24008`) also failed to restart Chrome (observed 2026-08-31), the
+If the cron watchdog (`CRONID_XXXXXXXXXXXX`) also failed to restart Chrome (observed XXXXXXX-31), the
 Startup daemon is your backstop. Verify it exists with:
 `test -f "$APPDATA/Microsoft/Windows/Start Menu/Programs/Startup/JobApplyChromeDaemon.bat"`
 

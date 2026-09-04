@@ -6,12 +6,12 @@ onboarding wizards, questionnaires), not just LinkedIn Easy Apply.
 
 ## Why two phases
 
-operator's exact instruction (2026-08-19):
+user's exact instruction (XXXXXXX):
 
 > "Creative and out of questionnaires are common, filling up the forms using just a
-> hardcoded script is insufficient. We want your brain, the LLM, Alfred, to answer it,
+> hardcoded script is insufficient. We want your brain, the LLM, Hermes Agent, to answer it,
 > by directly accessing the form fields. Make sure every question are first extracted
-> and fed to Alfred, once Alfred generates the responses, use those responses to fill
+> and fed to Hermes Agent, once Hermes Agent generates the responses, use those responses to fill
 > up the form."
 
 A regex/switch answer table inside the driver cannot handle novel phrasing and fails
@@ -42,7 +42,7 @@ never guessed.
     {"kind":"radio","name":"grp1","question":"Do you have a Bachelor's degree?",
      "options":[{"label":"Yes"},{"label":"No"}],"checked":null},
     {"kind":"select","id":"«r4»","question":"Preferred location",
-     "options":["Bengaluru","Pune"],"currentValue":"","bigList":false}
+     "options":["XXXXXXX","Pune"],"currentValue":"","bigList":false}
   ]
 }
 ```

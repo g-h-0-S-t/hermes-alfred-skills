@@ -3,7 +3,7 @@ name: windows-autostart-ops
 description: Fix Windows flickering consoles and dead dashboard.
 ---
 
-# Windows Autostart & Service Ops (the operator's MSI GS65, Windows 10)
+# Windows Autostart & Service Ops (the user's XXXXXXX, Windows 10)
 
 Class of work: keeping Hermes' background services (dashboard, gateway, Ollama,
 bridge) running on Windows without manual intervention, and fixing the classic
@@ -45,10 +45,10 @@ fired). Add a cron watchdog that pings the port and relaunches if down:
   server.py], cwd=HERE, creationflags=0x8)` (DETACHED_PROCESS), stdout/stderr
   DEVNULL. Stay silent when healthy; print only on restart.
 - Cron: `*/5 * * * *`, `enabled_toolsets:["terminal"]`, `deliver:"origin"` (so
-  the operator is notified only on an actual restart).
+  the user is notified only on an actual restart).
 Server: `C:/Users/operator/AppData/Local/hermes/scripts/dashboard/server.py`,
 ports 8787 (HTTP) + 8788 (WS). Public via Tailscale Funnel
-`https://alfred.tail86d0be.ts.net/`.
+`https://Hermes Agent.XXXXXXX.ts.net/`.
 
 ## Pattern 3 — Config rename breaks cron jobs (anti-spend drift guard)
 If you rename a provider/model in `config.yaml` (e.g. `ollama-local` → `ollama`,
@@ -73,3 +73,17 @@ drops them, so edit `jobs.json` directly.) Verify with `grep '"last_status":
 - Tailscale Funnel publish (`tailscale funnel --bg`) can trip the gateway's
   "don't restart gateway" guard if run via the terminal tool — prefer launching
   `server.py` directly for the dashboard; the funnel is a persistent bg service.
+
+## Setup
+
+Windows service and startup management.
+
+**Personal data needed:**
+- `XXXXXXX` — your home directory
+- `XXXXXXX` — your Windows username
+
+**Dependencies:**
+- Windows OS
+- PowerShell
+
+**Placeholders used:** XXXXXXX, XXXXXXX

@@ -1,4 +1,4 @@
-# LinkedIn Easy Apply — CDP Detection & Classification Fixes (2026-08-17)
+# LinkedIn Easy Apply — CDP Detection & Classification Fixes (XXXXXXX)
 
 Corrected behavior for `apply_one.cjs` + `run_recursive.cjs`, after vision-proven misdiagnoses this session.
 operator explicitly distrusted the "empty modal / LinkedIn glitch" logs and was RIGHT — verify with vision before trusting any "LinkedIn is broken" conclusion.
@@ -16,10 +16,10 @@ When a job is submitted, LinkedIn shows "Application submitted / Applied" and RE
 
 ## 3. Time window = LinkedIn `f_TPR` URL param, NOT post-time text
 Search cards RARELY expose "X hours ago" (they show review time / "Applied"). Parsing `posted` text → '' → ageHours=999 → run starves to 0 relevant.
-Set window in the search URL: `r18000`=5h, `r43200`=12h, `r86400`=24h. LinkedIn filters server-side; runner applies relevance filter only. operator default this session = 5h (`r18000`); India JS/frontend EA volume in any 5h window ≈ 1 job — widen for volume.
+Set window in the search URL: `r18000`=5h, `r43200`=12h, `r86400`=24h. LinkedIn filters server-side; runner applies relevance filter only. operator default this session = 5h (`r18000`); XXXXXXX JS/frontend EA volume in any 5h window ≈ 1 job — widen for volume.
 
 ## 4. Single-tab, fresh-window recursive collection (working pipeline)
-12 JS keyword searches (javascript, react, angular, vue, typescript, frontend, ui, web, fullstack-node, node, ai-frontend) × India × Easy Apply × `f_E=3,4,5,6` × `f_TPR` × `sortBy=DD`. Scrape cards, apply RELEVANT/IRRELEVANT gate, collect, sort newest-first, apply in the one reused tab.
+12 JS keyword searches (javascript, react, angular, vue, typescript, frontend, ui, web, fullstack-node, node, ai-frontend) × XXXXXXX × Easy Apply × `f_E=3,4,5,6` × `f_TPR` × `sortBy=DD`. Scrape cards, apply RELEVANT/IRRELEVANT gate, collect, sort newest-first, apply in the one reused tab.
 
 ## 5. Radio question detection = PRECEDING SIBLING of `<fieldset>`
 **Wrong:** walk UP from the radio for '?'. LinkedIn puts the question in a sibling `div` just before the `<fieldset>` → climb found nothing → "(unlabeled radio)".

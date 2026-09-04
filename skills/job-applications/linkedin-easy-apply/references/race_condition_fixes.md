@@ -1,4 +1,4 @@
-# Race-condition fixes (job-apply stack, 2026-08-20)
+# Race-condition fixes (job-apply stack, XXXXXXX-20)
 
 Concrete patterns that eliminated "Execution context was destroyed" and double-loop
 races in the autonomous apply stack. Apply these when rebuilding/reusing the drivers.
@@ -27,9 +27,9 @@ async function withPage(fn) {
 A new tab in the same browser keeps the account session (cookies are account-scoped,
 not tab-scoped) — no re-auth needed. DO NOT revert to pages[0].
 
-## 2. Single-instance loop lock — FILESYSTEM HEARTBEAT, NOT PID (corrected 2026-08-28)
+## 2. Single-instance loop lock — FILESYSTEM HEARTBEAT, NOT PID (corrected XXXXXXX-28)
 `autoapply_loop.py` `main()` must NOT use a pid check. The pid-based pattern below is
-**BROKEN on this host** and caused two loops to race on port 9222 for hours:
+**BROKEN on this host** and caused two loops to race on port LINKEDIN_PORT for hours:
 
 ```python
 # ❌ WRONG — pid checks false-negative across Windows sessions
@@ -41,10 +41,10 @@ if os.path.exists(pidfile):
 # os.kill(oldpid,0) also returns False for a live pid from another session.
 ```
 
-Root cause: the watchdog cron (`355e44e24008`) is launched by the Hermes agent runtime in a
+Root cause: the watchdog cron (`CRONID_XXXXXXXXXXXX`) is launched by the Hermes agent runtime in a
 DIFFERENT Windows session/integrity level. `tasklist` / `Get-Process` / `os.kill(pid,0)` from
 that session cannot see the loop's pid, so the guard concludes "owner dead" and starts a
-SECOND loop. Two loops then fight over the LinkedIn 9222 tab.
+SECOND loop. Two loops then fight over the LinkedIn LINKEDIN_PORT tab.
 
 ✅ CORRECT — filesystem lockfile + heartbeat (shared across ALL sessions):
 ```python
@@ -102,7 +102,7 @@ If a FRESH job ID reports already_applied, suspect this regex regressed — re-t
 don't assume throttle.
 
 ## 4. Cron de-collision
-Two crons both firing `apply_one` on port 9222 = race. Make the loop the SOLE EA driver
+Two crons both firing `apply_one` on port LINKEDIN_PORT = race. Make the loop the SOLE EA driver
 and PAUSE the standalone EA retry cron. The watchdog cron only relaunches-if-dead (no
 concurrent driving). Watchdog checks "is loop alive?" -> if alive, does nothing.
 

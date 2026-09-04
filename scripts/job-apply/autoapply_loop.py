@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import subprocess, os, json, time, sys, random, re, threading
 
-BASE='OPERATOR_HOME/job-apply'
+BASE='XXXXXXX/job-apply'
 ENV={k:v for k,v in os.environ.items() if k not in ('PYTHONPATH','PYTHONHOME')}
 LOG=os.path.join(BASE,'_autoapply.log')
 def log(*a):
@@ -15,7 +15,7 @@ def log(*a):
 
 PENDING=os.path.join(BASE,'submissions_pending.jsonl')
 def notify_submission(company, role, board):
-    # Write a pending submission event for the notifier cron to deliver in operator's format.
+    # Write a pending submission event for the notifier cron to deliver in user's format.
     # Local IST time (UTC+5:30)
     local=time.gmtime(time.time()+19800)  # +5:30
     when=time.strftime('%d %b %Y, %I:%M %p IST', local)
@@ -84,13 +84,13 @@ GH_POOL=[
  'https://job-boards.greenhouse.io/jetbrains/jobs/4772554101',
 ]
 LI_SEARCHES=[
- 'https://www.linkedin.com/jobs/search/?keywords=frontend%20OR%20javascript%20OR%20react%20OR%20typescript%20OR%20vue%20OR%20angular%20OR%20node&location=India&f_AL=true&f_TPR=r1800&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=full%20stack%20OR%20software%20engineer%20OR%20ui%20engineer%20OR%20web%20developer&location=India&f_AL=true&f_TPR=r1800&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=python%20OR%20django%20OR%20flask%20OR%20fastapi%20OR%20java%20OR%20spring&location=India&f_AL=true&f_TPR=r1800&sortBy=DD',
- 'https://www.linkedin.com/jobs/search/?keywords=frontend%20OR%20react%20OR%20javascript%20OR%20full%20stack&location=Bengaluru&f_AL=true&f_TPR=r1800&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=frontend%20OR%20javascript%20OR%20react%20OR%20typescript%20OR%20vue%20OR%20angular%20OR%20node&location=XXXXXXX&f_AL=true&f_TPR=r1800&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=full%20stack%20OR%20software%20engineer%20OR%20ui%20engineer%20OR%20web%20developer&location=XXXXXXX&f_AL=true&f_TPR=r1800&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=python%20OR%20django%20OR%20flask%20OR%20fastapi%20OR%20java%20OR%20spring&location=XXXXXXX&f_AL=true&f_TPR=r1800&sortBy=DD',
+ 'https://www.linkedin.com/jobs/search/?keywords=frontend%20OR%20react%20OR%20javascript%20OR%20full%20stack&location=XXXXXXX&f_AL=true&f_TPR=r1800&sortBy=DD',
 ]
 
-LI_SCRAPE_JS = r'''const { withPage } = require('OPERATOR_HOME/job-apply/cdp_helper.cjs');
+LI_SCRAPE_JS = r'''const { withPage } = require('XXXXXXX/job-apply/cdp_helper.cjs');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 (async()=>{
   await withPage(async(page)=>{
@@ -102,7 +102,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 })().catch(e=>console.log('THREW',e.message));
 '''
 
-# ---- Profile-relevance filter: OPERATOR_NAME (14y SWE, Bengaluru) ----
+# ---- Profile-relevance filter: XXXXXXX (14y SWE, XXXXXXX) ----
 # STRONG match (apply): full-stack, backend, frontend, Java, C#, Python, JavaScript/TypeScript,
 # React, Vue, Angular, Node, Spring, SQL, PostgreSQL, MSSQL, Oracle,
 # IAM/KYC/OAuth2/OIDC/SSO/RBAC/zero-trust, identity, security, aviation, maritime,
@@ -254,7 +254,7 @@ def main():
     # HARD SINGLE-INSTANCE GUARD (cross-session safe): query ALL python processes on the
     # machine via WMI (works across Windows sessions, unlike os.kill(pid,0)). If another
     # live autoapply_loop.py already exists (excluding THIS pid), refuse to start. This
-    # prevents the double-loop race that hammers LinkedIn 9222 and trips the bot-check.
+    # prevents the double-loop race that hammers LinkedIn LINKEDIN_PORT and trips the bot-check.
     # SINGLE-INSTANCE LOCK — FILESYSTEM LOCK + CROSS-SESSION HEARTBEAT.
     # NOTE: a prior pid-based guard using Get-CimInstance was removed — on this
     # machine it produced stale phantom PIDs and falsely refused to start even
@@ -306,13 +306,13 @@ def main():
         sys.exit(1)
     globals()['_loop_lock_fd']=lockfd  # keep open for process lifetime
     globals()['_touch_hb']=_touch_hb
-    # HEARTBEAT THREAD (fix 2026-08-29): the once-per-cycle touch was NOT enough.
+    # HEARTBEAT THREAD (fix XXXXXXX): the once-per-cycle touch was NOT enough.
     # A cycle = gh_batch (8 URLs, each up to a 75s watchdog) + LinkedIn scrape + up to 6
     # applies + 120s cooldown, i.e. routinely 5-15 MINUTES. Against the 150s freshness
     # threshold used by BOTH this loop's own guard and the watchdog cron, a perfectly
     # healthy loop therefore looked DEAD -> the cron would start a SECOND loop, whose
     # guard would see the same stale heartbeat, STEAL the lock, and race this one on
-    # port 9222 (Chrome collision + LinkedIn account-ban risk). A daemon thread ticking
+    # port LINKEDIN_PORT (Chrome collision + LinkedIn account-ban risk). A daemon thread ticking
     # every 30s makes the heartbeat a true liveness signal, independent of cycle length.
     def _hb_thread():
         while True:
@@ -381,7 +381,7 @@ def main():
             time.sleep(120)
 
 import signal as _sig, traceback as _tb
-_CRASH='OPERATOR_HOME/job-apply/_loop_crash.log'
+_CRASH='XXXXXXX/job-apply/_loop_crash.log'
 def _crash(msg):
     try:
         with open(_CRASH,'a') as f: f.write(time.strftime('%H:%M:%S ')+msg+'\n')

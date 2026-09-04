@@ -1,8 +1,8 @@
 ---
 name: professional-slide-decks
-description: Professional pptx decks for the operator — real icons, Poppins.
+description: Professional pptx decks for the user — real icons, Poppins.
 version: 1.0.0
-author: Alfred
+author: Hermes Agent
 license: MIT
 platforms: [windows, linux, macos]
 metadata:
@@ -12,14 +12,14 @@ metadata:
     related_skills: [powerpoint, baoyu-infographic, architecture-diagram]
 ---
 
-# Professional Slide Decks (for the operator)
+# Professional Slide Decks (for the user)
 
-Build .pptx decks that look professional, not like a text dump. the operator rejected three successive
+Build .pptx decks that look professional, not like a text dump. the user rejected three successive
 drafts for: emoji-as-icons, Calibri + small text, misaligned/hand-placed boxes, and "no real
 charts/diagrams". These rules are the fix and are non-negotiable for any deck he asks for.
 
 ## When to use
-- the operator asks for a presentation / slides / deck / PowerPoint on any topic.
+- the user asks for a presentation / slides / deck / PowerPoint on any topic.
 - He says "attractive", "professional", "understandable", "add diagrams/charts/pictograms", or
   complains a draft looks like a text wall.
 
@@ -30,7 +30,7 @@ charts/diagrams". These rules are the fix and are non-negotiable for any deck he
    `references/deck-icons-charts.md` for the icon+chart generator recipe.
 2. **Real font, big.** Use Poppins (download TTF from Google Fonts, set `font.name="Poppins"` on
    every run) or embed the TTF via `<a:fonts>`. Titles ≥30pt, body ≥15pt, stat numbers ≥22pt.
-   Default Calibri + 11pt reads as amateur. If the host lacks the font it substitutes — tell the operator
+   Default Calibri + 11pt reads as amateur. If the host lacks the font it substitutes — tell the user
    and offer to embed the TTF.
 3. **Strict grid — compute, don't eyeball.** `M=Inches(0.6)`; equal cards `cw=(SW-2*M-(n-1)*gap)/n`;
    center icons/text (`anchor=MSO_ANCHOR.MIDDLE`, `align=PP_ALIGN.CENTER`); pin footers to a fixed
@@ -47,10 +47,10 @@ charts/diagrams". These rules are the fix and are non-negotiable for any deck he
    shadows (`_shadow` via `a:outerShdw`), numbered footers. Generous spacing.
 
 ## Style scope (colored vs B&W — request-dependent)
-the operator's deck aesthetic is REQUEST-DEPENDENT, not one global rule:
+the user's deck aesthetic is REQUEST-DEPENDENT, not one global rule:
 - **Colored professional** (navy/teal/amber/red accent palette, real charts, flowcharts, DFDs,
   infographics) is what he wants for general / professional / **evidence & research** decks —
-  confirmed this session (a 21-slide health-literacy deck for West Bengal, India, with charts,
+  confirmed this session (a 21-slide health-literacy deck for XXXXXXX, XXXXXXX, with charts,
   graphs, flowcharts and DFDs).
 - **B&W minimal** was mandated ONLY for the specific *health-literacy medical deck for his auntie
   Kutty* (see memory 'PRESENTATION DECK HARD RULES'). Do NOT impose B&W on a deck he asked to be
@@ -62,7 +62,7 @@ When the deck must be evidence-backed ('all data real, no bogus data'), enforce:
 - **Cite every number** on the slide or in a references slide. Prefer primary sources: NFHS-5 state
   reports (dhsprogram.com FR374 etc.), WHO, NITI Aayog, peer-reviewed (Lancet / BMC / Springer).
 - **Never fabricate** a missing statistic. If no published figure exists for the target region
-  (e.g. India has NO state-level health-literacy prevalence), use a clearly-LABELLED proxy/benchmark
+  (e.g. XXXXXXX has NO state-level health-literacy prevalence), use a clearly-LABELLED proxy/benchmark
   (e.g. HLS-EU Europe 47.6% limited HL) and state the gap explicitly. Fabricated 'illustrative'
   charts are a hard reject — learned the hard way on an earlier deck.
 - Pull figures via web_search/web_extract, then lock them into the chart script as literals so the
@@ -79,7 +79,7 @@ When the deck must be evidence-backed ('all data real, no bogus data'), enforce:
 ## Verification + honesty
 You CAN render slides to pixels yourself: the **PNG-first loop** (references/deck-render-verify.md)
 draws each slide with Pillow, and you `vision_analyze` the PNG before shipping. That is the visual
-check that actually works here — use it whenever the operator has complained about alignment. Ship the
+check that actually works here — use it whenever the user has complained about alignment. Ship the
 verified PNGs as full-bleed `add_picture` slides. If you only did structural checks, SAY SO; never
 claim "looks perfect". NOTE: this environment CAN install LibreOffice for true pixel rendering —
 `winget install --id TheDocumentFoundation.LibreOffice --silent --accept-package-agreements
@@ -93,7 +93,7 @@ Pitfall in the Pillow preview itself: pt->px is `sz*SC/72`, NOT `sz*SC*0.72` (~5
 "garbled blob", a preview artifact not a deck bug). Split multiline text before `d.textlength`.
 
 ## Aesthetic iteration (after alignment is fixed)
-Once slides are aligned, the operator often still says "aligned but ugly / subpar". Push the
+Once slides are aligned, the user often still says "aligned but ugly / subpar". Push the
 SlidesGo-style polish, then re-vision-check:
 - Kicker chip under the header title (measure width with `d.textlength`, don't hardcode `len*9`).
 - Decorative corner accent rings + a small accent dot near the footer.
@@ -110,10 +110,10 @@ Verified: this lifted the title slide vision rating from "aligned" to ~8.5/10.
   intermittently time out / refuse, even on a healthy browser. Do NOT loop relaunching Chrome —
   that wastes turns and cancels any in-flight download.
 - Robust workaround when you must drive CDP: read the browser WS URL from the Chrome launch log
-  (`chrome9222.log` → "DevTools listening on ws://127.0.0.1:9222/devtools/browser/<uuid>") and
+  (`chrome9222.log` → "DevTools listening on ws://127.0.0.1:LINKEDIN_PORT/devtools/browser/<uuid>") and
   connect directly; avoid polling the flaky `/json/version` HTTP. Prefer a single flattened
   `Target.attachToTarget` socket over per-page WS. See `references/deck-template-download.md`.
-- If the operator wants the LITERAL template file: the fastest reliable path is to ask HIM to download
+- If the user wants the LITERAL template file: the fastest reliable path is to ask HIM to download
   one .pptx and send it (he's already logged in), then rebuild his content into that template's
   real slide masters (editable, best result). Autonomy note: he WILL ask you to "do it
   autonomously" — try the CDP route ONCE with the log-derived WS trick, but fall back to the
@@ -121,7 +121,7 @@ Verified: this lifted the title slide vision rating from "aligned" to ~8.5/10.
 - If he wants a strong deck now without the file: build a NATIVE editable python-pptx (real
   charts via pptx `charts`, diagrams as editable shapes) — not the flat PNG approach — so text
   stays editable. The PNG approach trades editability for guaranteed alignment; pick per request.
-- **Build INTO a real template file (the path that worked 2026-08-15):** when the operator supplies an
+- **Build INTO a real template file (the path that worked XXXXXXX-15):** when the user supplies an
   actual .pptx (e.g. `C:\Users\operator\Downloads\ppt-templates\Medical Infographics by Slidesgo.pptx`),
   open it with `Presentation(TEMPLATE)`, clear its stock slides, then add native editable shapes on
   its BLANK layout. This keeps the template's real master/theme/fonts AND editability. Two traps
@@ -130,7 +130,7 @@ Verified: this lifted the title slide vision rating from "aligned" to ~8.5/10.
   `SX=W/13.333, SY=H/7.5` to every Inches() call or ~28 shapes overflow the edge;
   (b) strip inherited layout shapes (`sh._element.getparent().remove(sh._element`) or a full-slide
   black placeholder block covers your content.
-- Working style (the operator, 2026-08-15): wants genuine template quality, not approximations; wants
+- Working style (the user, XXXXXXX-15): wants genuine template quality, not approximations; wants
   autonomy ("do everything autonomously, relaunch on crash") BUT also wants real root-cause
   diagnosis, not blind retry loops. When a tool fails repeatedly, diagnose WHY (capture the actual
   error/transport behavior) before patching, and tell him the root cause. Also: when he says
@@ -154,3 +154,18 @@ Verified: this lifted the title slide vision rating from "aligned" to ~8.5/10.
 - `references/deck-template-download.md` — how to drive a logged-in Chrome CDP session to grab a SlidesGo .pptx; the DevTools-transport flakiness workaround (read WS URL from launch log, avoid /json/version polling).
 - `references/deck-into-template.md` — build content INTO a real downloaded template (native, editable): clear stock slides, strip inherited shapes, SX/SY coordinate scale, Pillow-preview font-size bug.
 - `references/matplotlib-data-charts.md` — matplotlib recipe for REAL cited data charts (bar / horizontal / DFD / flowchart via FancyBboxPatch + FancyArrowPatch), palette, pic_contain contain-fit helper, clean-venv note.
+
+## Setup
+
+Build professional editable PowerPoint decks.
+
+**Personal data needed:** None (generic skill).
+
+**Dependencies:**
+- Python 3.11+
+- `python-pptx`
+- `Pillow`
+- `matplotlib` (for charts)
+- Poppins font (auto-downloaded from Google Fonts)
+
+**Placeholders used:** None.

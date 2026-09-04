@@ -1,15 +1,15 @@
-# LinkedIn Session Recovery (2026-09-01)
+# LinkedIn Session Recovery (XXXXXXX)
 
 The `cdp_helper.cjs` had a bug where it would restore stale cookies (13+ days old) to every new tab, overriding the browser's current valid session. This caused LinkedIn to show a "Welcome back" one-tap login page on every navigation.
 
 ## The Bug
 
-1. `cdp_helper.cjs` `restoreCookies()` read `li_session_cookies.json` and called `page.setCookie(...)` on every new tab
+1. `cdp_helper.cjs` `restoreCookies()` read `linkedin_session_cookies.json` and called `page.setCookie(...)` on every new tab
 2. The cookie file was 13+ days old (stale) — LinkedIn had since issued new session cookies via the browser's cached "Welcome back" one-tap login
 3. The stale cookies overwrote the valid session → LinkedIn showed the login page
 4. The script didn't handle the login page → every navigation failed
 
-## The Fix (2026-09-01)
+## The Fix (XXXXXXX)
 
 Two changes to `cdp_helper.cjs`:
 
@@ -84,4 +84,4 @@ async function recoverLinkedInSession(page) {
 After the fix:
 - Navigate to `https://www.linkedin.com/feed/` → should stay on `/feed/` (not redirect to `/login`)
 - If on login page → click one-tap sign-in → wait for redirect → save fresh cookies
-- The `li_session_cookies.json` is updated with fresh cookies for future use
+- The `linkedin_session_cookies.json` is updated with fresh cookies for future use

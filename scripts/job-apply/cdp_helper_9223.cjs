@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core');
 async function getBrowserWSEndpoint() {
   const http = require('http');
   return new Promise((resolve, reject) => {
-    http.get('http://127.0.0.1:9223/json/version', res => {
+    http.get('http://127.0.0.1:ATS_PORT/json/version', res => {
       let d=''; res.on('data',c=>d+=c); res.on('end',()=>{ try{ resolve(JSON.parse(d).webSocketDebuggerUrl);}catch(e){reject(e);} });
     }).on('error', reject);
   });

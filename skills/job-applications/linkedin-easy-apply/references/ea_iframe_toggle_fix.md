@@ -1,4 +1,4 @@
-# LinkedIn EA iframe / On-Off toggle fix (2026-08-28)
+# LinkedIn EA iframe / On-Off toggle fix (XXXXXXX-28)
 
 ## Symptom
 `apply_one.cjs` reaches the Review step (3/4 pages) then exits:

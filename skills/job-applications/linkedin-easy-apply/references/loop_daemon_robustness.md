@@ -1,6 +1,6 @@
-# Loop daemon robustness — stdout crash + singleton-guard false-positive (2026-08-29, reproduced)
+# Loop daemon robustness — stdout crash + singleton-guard false-positive (XXXXXXX, reproduced)
 
-`OPERATOR_HOME/job-apply/autoapply_loop.py` is the production driver. Two daemon-class bugs
+`XXXXXXX/job-apply/autoapply_loop.py` is the production driver. Two daemon-class bugs
 were found and fixed this session.
 
 ## Bug 1 — `log()` stdout write kills the whole loop
@@ -46,7 +46,7 @@ Do NOT re-add a pid check — it will false-positive again on this machine.
   mtime is fresh (<~150s).
 - Did it crash? `tail _loop_crash.log` — an `OSError [Errno 22] Invalid argument` there = the
   stdout bug (fixed above).
-- Browsers up? `curl -s -m8 http://127.0.0.1:9222/json/version` and `:9223` must return JSON.
+- Browsers up? `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` and `:ATS_PORT` must return JSON.
 - Relaunch: clear stale guard files first, then
   `env -u PYTHONPATH -u PYTHONHOME python autoapply_loop.py` (background daemon).
   `rm -f _loop.lock _loop.heartbeat _loop.pid _loop.err _loop.out`

@@ -1,9 +1,9 @@
 
-const { withPage } = require('OPERATOR_HOME/job-apply/cdp_helper_9223.cjs');
+const { withPage } = require('XXXXXXX/job-apply/cdp_helper_9223.cjs');
 const fs=require('fs');const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const LOG='OPERATOR_HOME/job-apply/_gh_auto.log';fs.writeFileSync(LOG,'');
+const LOG='XXXXXXX/job-apply/_gh_auto.log';fs.writeFileSync(LOG,'');
 const log=(...a)=>fs.appendFileSync(LOG,a.join(' ')+'\n');
-const SKIP='OPERATOR_HOME/job-apply/gh_skip.json';
+const SKIP='XXXXXXX/job-apply/gh_skip.json';
 let skip={};
 try{ skip=JSON.parse(fs.readFileSync(SKIP,'utf8')); }catch(e){ skip={}; }
 const markSkip=(url,reason)=>{ skip[url]=reason; fs.writeFileSync(SKIP,JSON.stringify(skip,null,2)); };
@@ -28,16 +28,16 @@ async function applyJob(url){
   await sleep(1500);
   const hasForm=await page.evaluate(()=>!!document.getElementById('first_name'));
   if(!hasForm){log('  no form (maybe external ATS / 502 / not a board job)');markSkip(url,'no_form');return 'noform';}
-  setById('first_name','operator');setById('last_name','Biswas');setById('email','OPERATOR_EMAIL');
-  await setByLabel('LinkedIn','https://linkedin.com/in/operatorbiswas');
+  setById('first_name','operator');setById('last_name','XXXXXXX');setById('email','XXXXXXX');
+  await setByLabel('LinkedIn','https://linkedin.com/in/operatorXXXXXXX');
   await setByLabel('years of experience','14');
   // Fill custom question fields (e.g. Website, GitHub) by their aria-label
   // Custom question fields (match by aria-label OR label text)
   await page.evaluate(()=>{
     const fields=[
-      {label:'website',val:'https://operatorbiswas.twinesite.com'},
+      {label:'website',val:'https://operatorXXXXXXX.portfolio.example.com.com'},
       {label:'github',val:'https://github.com/YOUR_GITHUB_USERNAME'},
-      {label:'portfolio',val:'https://operatorbiswas.twinesite.com'}
+      {label:'portfolio',val:'https://operatorXXXXXXX.portfolio.example.com.com'}
     ];
     const allInputs=[...document.querySelectorAll('input[id*="question"],input[aria-label],input')];
     for(const f of fields){
@@ -52,7 +52,7 @@ async function applyJob(url){
       if(el){const p=Object.getPrototypeOf(el);const s=Object.getOwnPropertyDescriptor(p,'value');if(s&&s.set)s.set.call(el,f.val);el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));}
     }
   });
-  await clickSelectByLabel('Country','India','+91');await sleep(300);
+  await clickSelectByLabel('Country','XXXXXXX','XXXXXXX');await sleep(300);
   const hasDeg=await page.evaluate(()=>!!document.getElementById('degree--0'));
   if(hasDeg)await clickSel('#degree--0',"Bachelor's","Bachelor");
   await selByLabel('ReactJs and NodeJs','Yes');
@@ -64,18 +64,18 @@ async function applyJob(url){
     if(ph){
       // Try plugin API first
       if(window.intlTelInputUtils && ph.intlTelInput){
-        ph.intlTelInput('setNumber','OPERATOR_PHONE');
+        ph.intlTelInput('setNumber','XXXXXXX');
       } else {
         // Fallback: set value and trigger all events
         ph.focus();
         const p=Object.getPrototypeOf(ph);const s=Object.getOwnPropertyDescriptor(p,'value');
-        if(s&&s.set)s.set.call(ph,'OPERATOR_PHONE_NUMBER');
+        if(s&&s.set)s.set.call(ph,'XXXXXXX_NUMBER');
         ph.dispatchEvent(new Event('input',{bubbles:true}));ph.dispatchEvent(new Event('change',{bubbles:true}));
         ph.blur();
       }
     }
   });await sleep(600);
-  const rh=await page.$('#resume');if(rh){try{await rh.uploadFile('OPERATOR_HOME/OneDrive/Desktop/operator_Biswas_Resume_ATS.pdf');await sleep(2500);}catch(e){log('  upErr'+e.message);}}
+  const rh=await page.$('#resume');if(rh){try{await rh.uploadFile('XXXXXXX/OneDrive/Desktop/operator_XXXXXXX_Resume_ATS.pdf');await sleep(2500);}catch(e){log('  upErr'+e.message);}}
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await sleep(1000);
   const box=await page.evaluate(()=>{const b=[...document.querySelectorAll('button,input[type=submit]')].find(x=>(x.innerText||x.value||'').toLowerCase().includes('submit application'));if(!b)return null;const r=b.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};});
   if(box){await page.mouse.click(box.x,box.y);log('  SUBMIT clicked');await sleep(6000);const a=await page.evaluate(()=>({thanks:/thank|received|submitted|application has been/i.test(document.body.innerText),form:/apply for this job/i.test(document.body.innerText)}));log('  AFTER thanks='+a.thanks+' form='+a.form);if(a.thanks){markSkip(url,'submitted');return 'SUBMITTED';}return 'dropped';}

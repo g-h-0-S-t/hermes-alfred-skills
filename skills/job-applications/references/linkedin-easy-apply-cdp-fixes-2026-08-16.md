@@ -1,18 +1,18 @@
-# LinkedIn Easy Apply — CDP driver fixes (validated 2026-08-16)
+# LinkedIn Easy Apply — CDP driver fixes (validated XXXXXXX)
 
 Concrete, verified-working fixes for the `linkedin-easy-apply.cjs` / `apply_one.cjs`
-puppeteer-core driver on the logged-in 9222 Chrome. Each was isolated and proven
+puppeteer-core driver on the logged-in LINKEDIN_PORT Chrome. Each was isolated and proven
 against a live EA form this session; do NOT reintroduce the broken patterns.
 
 ## 0. SOM / computer_use HANGS LinkedIn — do NOT use it here (HARD)
-Driving the 9222 LinkedIn Chrome via `computer_use` SOM/UIA/AX **reproduced 3x
+Driving the LINKEDIN_PORT LinkedIn Chrome via `computer_use` SOM/UIA/AX **reproduced 3x
 Windows Event ID 1002 "Application Hang"**: the accessibility-tree walk over
 LinkedIn's huge DOM blocks the main thread, CDP `/json` times out, the browser
 becomes unresponsive. `cua-driver` freezes.
-- Use raw CDP (puppeteer-core `connect` to `ws://127.0.0.1:9222`) + `vision_analyze`
+- Use raw CDP (puppeteer-core `connect` to `ws://127.0.0.1:LINKEDIN_PORT`) + `vision_analyze`
   on `page.screenshot()` for verification. That is the only path that does not hang.
 - The older SKILL.md text that says "verify with SOM capture mode='som'" is WRONG for
-  LinkedIn — it will kill the session. Corrected 2026-08-16.
+  LinkedIn — it will kill the session. Corrected XXXXXXX.
 - If operator insists on SOM: safe ONLY on a different browser/context that is not
   LinkedIn. For LinkedIn EA, raw CDP is mandatory.
 
@@ -51,7 +51,7 @@ country-code dropdown (showed "Andorra (+376)"). The email is also already corre
 Fix: only force-set email IF empty; leave phone/country-code alone (LinkedIn's pre-fill
 is authoritative). Better: just verify via DOM that email/phone are present; do not write.
 
-## 5. Text fields + answer() gaps (verified, CORRECTED 2026-08-16 session #2)
+## 5. Text fields + answer() gaps (verified, CORRECTED XXXXXXX session #2)
 Question phrasings that were NOT matched left required fields empty -> form looped on
 Review/Next. Fix `answer()` to cover:
 - "How many years of Software Development experience do you currently have?" -> broaden to
@@ -122,11 +122,11 @@ appears because the blocking field prevented reaching the final submit screen).
 When stuck, capture and log: (a) the unanswered field labels (closest preceding `<p>`/`<label>`
 text, or "(unlabeled <type>)"), and (b) ALL modal button texts — the button list is the
 fastest tell of which step you're wedged on and whether a "Submit" exists. Record `unanswered`
-and `STUCK`, then skip the job and surface the missing `answer()` key to operator.
+and `STUCK`, then skip the job and surface the missing `answer()` key to user.
 A frequent wedge: a radio question whose `answer()` returns null (e.g. "Can you start
 immediately?" had no handler) -> radio never clicks -> page never advances past that step.
 
-## Symptom -> cause (2026-08-16)
+## Symptom -> cause (XXXXXXX)
 | Symptom | Cause | Fix |
 |---|---|---|
 | "MODAL_DID_NOT_OPEN" but form visible | `role=dialog`-only detection | #1 |
@@ -140,7 +140,7 @@ immediately?" had no handler) -> radio never clicks -> page never advances past 
 | Radio won't check, `#«rf»` field stays empty | `page.$('#«rf»')` / `CSS.escape` both return null on guillemet IDs | #5 (focus via getElementById + keyboard.type) |
 
 ## Verified result this session
-With fixes #1-#7 applied to `apply_one.cjs` (puppeteer-core, 9222 Chrome), jobs
+With fixes #1-#7 applied to `apply_one.cjs` (puppeteer-core, LINKEDIN_PORT Chrome), jobs
 submitted cleanly: ghar11 (4451733658) and KredMe (4453985687) reached "Application
 submitted" (confirmed via `applied:true` DOM check + screenshot). Multi-step forms with
 Additional Questions (years/remote/background-check radios) advanced once the `answer()`

@@ -2,13 +2,13 @@ const puppeteer = require('puppeteer-core');
 const fs = require('fs');
 const path = require('path');
 
-const WS_URL_FILE = 'OPERATOR_HOME/job-apply/chrome9222_ws.txt';
-const COOKIE_FILE = 'OPERATOR_HOME/job-apply/li_session_cookies.json';
+const WS_URL_FILE = 'XXXXXXX/job-apply/chrome9222_ws.txt';
+const COOKIE_FILE = 'XXXXXXX/job-apply/linkedin_session_cookies.json';
 
 async function getBrowserWSEndpoint() {
   const http = require('http');
   return new Promise((resolve, reject) => {
-    http.get('http://127.0.0.1:9222/json/version', res => {
+    http.get('http://127.0.0.1:LINKEDIN_PORT/json/version', res => {
       let d=''; res.on('data',c=>d+=c); res.on('end',()=>{ try{ resolve(JSON.parse(d).webSocketDebuggerUrl);}catch(e){reject(e);} });
     }).on('error', reject);
   });

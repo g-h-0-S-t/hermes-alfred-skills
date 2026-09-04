@@ -2,7 +2,7 @@
 name: external-ats-apply
 description: "Apply to external job ATS portals."
 version: 1.0.0
-author: Alfred (Hermes curator)
+author: Hermes Agent (Hermes curator)
 license: MIT
 platforms: [windows]
 metadata:
@@ -16,34 +16,34 @@ metadata:
 
 # External ATS Apply — robust upgraded pipeline
 
-Drives operator's **logged-in 9222 Chrome** (`http://127.0.0.1:9222`, profile
-`OPERATOR_HOME/chrome-cdp-profile`) to apply on external applicant-tracking
+Drives user's **logged-in LINKEDIN_PORT Chrome** (`http://127.0.0.1:LINKEDIN_PORT`, profile
+`XXXXXXX/chrome-profile`) to apply on external applicant-tracking
 portals. This is the upgraded companion to `linkedin-easy-apply`: same CDP
 single-tab rule, same two-phase brain/script model, PLUS scam-safety and a
 per-platform handler registry that grows as we encounter new ATSes.
 
-## Driver files (OPERATOR_HOME/job-apply)
+## Driver files (XXXXXXX/job-apply)
 - `ext_apply.cjs <atsUrl> [--submit]` — the universal external-ATS driver.
-  Opens the URL on the 9222 tab (single tab, reuse `pages[0]`), runs the
-  SAFETY gate, extracts every field, types Alfred's reasoned answers, attaches
+  Opens the URL on the LINKEDIN_PORT tab (single tab, reuse `pages[0]`), runs the
+  SAFETY gate, extracts every field, types Hermes Agent's reasoned answers, attaches
   the resume via CDP `filechooser`, vision-confirms, submits only if clean.
 - `cdp_raw.cjs` — **raw-CDP driver (no puppeteer) harness** for reCAPTCHA-gated
-  forms. Connects to 9222 via `ws`, drives the page with NO `$cdc_` automation
+  forms. Connects to LINKEDIN_PORT via `ws`, drives the page with NO `$cdc_` automation
   fingerprint (the hypothesis for beating Greenhouse's reCAPTCHA token=0 wall).
   Reusable `RawCDP` class (navigate/eval/mouseClick/type). NOT yet proven to pass
   reCAPTCHA — see `references/greenhouse_recaptcha.md`.
 - Shared state with LinkedIn EA: `applied.json` (verified submissions),
   `skip.json`, `applicant.profile.json`, `last_throttle_notice.txt`.
 - Resume path for external portals:
-  `OPERATOR_HOME/OneDrive/Desktop/operator_Biswas_Resume_ATS.pdf`
-  (also `OPERATOR_HOME/job-apply/operator_Biswas_Resume_ATS.pdf`).
+  `XXXXXXX/OneDrive/Desktop/operator_XXXXXXX_Resume_ATS.pdf`
+  (also `XXXXXXX/job-apply/operator_XXXXXXX_Resume_ATS.pdf`).
 
-## HARD SCAM / SAFETY GATE (release-blocking, operator 2026-08-19)
+## HARD SCAM / SAFETY GATE (release-blocking, operator XXXXXXX)
 Before ANY field is filled or submitted, the driver runs `SAFETY_SCAN`:
 1. **Never submit banking/payment data.** If a field's label/placeholder/aria
    matches `/bank|account number|iban|swift|routing|card number|cvv|pin|otp|paypal|upi|salary account|payment|bank details/i`
    AND it is not obviously "salary expectation" — STOP, do not fill it, flag it.
-   "Current/expected salary" (numeric INR) is ALLOWED (8600000 / 5000000).
+   "Current/expected salary" (numeric INR) is ALLOWED (XXXXXXX / XXXXXXX).
 2. **Phishing / scam signals** — flag and STOP if the page shows:
    - Requests for a **payment / registration fee** to apply
    - "Send money / purchase kit / training fee"
@@ -60,15 +60,15 @@ Before ANY field is filled or submitted, the driver runs `SAFETY_SCAN`:
    leave blank (same as LinkedIn EA).
 5. **Resume**: attach the ATS PDF via `input[type=file]` + CDP filechooser.
    Never upload a random file; verify the filename is
-   `operator_Biswas_Resume_ATS.pdf` before submitting.
+   `operator_XXXXXXX_Resume_ATS.pdf` before submitting.
 
 ## Two-phase brain/script model (MANDATORY, same as EA)
 - **Script = hands only.** `ext_apply.cjs` extracts EVERY question, the LLM
-  (Alfred, with operator's verified profile injected) reasons a TRUTHFUL answer
+  (Hermes Agent, with user's verified profile injected) reasons a TRUTHFUL answer
   per question, the script types it, verifies each write by reading the value
   back, then advances. No answer logic / no hardcoded regex table in the script.
-- Alfred reasons from the REAL profile (see `linkedin-easy-apply` skill
-  "Hard facts" — 14y, JS/TS/Node/React/Vue, CTC 86L/50L, Bengaluru, B.Tech EEE,
+- Hermes Agent reasons from the REAL profile (see `linkedin-easy-apply` skill
+  "Hard facts" — 14y, JS/TS/Node/React/Vue, CTC 86L/50L, XXXXXXX, B.Tech EEE,
   AI tools list). Never fabricate (old 85/7.8 education was WRONG).
 
 ## Per-ATS handler registry (grows as we meet new portals)
@@ -77,15 +77,15 @@ handler. Known handlers:
 
 ### Greenhouse (`*.greenhouse.io`, `job-boards.greenhouse.io`) — GUEST BOARD FLOW
 - **The logged-in Greenhouse candidate session is DEAD.** The saved cookies in
-  `greenhouse_session_cookies.json` (19 cookies, `_session_id`) EXPIRED — restoring
+  `ats_session_cookies.json` (19 cookies, `_session_id`) EXPIRED — restoring
   them via `page.setCookie` just redirects to `/users/sign_in`. Do NOT rely on
   `app.greenhouse.io` login. Instead use the **public company board**, which needs
   NO login:
   `https://job-boards.greenhouse.io/<company>`  (e.g. `techholding`, `lumimeds`).
 - **Discovery:** Google-search `boards.greenhouse.io <role>` to find live boards
   (verify the board is alive — stale slugs return "The job board you were viewing
-  is no longer active"). Live boards found 2026-08-19: `lumimeds` (43 jobs),
-  `techholding` (19 jobs, incl. "Senior FullStack Engineer Ahmedabad, India" =
+  is no longer active"). Live boards found XXXXXXX: `lumimeds` (43 jobs),
+  `techholding` (19 jobs, incl. "Senior FullStack Engineer Ahmedabad, XXXXXXX" =
   geo-relevant).
 - **Form is IN-PAGE.** Open a job URL (`job-boards.greenhouse.io/<company>/jobs/<id>`).
   The JD page contains the application form below the description. The **"Apply"**
@@ -95,21 +95,21 @@ handler. Known handlers:
   `#first_name #last_name #email #country #phone #resume(file) #cover_letter(file)
    #degree--0 #question_<id>` (each question has a stable `question_<digits>` id —
    read the id via DOM, do NOT guess the number).
-- **Country MUST resolve to +91 (India).** The `#country` field is a **react-select**,
-  NOT a plain text input. operator explicitly corrected this: typing "India" into it as
-  a text field leaves it empty. CORRECT method: click `#country`, type `India`, press
-  Enter (react-select filters + selects India => +91 dial code). Same react-select
+- **Country MUST resolve to XXXXXXX (XXXXXXX).** The `#country` field is a **react-select**,
+  NOT a plain text input. operator explicitly corrected this: typing "XXXXXXX" into it as
+  a text field leaves it empty. CORRECT method: click `#country`, type `XXXXXXX`, press
+  Enter (react-select filters + selects XXXXXXX => XXXXXXX dial code). Same react-select
   pattern for `#degree--0` ("Bachelor's") and Yes/No questions
   (`#question_4048894005`, `#question_4048896005` => "Yes").
 - **Resume upload:** `page.$('#resume').uploadFile(RESUME)` works (the
   `page.on('filechooser')`+`el.click()` path does NOT trigger a CDP chooser on
-  hidden file inputs — use `uploadFile`). Vision-confirm `operator_Biswas_Resume_ATS.pdf`
+  hidden file inputs — use `uploadFile`). Vision-confirm `operator_XXXXXXX_Resume_ATS.pdf`
   is attached (it shows the filename + an X to remove).
 - **REAL submit button:** the header "Apply" button only toggles the form. The actual
   submit is the **"Submit application"** button (`type=submit`, class `btn btn--pill`).
   Click THAT (via ElementHandle.click or a real CDP mouse click) — clicking the
   header Apply does nothing.
-- **reCAPTCHA IS LUCK/SESSION-BASED, NOT A HARD WALL (CORRECTED 2026-08-20).** Earlier
+- **reCAPTCHA IS LUCK/SESSION-BASED, NOT A HARD WALL (CORRECTED XXXXXXX-20).** Earlier
   skill text claimed Greenhouse guest submit is "BLOCKED at submit, hand operator the tab."
   That is WRONG — this session PROVED automated submissions DO land on properly-filled
   forms: **Tech Holding, LumiMeds, and Anthropic all submitted via an automated
@@ -121,7 +121,7 @@ handler. Known handlers:
     later attempt in the same run or next cycle (Anthropic dropped first run, submitted on
     retry). So: fire the same job multiple times across cycles; expect ~1 in 4 to land.
   - **Fingerprint is NOT the cause:** reCAPTCHA token stayed 0 even on the anti-detect
-    9223 Chrome (`--disable-blink-features=AutomationControlled`, no `$cdc_`) AND raw CDP.
+    ATS_PORT Chrome (`--disable-blink-features=AutomationControlled`, no `$cdc_`) AND raw CDP.
     So don't chase the fingerprint — just retry.
   - **Do NOT loop-retry forever on ONE job** (wastes cycles). Retry within a batch rotation
     (8 jobs/cycle, reshuffled) so the ~25% pass-rate yields steady drip submissions.
@@ -132,7 +132,7 @@ handler. Known handlers:
   weeds". Detect via `/502|bad gateway|lost in the weeds/i` and retry nav with backoff
   (up to 3x) before filling.
 - **Email-verification gate (only if submit ever succeeds):** Greenhouse may require an
-  8-char code emailed to OPERATOR_EMAIL. Read via Gmail, type it, submit. Codes
+  8-char code emailed to XXXXXXX. Read via Gmail, type it, submit. Codes
   expire ~10 min.
 - Reads use `page.evaluate(selectorString=>...)`, NOT `elementHandle.evaluate`
   (the latter HANGS — reproduced). File upload: `page.$('#resume').uploadFile(RESUME)`.
@@ -162,10 +162,10 @@ handler. Known handlers:
 
 ## Workflow (verified pattern)
 0. **SAFETY_SCAN** the destination URL + rendered page (see gate above). STOP on trip.
-1. **Open** the ATS URL on the 9222 single tab. Wait for form render.
+1. **Open** the ATS URL on the LINKEDIN_PORT single tab. Wait for form render.
 2. **If Greenhouse**: click Autofill; verify resume attached; fill gaps.
 3. **EXTRACT** every field (kind: text|typeahead|radio|select|checkbox|file).
-4. **Alfred reasons** each answer from the verified profile.
+4. **Hermes Agent reasons** each answer from the verified profile.
 5. **TYPE + VERIFY** each write (read value back).
 6. **Attach resume** (CDP filechooser) if a file input exists; verify filename.
 7. **VISION-CONFIRM** (screenshot + `vision_analyze`) every field is correct AND
@@ -173,8 +173,8 @@ handler. Known handlers:
 8. **SUBMIT** only if clean. Capture confirmation text ("thank you" / "received").
 9. **LOG** applied.json; **DELETE** screenshots/temp (workspace hygiene).
 
-## 9222/9223 isolated-tab rule (CORRECTED 2026-08-20 — was single-tab)
-Both `cdp_helper.cjs` (LinkedIn 9222) and `cdp_helper_9223.cjs` (Greenhouse 9223) now
+## LINKEDIN_PORT/ATS_PORT isolated-tab rule (CORRECTED XXXXXXX-20 — was single-tab)
+Both `cdp_helper.cjs` (LinkedIn LINKEDIN_PORT) and `cdp_helper_9223.cjs` (Greenhouse ATS_PORT) now
 open a **FRESH tab per `withPage` call** and close it in the `finally` block. The OLD
 rule "reuse pages[0], never newPage" was WRONG and caused the
 **"Execution context was destroyed"** race: two concurrent callers (or a retry mid-
@@ -182,24 +182,24 @@ navigation) fought over the single shared tab and one's page.evaluate landed on 
 other's detached/freshly-navigated context. A new tab in the same browser still shares
 the LinkedIn/Greenhouse session (cookies are account-scoped, not tab-scoped), so login
 is preserved and NO re-auth is needed. **Use isolated tabs. Do NOT revert to pages[0].**
-computer_use / cua_browser_* HANGS the 9222 Chrome (UIA tree walk) — drive ONLY via raw
+computer_use / cua_browser_* HANGS the LINKEDIN_PORT Chrome (UIA tree walk) — drive ONLY via raw
 CDP (puppeteer-core) + `vision_analyze` on `Page.captureScreenshot`.
-Health probe: `curl -s -m8 http://127.0.0.1:9222/json/version` must return JSON; if it
+Health probe: `curl -s -m8 http://127.0.0.1:LINKEDIN_PORT/json/version` must return JSON; if it
 times out the browser is hung -> kill + relaunch with
-`--remote-debugging-port=9222 --user-data-dir=OPERATOR_HOME/chrome-cdp-profile
+`--remote-debugging-port=LINKEDIN_PORT --user-data-dir=XXXXXXX/chrome-profile
 --hide-crash-restore-bubble --disable-backgrounding-occluded-windows
 --disable-renderer-backgrounding --disable-background-timer-throttling`.
 (On Windows use `taskkill /PID <pid> /F /T` with forward slashes.)
 
 ## Pitfalls (learned the hard way)
-- **NEVER run two+ browser-automation scripts in parallel against the 9222 Chrome.**
+- **NEVER run two+ browser-automation scripts in parallel against the LINKEDIN_PORT Chrome.**
   `withPage` in cdp_helper reuses `pages[0]` (the single tab). Two concurrent
   processes fight over that one tab and collide: one run lands on the OTHER's page
   (e.g. a Greenhouse run ends up on a LinkedIn CareersXperts page) and silently fills
   the wrong form or no-ops. RUN SEQUENTIALLY — launch one browser task, wait for it to
   finish, then the next. This bit hard in this session (3 parallel runs → all wrong
   pages).
-- **Greenhouse Country = +91, not text "India".** `#country` is a react-select; the
+- **Greenhouse Country = XXXXXXX, not text "XXXXXXX".** `#country` is a react-select; the
   plain-text `setReact` injection leaves it empty and Submit silently fails. Use the
   click+type+Enter react-select method. operator corrected this directly.
 - **Greenhouse header "Apply" ≠ submit.** Only the "Submit application" button submits.
@@ -213,6 +213,25 @@ times out the browser is hung -> kill + relaunch with
 - External portals do NOT share LinkedIn's throttle, so they keep working even
   when LinkedIn EA is session-throttled. Use them as the fallback when EA is down.
   (LinkedIn EA throttle: if the Easy Apply modal won't open after a burst, STOP
-  pounding — wait 30min–24h, or risk a ban. Reuse the SAME logged-in 9222 tab.)
+  pounding — wait 30min–24h, or risk a ban. Reuse the SAME logged-in LINKEDIN_PORT tab.)
 - Always vision-confirm the resume got attached (autofill/upload sometimes does NOT
   attach it — verify via DOM input.value + screenshot, don't assume).
+
+## Setup
+
+Applies to external ATS portals (Greenhouse, Workday, Lever, etc.).
+
+**Personal data needed:**
+- `XXXXXXX` — your full name
+- `XXXXXXX` — your email
+- `XXXXXXX` — your phone number
+- `XXXXXXX` — path to your resume PDF
+- `XXXXXXX` — your home directory
+- `ATS_PORT` — Chrome debug port for ATS (default: ATS_PORT)
+
+**Dependencies:**
+- Node.js
+- Chrome with `--remote-debugging-port=ATS_PORT`
+- Logged-in sessions for target ATS sites
+
+**Placeholders used:** XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, ATS_PORT

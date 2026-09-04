@@ -1,4 +1,4 @@
-# EA field-fill: data types, matcher, and failure modes (validated 2026-08-13)
+# EA field-fill: data types, matcher, and failure modes (validated XXXXXXX-13)
 
 These are the concrete fixes that make `ea_step.cjs` actually submit. Each was
 found by isolating the exact failure, not by guessing.
@@ -9,7 +9,7 @@ job code | phone | zip | pincode` (or `type=number`), and the answer value is a
 non-numeric word (`Immediate` / `ASAP` / `now`), the form silently rejects it and
 Submit never appears. Fix: set the value to `"0"`.
 - Notice period in days → `0` when immediate joiner.
-- Current annual salary in INR → `8600000` (never a word).
+- Current annual salary in INR → `XXXXXXX` (never a word).
 - Graduation year → `2012`.
 
 ## 2. Answer matcher is SINGLE-DIRECTION + key length >= 4
@@ -51,7 +51,7 @@ If a required field can't be matched from `answers.json`, the form loops forever
 `answers.json` for next time.
 
 ## 7. Resume: never upload
-Only CLICK "Select resume operator_Biswas_Resume_ATS.pdf" if the picker shows. Never set
+Only CLICK "Select resume operator_XXXXXXX_Resume_ATS.pdf" if the picker shows. Never set
 `input.files` / `new File(...)`. The r.pdf garbage-upload bug caused company bans.
 
 ## Symptom → cause map

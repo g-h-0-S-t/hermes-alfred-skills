@@ -1,6 +1,6 @@
 # Deck icons + charts (Pillow recipe)
 
-Verified working recipe used to build the operator's health-literacy deck (v4). Pure Python, no
+Verified working recipe used to build the user's health-literacy deck (v4). Pure Python, no
 system deps (cairosvg needs libcairo which is absent here — do NOT use it). Pillow only.
 
 ## Icons — draw once, embed as PNG
@@ -48,10 +48,10 @@ Download Poppins TTFs (Regular/SemiBold/Bold/Medium) from
 `assets/fonts/` dir. Set `font.name="Poppins"` on every pptx run. To be self-contained, embed
 the TTF via the presentation's `<a:fonts>` element (python-pptx has no public API — build the
 xml part + `prs.part.relate_to` a font part with content-type `application/x-font.ttf`). If you
-skip embedding, tell the operator the deck relies on Poppins being installed and offer to embed.
+skip embedding, tell the user the deck relies on Poppins being installed and offer to embed.
 
 ## Pitfalls
 - cairosvg/cairo NOT available here → use Pillow, not SVG renderers.
 - Emoji glyphs (⛑ etc.) as "icons" render as boxes on target machines → always use PNG icons.
 - Hand-placed shape coordinates → misalignment. Compute from slide width (see SKILL.md rule 3).
-- No PowerPoint/LibreOffice in this env → cannot render-verify; verify structurally + warn the operator.
+- No PowerPoint/LibreOffice in this env → cannot render-verify; verify structurally + warn the user.

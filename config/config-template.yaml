@@ -11,7 +11,7 @@ models:
 # Profile settings
 profile:
   name: your-name
-  timezone: Asia/Kolkata
+  timezone: America/New_York
 
 # Skills
 skills:

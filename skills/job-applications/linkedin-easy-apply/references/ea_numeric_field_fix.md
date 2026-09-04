@@ -1,4 +1,4 @@
-# LinkedIn EA — Numeric / Years Field Corruption (FIXED 2026-08-29)
+# LinkedIn EA — Numeric / Years Field Corruption (FIXED XXXXXXX)
 
 ## Symptom
 On the Additional Questions step the form reports `STUCK on 3/4` and a numeric year field
@@ -63,7 +63,7 @@ resolved label + value, scanning top doc + iframes:
 ```js
 const puppeteer=require('puppeteer-core');
 (async()=>{
-  const b=await puppeteer.connect({browserURL:'http://127.0.0.1:9222',defaultViewport:null});
+  const b=await puppeteer.connect({browserURL:'http://127.0.0.1:LINKEDIN_PORT',defaultViewport:null});
   const pages=await b.pages(); const page=pages[0]||await b.newPage();
   // ...goto job, click Easy Apply, wait...
   const dump=await page.evaluate(()=>{

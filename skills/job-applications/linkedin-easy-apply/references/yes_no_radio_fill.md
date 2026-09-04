@@ -1,6 +1,6 @@
 # Yes/No EA questions render as `div[role=radio]` — the silent-skip bug
 
-Reproduced 2026-08-19 across Trundl, Kaseya, Diginnovators, MAHTO forms.
+Reproduced XXXXXXX across Trundl, Kaseya, Diginnovators, MAHTO forms.
 
 ## The bug
 LinkedIn renders a Yes/No question as TWO `div[role=radio]` elements (labels "Yes" /

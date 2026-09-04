@@ -1,12 +1,12 @@
-const { withPage } = require('OPERATOR_HOME/job-apply/cdp_helper.cjs');
+const { withPage } = require('XXXXXXX/job-apply/cdp_helper.cjs');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// ===== operator'S VERIFIED PROFILE =====
+// ===== user's VERIFIED PROFILE =====
 const PROFILE = {
-  name: 'OPERATOR_NAME', email: 'OPERATOR_EMAIL', phone: 'OPERATOR_PHONE_NUMBER',
-  location: 'Bengaluru, Karnataka, India', currentCTC: '8600000', expectedCTC: '5000000',
+  name: 'XXXXXXX', email: 'XXXXXXX', phone: 'XXXXXXX_NUMBER',
+  location: 'XXXXXXX, Karnataka, XXXXXXX', currentCTC: 'XXXXXXX', expectedCTC: 'XXXXXXX',
   currentCTC_LPA: '86', expectedCTC_LPA: '50', currentEmployer: 'Stealth',
-  github: 'https://github.com/YOUR_GITHUB_USERNAME', linkedin: 'https://linkedin.com/in/operatorbiswas',
+  github: 'https://github.com/YOUR_GITHUB_USERNAME', linkedin: 'https://linkedin.com/in/operatorXXXXXXX',
   experienceYears: 14,
   education: [
     { level: 'Class 10 ICSE', inst: "St. Michael's School, Durgapur", year: 2006, score: '79.33' },
@@ -25,9 +25,9 @@ function getAnswer(label, optText) {
   
   // Structured numeric fields
   if (/current.*(salary|ctc|compensation)|salary.*current|compensation.*current/i.test(q))
-    return /lpa/i.test(q) ? '86' : '8600000';
+    return /lpa/i.test(q) ? '86' : 'XXXXXXX';
   if (/expected.*(salary|ctc)|salary.*expected|expectation|compensation/i.test(q))
-    return /lpa/i.test(q) ? '50' : '5000000';
+    return /lpa/i.test(q) ? '50' : 'XXXXXXX';
   if (/total (exp|experience)|overall experience|years of (total )?experience/i.test(q))
     return '14';
   if (/notice period|serving|np\?|notice/i.test(q)) return '0';
@@ -66,9 +66,9 @@ function getAnswer(label, optText) {
   
   // Location
   if (/which location|current location|preferred location|location are you applying|where are you located/i.test(q))
-    return 'Bengaluru, Karnataka, India';
-  if (/current city|city of residence/i.test(q)) return 'Bengaluru';
-  if (/country of residence|currently (live|residing|based) in|country.*(reside|live)/i.test(q)) return 'India';
+    return 'XXXXXXX, Karnataka, XXXXXXX';
+  if (/current city|city of residence/i.test(q)) return 'XXXXXXX';
+  if (/country of residence|currently (live|residing|based) in|country.*(reside|live)/i.test(q)) return 'XXXXXXX';
   
   // Yes/No questions
   if (/authorized to work|legally authorized|right to work|work (in|authorization)|eligible to work|work permit/i.test(q)) return 'Yes';
@@ -83,7 +83,7 @@ function getAnswer(label, optText) {
   if (/commut/i.test(q)) return 'Yes';
   if (/start immediately|available to start|can you start|join immediately/i.test(q)) return 'Yes';
   if (/consent|processing (my )?data|share my (profile|data|information)|privacy policy/i.test(q)) return 'Yes';
-  if (/work (from )?(the )?office|work 5 days|office in bangalore|onsite|in.?office/i.test(q)) return 'Yes';
+  if (/work (from )?(the )?office|work 5 days|office in XXXXXXXX|onsite|in.?office/i.test(q)) return 'Yes';
   if (/intention to learn|willing to learn|eager to learn|strong intention/i.test(q)) return 'Yes';
   if (/budget/i.test(q)) return 'Yes';
   if (/remote/i.test(q)) return 'Yes';
@@ -115,15 +115,15 @@ function getAnswer(label, optText) {
   
   // LinkedIn
   if (/linkedin profile|linkedin url|link to your linkedin|your linkedin/i.test(q))
-    return 'https://linkedin.com/in/operatorbiswas';
+    return 'https://linkedin.com/in/operatorXXXXXXX';
   
   // Website
   if (/website|url|link to your site/i.test(q))
-    return 'https://operatorbiswas.twinesite.com';
+    return 'https://operatorXXXXXXX.portfolio.example.com.com';
   
   // Why/additional
   if (/why (do you|are you)|tell us about|anything else|additional information/i.test(q))
-    return 'Experienced full-stack and applied-AI engineer (14 yrs) with strengths in identity/IAM, React/Node/TypeScript, and AI agents. Eager to contribute.';
+    return 'Experienced full-stack and applied-AI engineer (XXXXXXX) with strengths in identity/IAM, React/Node/TypeScript, and AI agents. Eager to contribute.';
   
   // Role category
   if (/role category|most closely matches your current or recent position|current or recent role|area of expertise/i.test(q))
@@ -145,7 +145,7 @@ function getAnswer(label, optText) {
   if (/worked for (kaseya)|employed by (kaseya)|kaseya.*employee|kaseya.*intern|kaseya.*contractor/i.test(q)) return 'No';
   
   // Live in X
-  if (/do you currently live in/i.test(q)) return PROFILE.location.includes('Bengaluru') && /bengaluru|bangalore/i.test(q) ? 'Yes' : 'Yes';
+  if (/do you currently live in/i.test(q)) return PROFILE.location.includes('XXXXXXX') && /XXXXXXX|XXXXXXXX/i.test(q) ? 'Yes' : 'Yes';
   
   // C++ specific
   if (/c\+\+.*(experience|hands|work)|worked with c\+\+/i.test(q)) return 'Yes';
@@ -293,7 +293,7 @@ async function findBtnInModal(page, re) {
 
 (async () => {
   const jobUrl = process.argv[2];
-  const shot = 'OPERATOR_HOME/job-apply/apply_' + Date.now() + '.png';
+  const shot = 'XXXXXXX/job-apply/apply_' + Date.now() + '.png';
   const out = { jobUrl, error: null, steps: [], submitted: false };
 
   await withPage(async (page) => {
