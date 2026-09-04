@@ -1,0 +1,22 @@
+# Hermes Config Template
+# Copy this to your Hermes config.yaml and customize
+
+# Model settings
+models:
+  default:
+    provider: openai
+    model: gpt-4o
+    # api_key: set via HERMES_OPENAI_API_KEY env var
+
+# Profile settings
+profile:
+  name: your-name
+  timezone: Asia/Kolkata
+
+# Skills
+skills:
+  auto-load: true
+
+# Memory
+memory:
+  persistent: true

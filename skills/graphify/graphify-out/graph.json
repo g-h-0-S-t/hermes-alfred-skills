@@ -1,0 +1,259 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "graphify_doc_set",
+        "label": "Graphify Skill Documentation",
+        "nodes": [
+          "skill",
+          "references_github_and_merge",
+          "references_extraction_spec",
+          "references_transcribe",
+          "references_query",
+          "references_add_watch",
+          "references_hooks",
+          "references_update",
+          "references_exports"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "SKILL.md"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "SKILL.md",
+      "file_type": "document",
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "skill",
+      "community": 0,
+      "norm_label": "skill.md"
+    },
+    {
+      "label": "references/github-and-merge.md",
+      "file_type": "document",
+      "source_file": "references/github-and-merge.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_github_and_merge",
+      "community": 0,
+      "norm_label": "references/github-and-merge.md"
+    },
+    {
+      "label": "references/extraction-spec.md",
+      "file_type": "document",
+      "source_file": "references/extraction-spec.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_extraction_spec",
+      "community": 0,
+      "norm_label": "references/extraction-spec.md"
+    },
+    {
+      "label": "references/transcribe.md",
+      "file_type": "document",
+      "source_file": "references/transcribe.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_transcribe",
+      "community": 1,
+      "norm_label": "references/transcribe.md"
+    },
+    {
+      "label": "references/query.md",
+      "file_type": "document",
+      "source_file": "references/query.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_query",
+      "community": 0,
+      "norm_label": "references/query.md"
+    },
+    {
+      "label": "references/add-watch.md",
+      "file_type": "document",
+      "source_file": "references/add-watch.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_add_watch",
+      "community": 0,
+      "norm_label": "references/add-watch.md"
+    },
+    {
+      "label": "references/hooks.md",
+      "file_type": "document",
+      "source_file": "references/hooks.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_hooks",
+      "community": 0,
+      "norm_label": "references/hooks.md"
+    },
+    {
+      "label": "references/update.md",
+      "file_type": "document",
+      "source_file": "references/update.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_update",
+      "community": 1,
+      "norm_label": "references/update.md"
+    },
+    {
+      "label": "references/exports.md",
+      "file_type": "document",
+      "source_file": "references/exports.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "references_exports",
+      "community": 0,
+      "norm_label": "references/exports.md"
+    }
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_add_watch"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_exports"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_extraction_spec"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_github_and_merge"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_hooks"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_query"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_transcribe"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "skill",
+      "target": "references_update"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "references/update.md",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "references_update",
+      "target": "references_transcribe"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "graphify_doc_set",
+      "label": "Graphify Skill Documentation",
+      "nodes": [
+        "skill",
+        "references_github_and_merge",
+        "references_extraction_spec",
+        "references_transcribe",
+        "references_query",
+        "references_add_watch",
+        "references_hooks",
+        "references_update",
+        "references_exports"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "SKILL.md"
+    }
+  ]
+}

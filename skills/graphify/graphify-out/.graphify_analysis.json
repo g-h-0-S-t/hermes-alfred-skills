@@ -1,0 +1,27 @@
+{
+  "communities": {
+    "0": [
+      "references_add_watch",
+      "references_exports",
+      "references_extraction_spec",
+      "references_github_and_merge",
+      "references_hooks",
+      "references_query",
+      "skill"
+    ],
+    "1": [
+      "references_transcribe",
+      "references_update"
+    ]
+  },
+  "cohesion": {
+    "0": 0.2857142857142857,
+    "1": 1.0
+  },
+  "gods": [],
+  "surprises": [],
+  "tokens": {
+    "input": 22495,
+    "output": 4682
+  }
+}
