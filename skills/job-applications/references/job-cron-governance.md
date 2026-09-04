@@ -17,7 +17,7 @@ JobApply-loop watchdog relaunches whenever it dies.
 are NOT job-related; pause them only if asked to stop ALL.)
 
 ## THE WALL: a desktop `cronjob pause` is overridden by WhatsApp
-user's `whatsapp` channel (`33406473744457@lid`, "XXXXXXXXXXX") is the PRIMARY
+user's `whatsapp` channel (`YOUR_WHATSAPP_LID@lid`, "XXXXXXXXXXX") is the PRIMARY
 comms channel and is ALWAYS connected — `gateway_state.json` →
 `platforms.whatsapp.state: "connected"`. When operator sends a WhatsApp message like
 "make sure it actually applies", "diagnose the cron", or "keep applying", the

@@ -127,7 +127,7 @@ Replace ALL placeholders:
 - `+XX XXXXXXXXXX` → Your phone
 - `xxxxxxxxx@gmail.com` → Your email
 - `XXXXXXX` → Your name
-- All `33406473744457@lid` and `XXXXXXXXXXX` → Your WhatsApp channel ID and handle (or delete WhatsApp references entirely)
+- All `YOUR_WHATSAPP_LID@lid` and `XXXXXXXXXXX` → Your WhatsApp channel ID and handle (or delete WhatsApp references entirely)
 
 #### `skills/job-applications/linkedin-easy-apply/SKILL.md`
 Replace:

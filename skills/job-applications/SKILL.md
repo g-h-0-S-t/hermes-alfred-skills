@@ -21,7 +21,7 @@ End-to-end targeted job hunt for operator: research a SPECIFIC company + role, b
 - Stacks: Node.js/Express, TypeScript, React, Vue 2/3, AngularJS; REST/SOAP, microfrontends, microservices; MSSQL/Oracle/PostgreSQL; OWASP/AES-256/RBAC.
 - Domains: aviation (EMPLOYER_6 flight-ops, EMPLOYER_4 GDS), maritime (EMPLOYER_1), logistics, cybersecurity, enterprise SaaS, applied AI (XXXXXXX, local LLMs/Ollama).
 - **Last CTC: INR XXXXXXX (`XXXXXXX`/yr). THIS IS THE FLOOR.** Never quote a current
-  CTC below 86L, and never an expected CTC at or below it, on any form or in any
+  CTC below OPERATOR_CURRENTCTC, and never an expected CTC at or below it, on any form or in any
   negotiation. Expected ask ~1.15-1.4x, i.e. roughly 100L-120L (`XXXXXXXXX` is the
   default expected figure). **The older "~48L take-home floor" note was WRONG and is
   revoked** — it caused two real applications to go out under-quoted on XXXXXXX-07
@@ -45,7 +45,7 @@ End-to-end targeted job hunt for operator: research a SPECIFIC company + role, b
 - **Don't fabricate backend language.** TARGET_COMPANY JD prefers Go; operator is Node.js/TypeScript. Frame Node as his backend, show ramp ability, never claim Go/Java production experience.
 - **Don't use XXXXXXX (or any AI copilot) in the actual interview** — integrity line, and they build the same tech.
 - **`/tmp` on this host resolves to `OPERATOR_HOME/AppData\Local\Temp`** — `pdftotext x.pdf - > /tmp/foo.txt` writes there; a later python `open("/tmp/foo.txt")` may miss it. Write to a path under the working dir instead.
-- **NEVER pip install `composio` into Hermes' own venv.** Verified this session: PyPI `composio` 0.18.x requires `openai>=2.48`, but hermes-agent pins `openai==2.24.0`. Installing it into `.../hermes-agent/venv` silently upgraded openai and broke hermes-agent (imports failed). Always install Composio in the isolated venv at `XXXXXXX/AppData/Local/hermes/composio-venv` (created this session). The PyPI `composio` package is SDK-only — there is NO CLI binary (`composio-cli` npm package 404s; `python -m composio` errors with "No module named composio.__main__"). Interactive `composio login` / `add linkedin` OAuth must be completed by operator in a browser; Hermes Agent then calls the SDK or the Composio MCP server.
+- **NEVER pip install `composio` into Hermes' own venv.** Verified this session: PyPI `composio` 0.18.x requires `openai>=2.48`, but hermes-agent pins `openai==2.24.0`. Installing it into `.../hermes-agent/venv` silently upgraded openai and broke hermes-agent (imports failed). Always install Composio in the isolated venv at `XXXXXXX/AppData/Local/hermes/composio-venv (operator-specific)` (created this session). The PyPI `composio` package is SDK-only — there is NO CLI binary (`composio-cli` npm package 404s; `python -m composio` errors with "No module named composio.__main__"). Interactive `composio login` / `add linkedin` OAuth must be completed by operator in a browser; Hermes Agent then calls the SDK or the Composio MCP server.
 
 - **The bundled scripts had two real bugs, both fixed XXXXXXX-07. If an older copy is
   used elsewhere, re-apply these:**
@@ -117,7 +117,7 @@ These govern the puppeteer/LINKEDIN_PORT browser rail (see the `linkedin-easy-ap
   user's PRIMARY comms channel (self-chat). Before killing any `node` PID, inspect its
   CommandLine first; only kill PIDs you spawned for LinkedIn work.
 - **Job crons + the apply loop are governed across BOTH channels — a desktop pause is NOT sovereign.
-  (CRITICAL governance wall, verified XXXXXXX-23.)** The WhatsApp channel (`33406473744457@lid`,
+  (CRITICAL governance wall, verified XXXXXXX-23.)** The WhatsApp channel (`YOUR_WHATSAPP_LID@lid`,
   "XXXXXXXXXXX") is ALWAYS connected. When operator sends a WhatsApp message implying "keep applying"
   ("make sure it actually applies", "diagnose the cron", "continue applying"), the gateway spawns an
   agent turn holding the `cronjob` tool that **RE-ENABLES the job crons**. So pausing them from the
