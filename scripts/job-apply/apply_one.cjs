@@ -6,7 +6,7 @@ const PROFILE = {
   name: 'XXXXXXX', email: 'XXXXXXX', phone: 'XXXXXXX_NUMBER',
   location: 'XXXXXXX, Karnataka, XXXXXXX', currentCTC: 'XXXXXXX', expectedCTC: 'XXXXXXX',
   currentCTC_LPA: '86', expectedCTC_LPA: '50', currentEmployer: 'Stealth',
-  github: 'https://github.com/YOUR_GITHUB_USERNAME', linkedin: 'https://linkedin.com/in/operatorXXXXXXX',
+  github: 'https://github.com/YOUR_GITHUB_USERNAME', linkedin: 'https://linkedin.com/in/OPERATOR_LINKEDIN_ID',
   experienceYears: 14,
   education: [
     { level: 'Class 10 ICSE', inst: "St. Michael's School, Durgapur", year: 2006, score: '79.33' },
@@ -115,11 +115,11 @@ function getAnswer(label, optText) {
   
   // LinkedIn
   if (/linkedin profile|linkedin url|link to your linkedin|your linkedin/i.test(q))
-    return 'https://linkedin.com/in/operatorXXXXXXX';
+    return 'https://linkedin.com/in/OPERATOR_LINKEDIN_ID';
   
   // Website
   if (/website|url|link to your site/i.test(q))
-    return 'https://operatorXXXXXXX.portfolio.example.com.com';
+    return 'https://OPERATOR_LINKEDIN_ID.portfolio.example.com';
   
   // Why/additional
   if (/why (do you|are you)|tell us about|anything else|additional information/i.test(q))

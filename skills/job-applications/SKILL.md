@@ -29,7 +29,7 @@ End-to-end targeted job hunt for operator: research a SPECIFIC company + role, b
 - GitHub `YOUR_GITHUB_USERNAME` (public) contains EXPLICIT DoS/intrusion tooling + Anonymous hacktivism bios. MUST be sanitized before application (see Pitfalls).
 
 ## Workflow
-1. **Deep research (parallel):** his resume + GitHub (`api.github.com/users/YOUR_GITHUB_USERNAME`), portfolio (operatorXXXXXXX.portfolio.example.com.com), Gmail job stream, and the live market. Gmail: use `gmail-automation` skill, BYPASS the gws shim (strip `~/bin` from PATH), search `job OR hiring OR recruiter OR referral newer_than:150d`.
+1. **Deep research (parallel):** his resume + GitHub (`api.github.com/users/YOUR_GITHUB_USERNAME`), portfolio (OPERATOR_LINKEDIN_ID.portfolio.example.com), Gmail job stream, and the live market. Gmail: use `gmail-automation` skill, BYPASS the gws shim (strip `~/bin` from PATH), search `job OR hiring OR recruiter OR referral newer_than:150d`.
 2. **Pick ONE specific target** at the intersection of (his strength) x (open req in his city) x (in his Gmail stream). Lead with identity/IAM roles at identity companies.
 3. **Tailor resume + cover letter** from his real data. Re-lead with the matching specialty; frame XXXXXXX at Staff level.
 4. **Render to PDF + ATS-optimize** (see references/ats-resume-pattern.md and scripts/md2pdf_ats.py).
@@ -44,7 +44,7 @@ End-to-end targeted job hunt for operator: research a SPECIFIC company + role, b
 - **GitHub hygiene is mandatory before applying to security/employer.** TARGET_COMPANY is a security firm AND a US federal contractor that background-checks. Set attack-tool repos (`Nuke`, `LOIC`, `MHDDoS`, `byob`, `trape`, etc.) and Anonymous-op bios to private. Keep `XXXXXXX`, `XXXXXXX Engage`, `fake-job-email-response-guide` public.
 - **Don't fabricate backend language.** TARGET_COMPANY JD prefers Go; operator is Node.js/TypeScript. Frame Node as his backend, show ramp ability, never claim Go/Java production experience.
 - **Don't use XXXXXXX (or any AI copilot) in the actual interview** — integrity line, and they build the same tech.
-- **`/tmp` on this host resolves to `C:\Users\operator\AppData\Local\Temp`** — `pdftotext x.pdf - > /tmp/foo.txt` writes there; a later python `open("/tmp/foo.txt")` may miss it. Write to a path under the working dir instead.
+- **`/tmp` on this host resolves to `OPERATOR_HOME/AppData\Local\Temp`** — `pdftotext x.pdf - > /tmp/foo.txt` writes there; a later python `open("/tmp/foo.txt")` may miss it. Write to a path under the working dir instead.
 - **NEVER pip install `composio` into Hermes' own venv.** Verified this session: PyPI `composio` 0.18.x requires `openai>=2.48`, but hermes-agent pins `openai==2.24.0`. Installing it into `.../hermes-agent/venv` silently upgraded openai and broke hermes-agent (imports failed). Always install Composio in the isolated venv at `XXXXXXX/AppData/Local/hermes/composio-venv` (created this session). The PyPI `composio` package is SDK-only — there is NO CLI binary (`composio-cli` npm package 404s; `python -m composio` errors with "No module named composio.__main__"). Interactive `composio login` / `add linkedin` OAuth must be completed by operator in a browser; Hermes Agent then calls the SDK or the Composio MCP server.
 
 - **The bundled scripts had two real bugs, both fixed XXXXXXX-07. If an older copy is
@@ -137,7 +137,7 @@ These govern the puppeteer/LINKEDIN_PORT browser rail (see the `linkedin-easy-ap
   from card `a[href]`s; the list virtualizes ~1 link at a time so scroll between jobs. The
   read-only 1s observe poller (a `puppeteer.connect` + `page.screenshot()` loop; no goto/click)
   remains the safe way to STUDY the manual flow without detection risk. Cadence DEFAULT is 1s.
-- **Resume to select for EA apply = `operator_XXXXXXX_Resume_ATS.pdf`** (NOT "Kibhu_...AIS" — that
+- **Resume to select for EA apply = `OPERATOR_RESUME_ATS.pdf`** (NOT "Kibhu_...AIS" — that
   was a vision OCR misread). Screening answers are CONSTANT across jobs: work-auth = **No**,
   visa-sponsorship = **No**. Do NOT overwrite LinkedIn's pre-filled email/location/phone.
 - **Screenshot hygiene (user, XXXXXXX-09):** the 1s poller makes ~130 PNGs/session (~140KB

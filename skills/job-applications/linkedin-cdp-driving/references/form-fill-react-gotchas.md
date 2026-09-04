@@ -78,7 +78,7 @@ key-match fails → field skipped → form can't advance past Review.
 body `innerText` containing the email, not an input `.value`:
 ```js
 const pageText = await page.evaluate(() => document.body.innerText);
-const emailOk = /operatorXXXXXXX@gmail\.com/i.test(pageText);
+const emailOk = /OPERATOR_LINKEDIN_ID@gmail\.com/i.test(pageText);
 const phoneOk = (profile.phone||'').replace(/\D/g,'').length >= 8 && pageText.replace(/\D/g,'').includes((profile.phone||'').replace(/\D/g,'').slice(-8));
 ```
 

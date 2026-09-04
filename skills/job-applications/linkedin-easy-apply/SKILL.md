@@ -50,7 +50,7 @@ Two related sets live here — both drive the SAME LINKEDIN_PORT Chrome:
 
 ## SAFE BY DESIGN
 - **Never uploads a resume file**; always selects the in-account stored ATS resume
-  (`operator_XXXXXXX_Resume_ATS.pdf`, already set in his account). The old `r.pdf`
+  (`OPERATOR_RESUME_ATS.pdf`, already set in his account). The old `r.pdf`
   garbage-upload bug caused company bans — there is NO file-upload path.
 - **No LLM auto-fill of the DOM** — local-LLM auto-fill corrupts forms (e.g. put
   "Yes" into a years-of-experience field, or into a resume-deselect toggle). The LLM
@@ -351,8 +351,8 @@ screenshot or temp spec can survive a successful apply.
   `ea_cleanup.cjs`, `cdp_helper.cjs`, `apply_one.cjs`, `run_recursive.cjs`,
   `linkedin-easy-apply.cjs`), state (`applied.json`, `skip.json`,
   `applicant.profile.json`, `last_throttle_notice.txt`), auth (`linkedin_session_cookies.json`,
-  `chrome9222_ws.txt`), npm files, and **both resumes** (`operator_XXXXXXX_Resume_ATS.pdf`,
-  `operator_XXXXXXX_Resume_Full.md`).
+  `chrome9222_ws.txt`), npm files, and **both resumes** (`OPERATOR_RESUME_ATS.pdf`,
+  `OPERATOR_RESUME_FULL.md`).
 - **Directories are never touched** (`_BACKUP`, `_legacy_scripts`, `_live`, `_innovix`,
   `inbox_24h`, `node_modules`, `.venv`).
 - GOTCHA: a naive "keep-list" classifier flagged user's two resume files as cruft. The
@@ -430,10 +430,10 @@ means **the browser is down or logged out**, not throttled. Check the port FIRST
 - Location **XXXXXXX** (preferred; XXXXXXX-authorized only, needs sponsorship abroad).
   Join immediate (notice period 0). When a location selector offers a choice (e.g.
   Noida vs XXXXXXX), select **XXXXXXX**.
-- ATS resume (LinkedIn): `operator_XXXXXXX_Resume_ATS.pdf` is ALREADY set in his account —
+- ATS resume (LinkedIn): `OPERATOR_RESUME_ATS.pdf` is ALREADY set in his account —
   never upload a file.
 - External (non-LinkedIn) ATS portals: attach
-  `C:\Users\operator\OneDrive\Desktop\operator_XXXXXXX_Resume_ATS.pdf` if a resume is required.
+  `OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf` if a resume is required.
 - **Education (REAL, verified XXXXXXX-13 — NEVER fabricate):**
   - ICSE Class 10 — St. Michael's School, Durgapur (CISCE), 2006, **79.33%**.
   - ISC Class 12 (Science) — St. Michael's School, Durgapur (CISCE), 2008, **72.57%**.
@@ -474,7 +474,7 @@ per-submission messages — operator explicitly wants one line per win, in this 
 **NOTIFIER FRAGILITY (XXXXXXX-31 — was silently dropping ALL WhatsApp alerts):** the
 shipped `submission_notifier.py` had three bugs that made it report "No pending submissions"
 even though `submissions_pending.jsonl` held 5+ lines, so operator never got his per-win pings:
-1. `BASE='/c/Users/operator/job-apply'` — an MSYS-style path that does NOT exist when the
+1. `BASE='OPERATOR_HOME/job-apply'` — an MSYS-style path that does NOT exist when the
    script is run by the plain Python interpreter from the cron (no MSYS path translation), so
    `PENDING` never resolved and the file was "not found" → silent no-op.
 2. `subprocess` was never imported, but line ~36 called `subprocess.run(...)`.
@@ -661,7 +661,7 @@ Secondary bugs this exposed:
 - LinkedIn renders the toggle's visible label ("Off") in a **sibling `<span>`, not in the
   radio's `innerText`/`aria-label`** — so `resolveQ` returned `''` (unlabeled) and the
   opt-out regex on `optText`/`ariaLabel` never matched. Confirmed via dump: the resume
-  radio also shows `opt:""` with `aria:"operator_XXXXXXX_Resume_ATS.pdf"` — the label lives in a
+  radio also shows `opt:""` with `aria:"OPERATOR_RESUME_ATS.pdf"` — the label lives in a
   sibling span.
 - `answer()` returns `'Yes'`/`'No'` for consent questions, but a LinkedIn On/Off toggle's
   options are literally `on`/`off`, so `optText === a` never matched → toggle stayed unset.

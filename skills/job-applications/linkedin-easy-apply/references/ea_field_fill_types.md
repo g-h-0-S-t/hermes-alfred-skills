@@ -51,7 +51,7 @@ If a required field can't be matched from `answers.json`, the form loops forever
 `answers.json` for next time.
 
 ## 7. Resume: never upload
-Only CLICK "Select resume operator_XXXXXXX_Resume_ATS.pdf" if the picker shows. Never set
+Only CLICK "Select resume OPERATOR_RESUME_ATS.pdf" if the picker shows. Never set
 `input.files` / `new File(...)`. The r.pdf garbage-upload bug caused company bans.
 
 ## Symptom → cause map

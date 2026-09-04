@@ -65,8 +65,8 @@ loop is never left idle silently.
 ```bat
 @echo off
 set CHROME="C:\Program Files\Google\Chrome\Application\chrome.exe"
-set LIPROFILE=C:\Users\operator\chrome-profile
-set GHPROFILE=C:\Users\operator\greenhouse-chrome
+set LIPROFILE=OPERATOR_HOME/chrome-profile
+set GHPROFILE=OPERATOR_HOME/greenhouse-chrome
 :loop
   netstat -ano | findstr ":LINKEDIN_PORT" >nul || start "" %CHROME% --remote-debugging-port=LINKEDIN_PORT --user-data-dir=%LIPROFILE% --hide-crash-restore-bubble --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling
   netstat -ano | findstr ":ATS_PORT" >nul || start "" %CHROME% --remote-debugging-port=ATS_PORT --user-data-dir=%GHPROFILE% --disable-blink-features=AutomationControlled --no-first-run --disable-backgrounding-occluded-windows --disable-renderer-backgrounding --disable-background-timer-throttling

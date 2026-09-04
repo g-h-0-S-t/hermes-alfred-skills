@@ -1,7 +1,7 @@
 # Building a deck INTO a real SlidesGo/downloaded template (native, editable)
 
 When the user supplies an actual .pptx template (e.g. he downloads a SlidesGo deck and
-drops it in `C:\Users\operator\Downloads\ppt-templates\`), build the content INSIDE that
+drops it in `OPERATOR_HOME/Downloads\ppt-templates\`), build the content INSIDE that
 file so it carries the template's real master/theme/fonts. Do NOT just drop full-bleed
 images in — that loses editability and the template's value.
 

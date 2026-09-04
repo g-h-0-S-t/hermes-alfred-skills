@@ -35,8 +35,8 @@ per-platform handler registry that grows as we encounter new ATSes.
 - Shared state with LinkedIn EA: `applied.json` (verified submissions),
   `skip.json`, `applicant.profile.json`, `last_throttle_notice.txt`.
 - Resume path for external portals:
-  `XXXXXXX/OneDrive/Desktop/operator_XXXXXXX_Resume_ATS.pdf`
-  (also `XXXXXXX/job-apply/operator_XXXXXXX_Resume_ATS.pdf`).
+  `OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf`
+  (also `OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf`).
 
 ## HARD SCAM / SAFETY GATE (release-blocking, operator XXXXXXX)
 Before ANY field is filled or submitted, the driver runs `SAFETY_SCAN`:
@@ -60,7 +60,7 @@ Before ANY field is filled or submitted, the driver runs `SAFETY_SCAN`:
    leave blank (same as LinkedIn EA).
 5. **Resume**: attach the ATS PDF via `input[type=file]` + CDP filechooser.
    Never upload a random file; verify the filename is
-   `operator_XXXXXXX_Resume_ATS.pdf` before submitting.
+   `OPERATOR_RESUME_ATS.pdf` before submitting.
 
 ## Two-phase brain/script model (MANDATORY, same as EA)
 - **Script = hands only.** `ext_apply.cjs` extracts EVERY question, the LLM
@@ -103,7 +103,7 @@ handler. Known handlers:
   (`#question_4048894005`, `#question_4048896005` => "Yes").
 - **Resume upload:** `page.$('#resume').uploadFile(RESUME)` works (the
   `page.on('filechooser')`+`el.click()` path does NOT trigger a CDP chooser on
-  hidden file inputs — use `uploadFile`). Vision-confirm `operator_XXXXXXX_Resume_ATS.pdf`
+  hidden file inputs — use `uploadFile`). Vision-confirm `OPERATOR_RESUME_ATS.pdf`
   is attached (it shows the filename + an X to remove).
 - **REAL submit button:** the header "Apply" button only toggles the form. The actual
   submit is the **"Submit application"** button (`type=submit`, class `btn btn--pill`).

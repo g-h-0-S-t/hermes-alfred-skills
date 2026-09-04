@@ -63,9 +63,9 @@ if (ph) {
 ```javascript
 await page.evaluate(() => {
   const fields = [
-    { label: 'website', val: 'https://operatorXXXXXXX.portfolio.example.com.com' },
+    { label: 'website', val: 'https://OPERATOR_LINKEDIN_ID.portfolio.example.com' },
     { label: 'github', val: 'https://github.com/YOUR_GITHUB_USERNAME' },
-    { label: 'portfolio', val: 'https://operatorXXXXXXX.portfolio.example.com.com' }
+    { label: 'portfolio', val: 'https://OPERATOR_LINKEDIN_ID.portfolio.example.com' }
   ];
   const allInputs = [...document.querySelectorAll('input[id*="question"],input[aria-label]')];
   for (const f of fields) {
@@ -88,7 +88,7 @@ await page.evaluate(() => {
 After applying all three fixes, a Greenhouse form should show:
 - Country: XXXXXXX (with flag and XXXXXXX code)
 - Phone: XXXXXXX_NUMBER
-- Website: https://operatorXXXXXXX.portfolio.example.com.com
-- Resume: operator_XXXXXXX_Resume_ATS.pdf attached
+- Website: https://OPERATOR_LINKEDIN_ID.portfolio.example.com
+- Resume: OPERATOR_RESUME_ATS.pdf attached
 
 All verified via vision_analyze on the filled form.

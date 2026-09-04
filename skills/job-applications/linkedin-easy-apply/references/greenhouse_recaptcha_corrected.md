@@ -44,7 +44,7 @@ CORRECT:
    **LABEL TEXT** (not fixed ID — Greenhouse regenerates question IDs like `question_4048894005`
    PER PAGE LOAD). Use `label[for]` → input, then click+type+pick the `Yes` option.
 4. Resume: `page.$('#resume').uploadFile(RESUME)` (RESUME =
-   `C:\Users\operator\OneDrive\Desktop\operator_XXXXXXX_Resume_ATS.pdf`). Verify attached via vision + DOM.
+   `OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf`). Verify attached via vision + DOM.
 5. Submit: scroll to bottom, find the `type=submit` "Submit application" button,
    `scrollIntoView`, recompute rect, `page.mouse.click(centerX, centerY)`.
 

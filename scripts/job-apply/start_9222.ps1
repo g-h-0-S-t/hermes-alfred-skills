@@ -5,7 +5,7 @@ Write-Host "`n=====================================================" -Foreground
 Write-Host "Step 1: Killing existing chrome processes..." -ForegroundColor Yellow
 
 # Kill any chrome running on port LINKEDIN_PORT using PowerShell's Netstat via cmd
-$netstatCmd = "netstat -an ^| findstr \"LINKEDIN_PORT\" | for /f %%v in (\"^/c/Users/operator/job-apply/state_ready.txt\" ) do set err=exit"
+$netstatCmd = "netstat -an ^| findstr \"LINKEDIN_PORT\" | for /f %%v in (\"^OPERATOR_HOME/job-apply/state_ready.txt\" ) do set err=exit"
 
 # Actually just kill all chrome processes as backup (clean state)
 taskkill /IM chrome.exe /F /T 2>$null

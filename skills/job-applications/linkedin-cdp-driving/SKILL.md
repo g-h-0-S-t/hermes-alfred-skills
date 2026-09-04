@@ -176,7 +176,7 @@ hardening flags). Key learned details:
   company-specific question like "why do you want to work here"). user's standing instruction:
   use everything at your disposal to actually FILL the form, not to skip it.
 - **Resume:** never upload a file; the in-account stored ATS resume auto-attaches. If a resume
-  picker is shown, select "operator_XXXXXXX_Resume_ATS.pdf" only; otherwise leave default untouched.
+  picker is shown, select "OPERATOR_RESUME_ATS.pdf" only; otherwise leave default untouched.
 - **Collect "last 30 min":** LinkedIn has NO native "posted in last 30 minutes" filter (closest
   is Past 24h). Use `f_TPR=r86400&sortBy=DD` then parse each card's real "X minutes ago" text
   (`/\b(\d+)\s*(minutes?|mins?|hours?|hrs?|days?)\b/i`) and keep `postedMinutes <= 30`. Reality

@@ -45,7 +45,7 @@ The `getAnswer(label, optText)` function handles 50+ question patterns:
 | Onsite comfort | `Yes` |
 | AI tools | `Hermes, omniroute, Antigravity, Kilo Code, Cursor, Ollama/LM Studio` |
 | GitHub/portfolio | `https://github.com/YOUR_GITHUB_USERNAME` |
-| LinkedIn URL | `https://linkedin.com/in/operatorXXXXXXX` |
+| LinkedIn URL | `https://linkedin.com/in/OPERATOR_LINKEDIN_ID` |
 | Bachelor's degree | `Yes` (B.Tech EEE) |
 | Master's degree | `No` |
 | Current employer | `Stealth` |

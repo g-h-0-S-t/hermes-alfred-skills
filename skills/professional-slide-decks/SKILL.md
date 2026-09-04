@@ -122,7 +122,7 @@ Verified: this lifted the title slide vision rating from "aligned" to ~8.5/10.
   charts via pptx `charts`, diagrams as editable shapes) — not the flat PNG approach — so text
   stays editable. The PNG approach trades editability for guaranteed alignment; pick per request.
 - **Build INTO a real template file (the path that worked XXXXXXX-15):** when the user supplies an
-  actual .pptx (e.g. `C:\Users\operator\Downloads\ppt-templates\Medical Infographics by Slidesgo.pptx`),
+  actual .pptx (e.g. `OPERATOR_HOME/Downloads\ppt-templates\Medical Infographics by Slidesgo.pptx`),
   open it with `Presentation(TEMPLATE)`, clear its stock slides, then add native editable shapes on
   its BLANK layout. This keeps the template's real master/theme/fonts AND editability. Two traps
   that bit this session, both in `references/deck-into-template.md`:

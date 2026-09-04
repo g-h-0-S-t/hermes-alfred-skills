@@ -59,7 +59,7 @@ LinkedIn"). These are the external ATS types seen in the wild for user's stack:
    - **Resume**: `page.$('#resume')` then `handle.uploadFile(RESUME_PATH)`. The CDP
      `filechooser`+`el.click()` path does NOT fire on the hidden input (`.click()` hangs
      waiting for visibility) — use `uploadFile` directly. Vision-verify the filename
-     `operator_XXXXXXX_Resume_ATS.pdf` shows with a remove-X before submitting.
+     `OPERATOR_RESUME_ATS.pdf` shows with a remove-X before submitting.
 5. **reCAPTCHA IS A REAL BLOCKER** (XXXXXXX, VERIFIED): an automated CDP "Submit
    application" click is SILENTLY DROPPED — no success page, no error, no visible
    challenge, just the unchanged form. Same invisible-score fail as SonicWall.
@@ -102,7 +102,7 @@ Before ANY fill/submit, scan the destination + rendered page:
    each write by reading the value back → advance.
 4. Attach resume: `page.$('input[type=file]').uploadFile(RESUME)` (never `el.click()` on
    the file input — opens Windows explorer and blocks). Path:
-   `XXXXXXX/OneDrive/Desktop/operator_XXXXXXX_Resume_ATS.pdf`.
+   `OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf`.
 5. **VISION-CONFIRM** full page before Submit — same as EA.
 6. Handle gates:
    - **Invisible reCAPTCHA on Greenhouse boards** → automated submit is SILENTLY DROPPED.

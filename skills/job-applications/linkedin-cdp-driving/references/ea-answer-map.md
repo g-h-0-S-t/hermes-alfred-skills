@@ -7,7 +7,7 @@ so a "Do you have 6+ years experience...?" (Yes/No) is not mis-matched by `/year
 
 ## Profile facts used
 - Name: XXXXXXX / Email: XXXXXXX / Phone: XXXXXXX
-- LinkedIn: https://linkedin.com/in/operatorXXXXXXX / GitHub: https://github.com/YOUR_GITHUB_USERNAME
+- LinkedIn: https://linkedin.com/in/OPERATOR_LINKEDIN_ID / GitHub: https://github.com/YOUR_GITHUB_USERNAME
 - Current employer: Stealth (founder) for "Current Employer / Company name".
 - CTC: current XXXXXXX INR, expected XXXXXXX INR. LPA fields: current 86, expected 50.
 - Total experience: XXXXXXX. Skill-specific years map to real counts from the resume.
@@ -43,7 +43,7 @@ TEXT / NUMBER fields:
 - /current.*(salary|ctc|compensation)|salary.*current|compensation.*current/ -> 86 if LPA else XXXXXXX
 - /expected.*(salary|ctc)|salary.*expected|expectation|compensation/ -> 50 if LPA else XXXXXXX
 - /notice period/ -> 0 (numeric)
-- /linkedin/ (text URL) -> https://linkedin.com/in/operatorXXXXXXX
+- /linkedin/ (text URL) -> https://linkedin.com/in/OPERATOR_LINKEDIN_ID
 - /why (do you|are you)|tell us about|anything else|additional information/ -> short truthful pitch.
 
 ## Radio click recipe (trusted, not synthetic)

@@ -29,15 +29,15 @@ async function applyJob(url){
   const hasForm=await page.evaluate(()=>!!document.getElementById('first_name'));
   if(!hasForm){log('  no form (maybe external ATS / 502 / not a board job)');markSkip(url,'no_form');return 'noform';}
   setById('first_name','operator');setById('last_name','XXXXXXX');setById('email','XXXXXXX');
-  await setByLabel('LinkedIn','https://linkedin.com/in/operatorXXXXXXX');
+  await setByLabel('LinkedIn','https://linkedin.com/in/OPERATOR_LINKEDIN_ID');
   await setByLabel('years of experience','14');
   // Fill custom question fields (e.g. Website, GitHub) by their aria-label
   // Custom question fields (match by aria-label OR label text)
   await page.evaluate(()=>{
     const fields=[
-      {label:'website',val:'https://operatorXXXXXXX.portfolio.example.com.com'},
+      {label:'website',val:'https://OPERATOR_LINKEDIN_ID.portfolio.example.com'},
       {label:'github',val:'https://github.com/YOUR_GITHUB_USERNAME'},
-      {label:'portfolio',val:'https://operatorXXXXXXX.portfolio.example.com.com'}
+      {label:'portfolio',val:'https://OPERATOR_LINKEDIN_ID.portfolio.example.com'}
     ];
     const allInputs=[...document.querySelectorAll('input[id*="question"],input[aria-label],input')];
     for(const f of fields){
@@ -75,7 +75,7 @@ async function applyJob(url){
       }
     }
   });await sleep(600);
-  const rh=await page.$('#resume');if(rh){try{await rh.uploadFile('XXXXXXX/OneDrive/Desktop/operator_XXXXXXX_Resume_ATS.pdf');await sleep(2500);}catch(e){log('  upErr'+e.message);}}
+  const rh=await page.$('#resume');if(rh){try{await rh.uploadFile('OPERATOR_RESUME_PATH/OPERATOR_RESUME_ATS.pdf');await sleep(2500);}catch(e){log('  upErr'+e.message);}}
   await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await sleep(1000);
   const box=await page.evaluate(()=>{const b=[...document.querySelectorAll('button,input[type=submit]')].find(x=>(x.innerText||x.value||'').toLowerCase().includes('submit application'));if(!b)return null;const r=b.getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};});
   if(box){await page.mouse.click(box.x,box.y);log('  SUBMIT clicked');await sleep(6000);const a=await page.evaluate(()=>({thanks:/thank|received|submitted|application has been/i.test(document.body.innerText),form:/apply for this job/i.test(document.body.innerText)}));log('  AFTER thanks='+a.thanks+' form='+a.form);if(a.thanks){markSkip(url,'submitted');return 'SUBMITTED';}return 'dropped';}

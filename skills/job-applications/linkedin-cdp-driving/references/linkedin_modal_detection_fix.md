@@ -3,7 +3,7 @@
 ## Symptom observed
 Jobs reported as `empty_modal` / `no-continue-submit` and skipped as "LinkedIn glitched."
 On vision inspection the modal was ALWAYS fully rendered. Example: TCS job 4448212791 showed
-step 1/4 contact-info (pre-filled), 2/4 resume already selected (operator_XXXXXXX_Resume_ATS.pdf,
+step 1/4 contact-info (pre-filled), 2/4 resume already selected (OPERATOR_RESUME_ATS.pdf,
 green check), 3/4 with empty required fields (TOTAL EXP? / NOTICE PERIOD / CURRENT CTC?).
 
 ## Root cause

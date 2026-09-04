@@ -35,7 +35,7 @@ curl -s -m5 -o /dev/null -w "http=%{http_code}\n" http://127.0.0.1:LINKEDIN_PORT
 Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" | Where-Object { $_.CommandLine -like '*chrome-profile*' -and $_.CommandLine -like '*remote-debugging-port=LINKEDIN_PORT*' -and $_.CommandLine -notlike '*--type=*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
 # relaunch WITH hardening flags (extensions + dev-shm disabled are mandatory):
 Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList `
-  '--remote-debugging-port=LINKEDIN_PORT','--user-data-dir=C:\Users\operator\chrome-profile',`
+  '--remote-debugging-port=LINKEDIN_PORT','--user-data-dir=OPERATOR_HOME/chrome-profile',`
   '--disable-extensions','--no-sandbox','--disable-gpu','--disable-software-rasterizer',`
   '--disable-dev-shm-usage','--hide-crash-restore-bubble',`
   '--disable-backgrounding-occluded-windows','--disable-renderer-backgrounding','--no-first-run',`

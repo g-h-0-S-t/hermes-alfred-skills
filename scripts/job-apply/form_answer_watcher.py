@@ -105,11 +105,11 @@ def get_answer_from_hermes(question, profile):
     
     # LinkedIn
     if 'linkedin' in q:
-        return 'https://linkedin.com/in/operatorXXXXXXX'
+        return 'https://linkedin.com/in/OPERATOR_LINKEDIN_ID'
     
     # Website
     if 'website' in q or 'url' in q:
-        return 'https://operatorXXXXXXX.portfolio.example.com.com'
+        return 'https://OPERATOR_LINKEDIN_ID.portfolio.example.com'
     
     # Consent/agreement
     if 'consent' in q or 'agree' in q or 'terms' in q or 'privacy' in q:

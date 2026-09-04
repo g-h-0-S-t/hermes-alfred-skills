@@ -24,7 +24,7 @@ works on this machine; the complex version froze Chrome and corrupted forms.
 - **Dismiss the "Job search safety reminder"** modal by clicking its **"Continue applying"**
   button (detect by text, not class/role). The real form only appears after.
 - **Resume: select stored ATS resume radio only — NEVER upload a file.** The default resume
-  `operator_XXXXXXX_Resume_ATS.pdf` is already set in his account.
+  `OPERATOR_RESUME_ATS.pdf` is already set in his account.
 - **Collect = multiple keywords in ONE browser session is NOW FINE** (XXXXXXX correction):
   with the profile launched using `--disable-extensions --disable-dev-shm-usage`, a 10-keyword
   `page.goto` loop + multiple applies runs with ZERO crash. The old "one light pass per job /
